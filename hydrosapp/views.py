@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Greenhouse
+from .models import Greenhouse, WaterBed
 
 def start(request):
 
@@ -16,3 +16,12 @@ def get_greenhouse(request):
 
     # Return HTML response rendered from template
     return render(request, "greenhousetable.html", context)
+
+def get_waterbed(request):
+    waterbed_data = WaterBed.objects.all()
+    
+    context = {
+        "waterbed_data": waterbed_data
+    }
+    
+    return render(request, "waterbedtable.html", context)
