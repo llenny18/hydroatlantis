@@ -41,3 +41,20 @@ class WaterBed(models.Model):
     class Meta:
         db_table = 'water_bed'
         managed = False
+
+
+class Biofilter(models.Model):
+    id = models.CharField(max_length=36, primary_key=True)  # ID as varchar(36)
+    created_at = models.CharField(max_length=35)  # created_at as varchar(35)
+    updated_at = models.CharField(max_length=35)  # updated_at as varchar(35)
+    deleted_at = models.CharField(max_length=30, null=True, blank=True)  # deleted_at as varchar(30), nullable
+    nitrate = models.DecimalField(max_digits=11, decimal_places=7)  # nitrate as decimal(11,7)
+    nitrite = models.DecimalField(max_digits=11, decimal_places=8)  # nitrite as decimal(11,8)
+    ammonia = models.DecimalField(max_digits=11, decimal_places=9)  # ammonia as decimal(11,9)
+    timestamp = models.CharField(max_length=16)  # timestamp as varchar(16)
+    def __str__(self):
+        return self.id
+
+    class Meta:
+        db_table = 'water_biofilter'  # The database table name
+        managed = False
