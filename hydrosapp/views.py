@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Greenhouse, WaterBed
+from .models import Greenhouse, WaterBed, Biofilter
 
 def start(request):
 
@@ -25,3 +25,12 @@ def get_waterbed(request):
     }
     
     return render(request, "waterbedtable.html", context)
+
+def get_waterbio(request):
+    biofil= Biofilter.objects.all()
+    
+    context = {
+        "water_biofilterdt": biofil
+    }
+    
+    return render(request, "water_biofil.html", context)
