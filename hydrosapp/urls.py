@@ -11,5 +11,6 @@ urlpatterns = [
     path('waterbed/', views.get_waterbed, name='waterbed'),
     path('waterbiofilter/', views.get_waterbio, name='waterbiofilter'),
     path('waterbiofiltercharts/', views.get_waterbiochart, name='waterbiofilter'),
+    path('waterbedcharts/', views.get_waterbedchart, name='waterbedcharts'),
     path('', views.start),
 ]

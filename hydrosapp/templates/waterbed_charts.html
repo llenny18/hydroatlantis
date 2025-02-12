@@ -56,9 +56,9 @@
                     <!-- ============================================================== -->
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
-                            <h5 class="card-header">Chart of Water Biofilter for my crushie in ChemEng</h5>
+                            <h5 class="card-header">Chart of Water Bed Data</h5>
                             <div class="card-body">
-                                <canvas id="biofilterChart"></canvas>
+                                <canvas id="waterBedChart"></canvas>
                             </div>
                         </div>
                     </div>
@@ -140,13 +140,13 @@
     <script src="{% static 'assets/vendor/charts/charts-bundle/chartjs.js' %}"></script>
     <script src="{% static 'assets/libs/js/main-js.js' %}"></script>
     <script>
-        const waterBiofilterData = JSON.parse('{{ water_biofilterdt|safe }}');
-        const ctx = document.getElementById('biofilterChart').getContext('2d');
+        const waterBedData = JSON.parse('{{ water_beddt|safe }}');
+        const ctx = document.getElementById('waterBedChart').getContext('2d');
         const myChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels : waterBiofilterData.labels,
-                datasets: waterBiofilterData.datasets
+                labels : waterBedData.labels,
+                datasets: waterBedData.datasets
             },
             options: {
                 responsive: true,

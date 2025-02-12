@@ -26,6 +26,41 @@ def get_waterbed(request):
     
     return render(request, "waterbedtable.html", context)
 
+def get_waterbedchart(request):
+    waterbeds = WaterBed.objects.all()
+
+    labels = [str(wb.created_at) for wb in waterbeds] 
+    datasets = {
+        "total_dissolved_solids": {
+            "label": "Total Dissolved Solids (TDS)",
+            "data": [],
+            "borderColor": "rgba(255, 99, 132, 1)",
+            "backgroundColor": "rgba(255, 99, 132, 0.2)",
+            "fill": False
+        },
+        "dissolved_o2_level": {
+            "label": "Dissolved Oxygen Level",
+            "data": [],
+            "borderColor": "rgba(54, 162, 235, 1)",
+            "backgroundColor": "rgba(54, 162, 235, 0.2)",
+            "fill": False
+        },
+    }
+    for wb in waterbeds:
+        datasets["total_dissolved_solids"]["data"].append(float(wb.total_dissolved_solids))
+        datasets["dissolved_o2_level"]["data"].append(float(wb.dissolved_O2_level))
+
+    datasets_list = list(datasets.values())
+
+    context = {
+        "water_beddt": json.dumps({
+            "labels": labels,
+            "datasets": datasets_list
+        })
+    }
+    
+    return render(request, "waterbed_charts.html", context)
+
 def get_waterbio(request):
     biofil= Biofilter.objects.all()
     
