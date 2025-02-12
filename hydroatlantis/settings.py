@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'hydroatlantis.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'hydroatlantis',
+        'NAME': 'hydroatlantisdb',
         'USER': 'root',
         'PASSWORD': '',
         'HOST':'localhost',

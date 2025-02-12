@@ -451,7 +451,7 @@ hr {
 .img-thumbnail {
     padding: .25rem;
     background-color: #fff;
-    border: 1px solid #dee2e6;
+    border: 1px solid white;
     border-radius: .25rem;
     max-width: 100%;
     height: auto
@@ -1648,16 +1648,16 @@ pre code {
 .table td, .table th {
     padding: .75rem;
     vertical-align: top;
-    border-top: 1px solid #dee2e6
+    border-top: 1px solid white
 }
 
 .table thead th {
     vertical-align: bottom;
-    border-bottom: 2px solid #dee2e6
+    border-bottom: 2px solid white
 }
 
 .table tbody+tbody {
-    border-top: 2px solid #dee2e6
+    border-top: 2px solid white
 }
 
 .table .table {
@@ -1669,11 +1669,11 @@ pre code {
 }
 
 .table-bordered {
-    border: 1px solid #dee2e6
+    border: 1px solid white
 }
 
 .table-bordered td, .table-bordered th {
-    border: 1px solid #dee2e6
+    border: 1px solid white
 }
 
 .table-bordered thead td, .table-bordered thead th {
@@ -1809,7 +1809,7 @@ pre code {
 .table .thead-light th {
     color: #495057;
     background-color: #e9ecef;
-    border-color: #dee2e6
+    border-color: white
 }
 
 .table-dark {
@@ -3462,7 +3462,7 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    background-color: #dee2e6
+    background-color: white
 }
 
 .custom-control-label::after {
@@ -3683,7 +3683,7 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
     height: .5rem;
     color: transparent;
     cursor: pointer;
-    background-color: #dee2e6;
+    background-color: white;
     border-color: transparent;
     border-radius: 1rem
 }
@@ -3712,7 +3712,7 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
     height: .5rem;
     color: transparent;
     cursor: pointer;
-    background-color: #dee2e6;
+    background-color: white;
     border-color: transparent;
     border-radius: 1rem
 }
@@ -3746,13 +3746,13 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
 }
 
 .custom-range::-ms-fill-lower {
-    background-color: #dee2e6;
+    background-color: white;
     border-radius: 1rem
 }
 
 .custom-range::-ms-fill-upper {
     margin-right: 15px;
-    background-color: #dee2e6;
+    background-color: white;
     border-radius: 1rem
 }
 
@@ -3780,7 +3780,7 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
 }
 
 .nav-tabs {
-    border-bottom: 1px solid #dee2e6
+    border-bottom: 1px solid white
 }
 
 .nav-tabs .nav-item {
@@ -3794,7 +3794,7 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
 }
 
 .nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {
-    border-color: #e9ecef #e9ecef #dee2e6
+    border-color: #e9ecef #e9ecef white
 }
 
 .nav-tabs .nav-link.disabled {
@@ -3806,7 +3806,7 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
     color: #495057;
     background-color: #fff;
-    border-color: #dee2e6 #dee2e6 #fff
+    border-color: white white #fff
 }
 
 .nav-tabs .dropdown-menu {
@@ -4583,7 +4583,7 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
     line-height: 1.25;
     color: #007bff;
     background-color: #fff;
-    border: 1px solid #dee2e6
+    border: 1px solid white
 }
 
 .page-link:hover {
@@ -4591,7 +4591,7 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
     color: #0056b3;
     text-decoration: none;
     background-color: #e9ecef;
-    border-color: #dee2e6
+    border-color: white
 }
 
 .page-link:focus {
@@ -4627,7 +4627,7 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
     pointer-events: none;
     cursor: auto;
     background-color: #fff;
-    border-color: #dee2e6
+    border-color: white
 }
 
 .pagination-lg .page-link {
@@ -5997,23 +5997,23 @@ a.bg-dark:focus, a.bg-dark:hover, button.bg-dark:focus, button.bg-dark:hover {
 }
 
 .border {
-    border: 1px solid #dee2e6 !important
+    border: 1px solid white !important
 }
 
 .border-top {
-    border-top: 1px solid #dee2e6 !important
+    border-top: 1px solid white !important
 }
 
 .border-right {
-    border-right: 1px solid #dee2e6 !important
+    border-right: 1px solid white !important
 }
 
 .border-bottom {
-    border-bottom: 1px solid #dee2e6 !important
+    border-bottom: 1px solid white !important
 }
 
 .border-left {
-    border-left: 1px solid #dee2e6 !important
+    border-left: 1px solid white !important
 }
 
 .border-0 {
@@ -9034,7 +9034,7 @@ a.text-dark:focus, a.text-dark:hover {
     }
 
     .table-bordered td, .table-bordered th {
-        border: 1px solid #dee2e6 !important
+        border: 1px solid white !important
     }
 }
 
