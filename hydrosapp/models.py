@@ -56,5 +56,5 @@ class Biofilter(models.Model):
         return self.id
 
     class Meta:
-        db_table = 'water_biofilter'  # The database table name
+        db_table = 'water_biofilter'
         managed = False
