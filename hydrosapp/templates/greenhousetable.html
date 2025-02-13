@@ -12,6 +12,8 @@
     <link href="{% static 'assets//vendor/fonts/circular-std/style.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'assets//libs/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'assets//vendor/fonts/fontawesome/css/fontawesome-all.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/pagination/pagination.css' %}">
+
 </head>
 
 <body>
@@ -59,7 +61,7 @@
                             <div class="card">
                                 <h5 class="card-header">Basic Printing of Greenhouse data</h5>
                                 <div class="card-body">
-                                    <table class="table">
+                                    <table class="table" id="waterbedTable">
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
@@ -95,6 +97,19 @@
                                             {% endfor %}
                                         </tbody>
                                     </table>
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination" id="waterbedPagination"></ul>
+                                    </nav>
+                                    <script src="{% static 'assets/vendor/pagination/pagination.js' %}"></script>
+                                    <script>
+                                        document.addEventListener('DOMContentLoaded', function() {
+                                            new Paginator(
+                                                'waterbedTable',      // Table ID
+                                                'waterbedPagination', // Pagination container ID
+                                                { itemsPerPage: 10 }   // Options
+                                            );
+                                        });
+                                    </script>
                                 </div>
                             </div>
                         </div>
