@@ -5,7 +5,8 @@ from django.contrib.auth import login
 from .models import Greenhouse, WaterBed, Biofilter, UserAccount
 import json
 from django.db import connection
-
+from django.views.decorators.http import require_GET
+from django.http import JsonResponse
 def start(request):
 
     user_id = request.session.get('user_id', None)
@@ -145,45 +146,53 @@ def get_waterbio(request):
     
     return render(request, "water_biofil.html", context)
 
+@require_GET
 def get_waterbiochart(request):
-    biofilters = Biofilter.objects.all()
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
 
-    labels = [str(bio.created_at) for bio in biofilters] 
+    biofilters = Biofilter.objects.all()
+    if start_date and end_date:
+        biofilters = biofilters.filter(
+            created_at__gte=start_date,
+            created_at__lte=end_date
+        )
+    labels = [str(bio.created_at) for bio in biofilters]
+    
     datasets = {
         "nitrate": {
-            "label": "Nitrate",
-            "data": [],
-            "borderColor": "rgba(255, 99, 132, 1)",
-            "backgroundColor": "rgba(255, 99, 132, 0.2)",
-            "fill": False
-        },
+             "label": "Nitrate",
+             "data": [],
+             "borderColor": "rgba(54, 162, 235, 1)",
+             "backgroundColor": "rgba(54, 162, 235, 0.2)",
+             "fill": False
+            },
         "nitrite": {
-            "label": "Nitrite",
+             "label": "Nitrite",
+             "data": [],
+             "borderColor": "rgba(255, 99, 132, 1)",
+             "backgroundColor": "rgba(255, 99, 132, 0.2)",
+             "fill": False
+            },
+        "ammonia": {
+            "label": "Ammonia",
             "data": [],
             "borderColor": "rgba(54, 162, 235, 1)",
             "backgroundColor": "rgba(54, 162, 235, 0.2)",
             "fill": False
-        },
-        "ammonia": {
-            "label": "Ammonia",
-            "data": [],
-            "borderColor": "rgba(75, 192, 192, 1)",
-            "backgroundColor": "rgba(75, 192, 192, 0.2)",
-            "fill": False
-        }
+            }
     }
+    
     for bio in biofilters:
         datasets["nitrate"]["data"].append(float(bio.nitrate))
         datasets["nitrite"]["data"].append(float(bio.nitrite))
         datasets["ammonia"]["data"].append(float(bio.ammonia))
-
-    datasets_list = list(datasets.values())
-
-    context = {
-        "water_biofilterdt": json.dumps({
-            "labels": labels,
-            "datasets": datasets_list
-        })
-    }
     
-    return render(request, "biofil_charts.html", context)
+    response_data = {
+        "labels": labels,
+        "datasets": list(datasets.values())
+    }
+
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return JsonResponse(response_data)
+    return render(request, "biofil_charts.html", {"water_biofilterdt": json.dumps(response_data)})

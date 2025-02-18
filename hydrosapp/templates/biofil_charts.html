@@ -55,6 +55,13 @@
                     <!-- line chart  -->
                     <!-- ============================================================== -->
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="date-filter">
+                            <label for="startDate">Start Date</label>
+                            <input type="date" id="startDate" class="form-control">
+                            <label for="startDate">End Date</label>
+                            <input type="date" id="endDate" class="form-control">
+                            <button onclick="updateChart()" class="btn btn-primary">Filter</button>
+                        </div>
                         <div class="card">
                             <h5 class="card-header">Chart of Water Biofilter for my crushie in ChemEng</h5>
                             <div class="card-body">
@@ -140,23 +147,43 @@
     <script src="{% static 'assets/vendor/charts/charts-bundle/chartjs.js' %}"></script>
     <script src="{% static 'assets/libs/js/main-js.js' %}"></script>
     <script>
-        const waterBiofilterData = JSON.parse('{{ water_biofilterdt|safe }}');
-        const ctx = document.getElementById('biofilterChart').getContext('2d');
-        const myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels : waterBiofilterData.labels,
-                datasets: waterBiofilterData.datasets
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
+        let biofilterChart = null;
+
+        function createChart(data) {
+            const ctx = document.getElementById('biofilterChart').getContext('2d');
+            if (biofilterChart) biofilterChart.destroy();
+            
+            biofilterChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.labels,
+                    datasets: data.datasets
+                },
+                options: {
+                    responsive: true,
+                    scales: { y: { beginAtZero: true } }
                 }
-            }
+            });
+        }
+
+        function updateChart() {
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            
+            fetch(`?start_date=${startDate}&end_date=${endDate}`, {
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            })
+            .then(response => response.json())
+            .then(data => createChart(data))
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Initial load
+        document.addEventListener('DOMContentLoaded', () => {
+            const initialData = JSON.parse('{{ water_biofilterdt|safe }}');
+            createChart(initialData);
         });
+
     </script>
 </body>
 
