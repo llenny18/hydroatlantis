@@ -56,15 +56,15 @@
                     <!-- line chart  -->
                     <!-- ============================================================== -->
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <div class="date-filter">
-                            <label for="startDate">Start Date</label>
-                            <input type="date" id="startDate" class="form-control">
-                            <label for="startDate">End Date</label>
-                            <input type="date" id="endDate" class="form-control">
-                            <button onclick="updateChart()" class="btn btn-primary">Filter</button>
-                        </div>
+                            <div class="date-filter">
+                                <label for="dateStart">Start Date</label>
+                                <input type="datetime-local" id="startDate" class="form-control">
+                                <label for="endDate">End Date</label>
+                                <input type="datetime-local" id="endDate" class="form-control">
+                                <button onclick="updateChart()" class="btn btn-primary">Filter</button>
+                            </div>
                         <div class="card">
-                            <h5 class="card-header">Chart of Water Biofilter for my crushie in ChemEng</h5>
+                            <h5 class="card-header">Chart of Water Biofilter</h5>
                             <div class="card-body">
                                 <canvas id="biofilterChart"></canvas>
                             </div>
@@ -148,7 +148,7 @@
     <script src="{% static 'assets/vendor/charts/charts-bundle/chartjs.js' %}"></script>
     <script src="{% static 'assets/libs/js/main-js.js' %}"></script>
     <script>
-        let biofilterChart = null;
+       let biofilterChart = null;
 
         function createChart(data) {
             const ctx = document.getElementById('biofilterChart').getContext('2d');
@@ -184,7 +184,6 @@
             const initialData = JSON.parse('{{ water_biofilterdt|safe }}');
             createChart(initialData);
         });
-
     </script>
 </body>
 
