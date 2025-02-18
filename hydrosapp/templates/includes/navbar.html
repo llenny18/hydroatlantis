@@ -1,11 +1,12 @@
 {% load static %}
+
 <div class="dashboard-main-wrapper">
     <!-- ============================================================== -->
    <!-- navbar -->
    <!-- ============================================================== -->
  <div class="dashboard-header">
        <nav class="navbar navbar-expand-lg bg-white fixed-top">
-           <a class="navbar-brand" href="{% url 'start' %}">Concept</a>
+           <a class="navbar-brand" href="{% url 'start' %}"><img src="{% static 'assets/images/atlantistextlogo.png' %}" style="width: 170px;" alt="" srcset=""></a>
            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                <span class="navbar-toggler-icon"></span>
            </button>
@@ -132,7 +133,7 @@ John Abraham</h5>
                            Menu
                        </li>
                        <li class="nav-item ">
-                           <a class="nav-link active" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1"><i class="fa fa-fw fa-user-circle"></i>Dashboard <span class="badge badge-success">6</span></a>
+                           <a class="nav-link  {% if request.path == '/start/' %}active{% endif %}" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1"><i class="fa fa-fw fa-user-circle"></i>Dashboard <span class="badge badge-success">6</span></a>
                            <div id="submenu-1" class="collapse submenu" style="">
                                <ul class="nav flex-column">
                                    <li class="nav-item">
@@ -237,17 +238,17 @@ John Abraham</h5>
                            </div>
                        </li> -->
                        <li class="nav-item">
-                           <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5"><i class="fas fa-fw fa-table"></i>Tables</a>
-                           <div id="submenu-5" class="collapse submenu" style="">
+                           <a class="nav-link  {% if request.path == '/greenhouse/' or request.path == '/waterbiofilter/' or request.path == '/waterbed/'  %}active{% endif %}" href="#" data-toggle="collapse" aria-expanded="{% if request.path == '/greenhouse/' or request.path == '/waterbiofilter/' or request.path == '/waterbed/'  %}true{% endif %}" data-target="#submenu-5" aria-controls="submenu-5"><i class="fas fa-fw fa-table"></i>Tables</a>
+                           <div id="submenu-5" class="collapse submenu {% if request.path == '/greenhouse/' or request.path == '/waterbiofilter/' or request.path == '/waterbed/'  %}show{% endif %}" style="">
                                <ul class="nav flex-column">
                                    <li class="nav-item">
-                                       <a class="nav-link" href="{% url 'greenhouse'%}">Greenhouse Table</a>
+                                       <a class="nav-link  {% if request.path == '/greenhouse/' %}active{% endif %}" href="{% url 'greenhouse'%}">Greenhouse Table</a>
                                    </li>
                                    <li class="nav-item">
-                                       <a class="nav-link" href="{% url 'waterbiofilter'%}">Bio Filter Table</a>
+                                       <a class="nav-link  {% if request.path == '/waterbiofilter/' %}active{% endif %}" href="{% url 'waterbiofilter'%}">Bio Filter Table</a>
                                    </li>
                                    <li class="nav-item">
-                                       <a class="nav-link" href="{% url 'waterbed'%}">Water Bed Table</a>
+                                       <a class="nav-link  {% if request.path == '/waterbed/' %}active{% endif %}" href="{% url 'waterbed'%}">Water Bed Table</a>
                                    </li>
                                </ul>
                            </div>
