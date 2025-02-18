@@ -7,6 +7,8 @@ import json
 from django.db import connection
 from django.views.decorators.http import require_GET
 from django.http import JsonResponse
+from django.utils.dateparse import parse_datetime
+import json
 def start(request):
 
     user_id = request.session.get('user_id', None)
@@ -152,35 +154,44 @@ def get_waterbiochart(request):
     end_date = request.GET.get('end_date')
 
     biofilters = Biofilter.objects.all()
+
     if start_date and end_date:
-        biofilters = biofilters.filter(
-            created_at__gte=start_date,
-            created_at__lte=end_date
-        )
-    labels = [str(bio.created_at) for bio in biofilters]
+        start_datetime = parse_datetime(start_date)
+        end_datetime = parse_datetime(end_date)
+        
+        if start_datetime and end_datetime:
+            start_date_str = start_datetime.strftime("%d/%m/%Y %H:%M")
+            end_date_str = end_datetime.strftime("%d/%m/%Y %H:%M")
+            
+            biofilters = biofilters.filter(
+                timestamp__gte=start_date_str,
+                timestamp__lte=end_date_str
+            )
+
+    labels = [bio.timestamp for bio in biofilters]
     
     datasets = {
         "nitrate": {
-             "label": "Nitrate",
-             "data": [],
-             "borderColor": "rgba(54, 162, 235, 1)",
-             "backgroundColor": "rgba(54, 162, 235, 0.2)",
-             "fill": False
-            },
-        "nitrite": {
-             "label": "Nitrite",
-             "data": [],
-             "borderColor": "rgba(255, 99, 132, 1)",
-             "backgroundColor": "rgba(255, 99, 132, 0.2)",
-             "fill": False
-            },
-        "ammonia": {
-            "label": "Ammonia",
+            "label": "Nitrate",
             "data": [],
             "borderColor": "rgba(54, 162, 235, 1)",
             "backgroundColor": "rgba(54, 162, 235, 0.2)",
             "fill": False
-            }
+        },
+        "nitrite": {
+            "label": "Nitrite",
+            "data": [],
+            "borderColor": "rgba(255, 99, 132, 1)",
+            "backgroundColor": "rgba(255, 99, 132, 0.2)",
+            "fill": False
+        },
+        "ammonia": {
+            "label": "Ammonia",
+            "data": [],
+            "borderColor": "rgba(116, 235, 114, 0.8)",
+            "backgroundColor": "rgba(116, 235, 114, 0.8)",
+            "fill": False
+        }
     }
     
     for bio in biofilters:
