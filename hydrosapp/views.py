@@ -2,7 +2,7 @@
 from django.shortcuts import render, redirect, reverse
 from django.contrib import messages
 from django.contrib.auth import login
-from .models import Greenhouse, WaterBed, Biofilter, UserAccount
+from .models import Greenhouse, WaterBed, Biofilter, UserAccount, ActuatorDeviceInfo, EdgeActuatorView, EdgeDeviceInfo, ActuatorUpdate, ServerNotifications
 import json
 from django.db import connection
 import os
@@ -77,7 +77,9 @@ def start(request):
     fullname = request.session.get('fullname', None)
     if not user_id:
         return redirect(reverse('login')) 
+    notifs = ServerNotifications.objects.all()
     context = {
+        "notifs" : notifs,
         "user_id" : user_id, 
         "username" : username,
         "fullname" : fullname
@@ -120,7 +122,9 @@ def edit_profile(request):
 
     password = decrypt(user_data.password, passwordUnique)
 
+    notifs = ServerNotifications.objects.all()
     context = {
+        "notifs" : notifs,
         "user_id": user_id,
         "user_data": user_data,
         "password": password
@@ -136,12 +140,15 @@ def logout(request):
 def get_greenhouse(request):
     # Fetch all Greenhouse data
     greenhouse_data = Greenhouse.objects.all()
+    
 
     user_id = request.session.get('user_id', None)
     username = request.session.get('username', None)
     fullname = request.session.get('fullname', None)
     # Prepare context for the template
+    notifs = ServerNotifications.objects.all()
     context = {
+        "notifs" : notifs,
         "greenhouse_data": greenhouse_data,
         "user_id" : user_id, 
         "username" : username,
@@ -157,7 +164,9 @@ def get_waterbed(request):
     user_id = request.session.get('user_id', None)
     username = request.session.get('username', None)
     fullname = request.session.get('fullname', None)
+    notifs = ServerNotifications.objects.all()
     context = {
+        "notifs" : notifs,
         "waterbed_data": waterbed_data,
         "user_id" : user_id, 
         "username" : username,
@@ -257,7 +266,9 @@ def get_waterbedchart(request):
     user_id = request.session.get('user_id', None)
     username = request.session.get('username', None)
     fullname = request.session.get('fullname', None)
+    notifs = ServerNotifications.objects.all()
     context = {
+        "notifs" : notifs,
         "water_beddt": json.dumps({
             "labels": labels,
             "datasets": datasets_list,
@@ -275,7 +286,9 @@ def get_waterbio(request):
     user_id = request.session.get('user_id', None)
     username = request.session.get('username', None)
     fullname = request.session.get('fullname', None)
+    notifs = ServerNotifications.objects.all()
     context = {
+        "notifs" : notifs,
         "water_biofilterdt": biofil,
         "user_id" : user_id, 
         "username" : username,
@@ -283,6 +296,121 @@ def get_waterbio(request):
     }
     
     return render(request, "water_biofil.html", context)
+
+
+def get_sensor_list(request):
+    biofil= Biofilter.objects.all()
+    
+    user_id = request.session.get('user_id', None)
+    username = request.session.get('username', None)
+    fullname = request.session.get('fullname', None)
+    notifs = ServerNotifications.objects.all()
+    context = {
+        "notifs" : notifs,
+        "water_biofilterdt": biofil,
+        "user_id" : user_id, 
+        "username" : username,
+        "fullname" : fullname
+    }
+    
+    return render(request, "water_biofil.html", context)
+
+
+
+def get_sensor_recent(request):
+    biofil= Biofilter.objects.all()
+    
+    user_id = request.session.get('user_id', None)
+    username = request.session.get('username', None)
+    fullname = request.session.get('fullname', None)
+    notifs = ServerNotifications.objects.all()
+    context = {
+        "notifs" : notifs,
+        "water_biofilterdt": biofil,
+        "user_id" : user_id, 
+        "username" : username,
+        "fullname" : fullname
+    }
+    
+    return render(request, "water_biofil.html", context)
+
+
+def get_actuator_recent(request):
+    biofil= Biofilter.objects.all()
+    
+    user_id = request.session.get('user_id', None)
+    username = request.session.get('username', None)
+    fullname = request.session.get('fullname', None)
+    notifs = ServerNotifications.objects.all()
+    context = {
+        "notifs" : notifs,
+        "water_biofilterdt": biofil,
+        "user_id" : user_id, 
+        "username" : username,
+        "fullname" : fullname
+    }
+    
+    return render(request, "water_biofil.html", context)
+
+
+def get_actuator_list(request):
+    actuators = EdgeActuatorView.objects.all()
+    edgedevices = EdgeDeviceInfo.objects.all()
+    
+    user_id = request.session.get('user_id', None)
+    username = request.session.get('username', None)
+    fullname = request.session.get('fullname', None)
+    notifs = ServerNotifications.objects.all()
+    context = {
+        "notifs" : notifs,
+        "edgedevices" : edgedevices,
+        "actuators": actuators,
+        "user_id" : user_id, 
+        "username" : username,
+        "fullname" : fullname
+    }
+    
+    return render(request, "actuators.html", context)
+
+    
+def get_actuator_updates(request):
+    actuatorupdates = ActuatorUpdate.objects.all()
+    
+    user_id = request.session.get('user_id', None)
+    username = request.session.get('username', None)
+    fullname = request.session.get('fullname', None)
+    notifs = ServerNotifications.objects.all()
+    context = {
+        "notifs" : notifs,
+        "actuatorupdates" : actuatorupdates,
+        "user_id" : user_id, 
+        "username" : username,
+        "fullname" : fullname
+    }
+    
+    return render(request, "actuator_updates.html", context)
+    
+   
+def get_edge_devices(request):
+    edgedevices = EdgeDeviceInfo.objects.all()
+    
+    user_id = request.session.get('user_id', None)
+    username = request.session.get('username', None)
+    fullname = request.session.get('fullname', None)
+
+    notifs = ServerNotifications.objects.all()
+    context = {
+        "notifs" : notifs,
+        "edgedevices" : edgedevices,
+        "user_id" : user_id, 
+        "username" : username,
+        "fullname" : fullname
+    }
+    
+    return render(request, "edge_devices.html", context)
+    
+
+
 
 def cameras(request):
     
@@ -327,8 +455,10 @@ def get_waterbiochart(request):
     user_id = request.session.get('user_id', None)
     username = request.session.get('username', None)
     fullname = request.session.get('fullname', None)
+    notifs = ServerNotifications.objects.all()
     context = {
-        "water_biofilterdt": json.dumps({
+            "notifs" : notifs,
+            "water_biofilterdt": json.dumps({
             "labels": labels,
             "datasets": datasets_list,
             "user_id" : user_id, 
