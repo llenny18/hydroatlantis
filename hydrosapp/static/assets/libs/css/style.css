@@ -171,7 +171,7 @@ h3,
 h4,
 h5,
 h6 {
-    color: #3d405c;
+    color: #caf2fa;
     margin: 0px 0px 15px 0px;
     font-family: 'Circular Std Medium';
 }
@@ -990,7 +990,7 @@ Borders
 }
 
 .text-dark {
-    color: #3d405c !important;
+    color: #caf2fa !important;
 }
 
 .text-gray {
@@ -1289,7 +1289,7 @@ Top Header
 
 .notification-title {
     font-size: 14px;
-    color: #3d405c;
+    color: #caf2fa;
     text-align: center;
     padding: 8px 0px;
     border-bottom: 1px solid #e3e3e3;
@@ -1309,7 +1309,7 @@ Top Header
 
 .notification-list .list-group-item.active {
     z-index: 2;
-    color: #3d405c;
+    color: #caf2fa;
     background-color: #f7f7fb;
     border-color: #e1e1e7;
 }
@@ -1435,7 +1435,7 @@ Top Header
     padding: 12px 7px 4px;
     display: block;
     border: 1px solid transparent;
-    color: #3d405c;
+    color: #caf2fa;
     font-size: 12px;
 }
 
@@ -1605,19 +1605,19 @@ Top Header
 .navigation-horizontal .navbar-nav .nav-link:focus,
 .navigation-horizontal .navbar-nav .nav-link.active {
     background-color: #e2e2eb;
-    color: #3d405c;
+    color: #caf2fa;
     border-radius: 2px;
 }
 
 .navigation-horizontal .navbar-nav .nav-link:focus,
 .navigation-horizontal .navbar-nav .nav-link:hover {
     background-color: #e2e2eb;
-    color: #3d405c;
+    color: #caf2fa;
     border-radius: 2px;
 }
 
 .navigation-horizontal .submenu .nav .nav-item .nav-link:hover {
-    color: #3d405c;
+    color: #caf2fa;
     border-radius: 2px;
     background-color: transparent;
 }
@@ -1729,19 +1729,19 @@ Left Navigation Sidebar
 .nav-left-sidebar .navbar-nav .nav-link:focus,
 .nav-left-sidebar .navbar-nav .nav-link.active {
     background-color: #e2e2eb;
-    color: #3d405c;
+    color: #caf2fa;
     border-radius: 2px;
 }
 
 .nav-left-sidebar .navbar-nav .nav-link:focus,
 .nav-left-sidebar .navbar-nav .nav-link:hover {
     background-color: #e2e2eb;
-    color: #3d405c;
+    color: #caf2fa;
     border-radius: 2px;
 }
 
 .nav-left-sidebar .submenu .nav .nav-item .nav-link:hover {
-    color: #3d405c;
+    color: #caf2fa;
     border-radius: 2px;
     background-color: transparent;
 }
@@ -1895,7 +1895,7 @@ Sidebar Page Navigations
 .dropdown-menu {
     background: #fff;
     font-size: 14px;
-    color: #3d405c;
+    color: #caf2fa;
     border: 1px solid white;
 }
 
@@ -1905,7 +1905,7 @@ Sidebar Page Navigations
     padding: .25rem 1.5rem;
     clear: both;
     font-weight: 400;
-    color: #3d405c;
+    color: #caf2fa;
     text-align: inherit;
     white-space: nowrap;
     background-color: transparent;
@@ -1945,6 +1945,7 @@ Container / Wrapper
     left: 0;
     margin-left: 264px;
     min-height: 870px !important;
+    background-color: #08081f;
 }
 
 .dashboard-content {
@@ -2304,7 +2305,7 @@ Pageheader
 
 .traffic-sales-amount {
     float: right;
-    color: #3d405c;
+    color: #caf2fa;
 }
 
 
@@ -2362,7 +2363,7 @@ clip-path: polygon(10% 25%, 10% 0, 35% 0%, 65% 0%, 90% 0, 90% 25%, 90% 50%, 91% 
 .product-rating{font-size: 12px;
     
     color: #ffa811;}
-.product-price{ position: absolute; top: 0; right: 0; font-size: 16px; color: #3d405c;font-family: 'Circular Std Medium'; line-height: 1;}
+.product-price{ position: absolute; top: 0; right: 0; font-size: 16px; color: #caf2fa;font-family: 'Circular Std Medium'; line-height: 1;}
 .product-btn{}
 .product-del{font-size: 14px; color: white;}
 .product-sidebar{ background-color: #fff; border:1px solid white;  }
@@ -2620,7 +2621,7 @@ clip-path: polygon(10% 25%, 10% 0, 35% 0%, 65% 0%, 90% 0, 90% 25%, 90% 50%, 91% 
     padding: 5px 3px;
     display: inline-block;
     font-size: 14px;
-    color: #3d405c;
+    color: #caf2fa;
     text-align: center;
     line-height: 1.7;
 }
@@ -3213,7 +3214,7 @@ btn-link
 }
 
 .card-header {
-    background-color: #fff;
+    background-color: #08081f;
     border-bottom: 1px solid white;
 }
 
@@ -3915,7 +3916,7 @@ Pills vertical
 }
 
 .accrodion-regular .card .card-header .btn-link {
-    color: #3d405c;
+    color: #caf2fa;
     text-decoration: none;
 }
 
@@ -3950,7 +3951,7 @@ Pills vertical
 }
 
 .accrodion-outline .card .card-header .btn-link {
-    color: #3d405c;
+    color: #caf2fa;
     text-decoration: none;
 }
 
@@ -4515,7 +4516,7 @@ Pills vertical
 
 .table thead th,
 .table th {
-    color: #3d405c;
+    color: #caf2fa;
     font-family: 'Circular Std Medium';
 }
 
@@ -4975,7 +4976,7 @@ Vertical Timeline - by CodyHouse.co
 
 .error-section-content {
     padding-top: 30px;
-    color: #3d405c;
+    color: #caf2fa;
     padding-bottom: 30px;
 }
 
@@ -5847,7 +5848,7 @@ Vertical Timeline - by CodyHouse.co
     font-size: 27px;
     line-height: 27px;
     font-weight: 300;
-    color: #3d405c;
+    color: #caf2fa;
 }
 
 .aside-header .description {
@@ -5903,7 +5904,7 @@ Vertical Timeline - by CodyHouse.co
     margin-right: 7px;
     font-size: 1.154rem;
     vertical-align: middle;
-    color: #3d405c;
+    color: #caf2fa;
 }
 
 .aside-nav .nav li .badge {
@@ -5915,7 +5916,7 @@ Vertical Timeline - by CodyHouse.co
 
 .aside-nav .title {
     display: block;
-    color: #3d405c;
+    color: #caf2fa;
     font-size: 12px;
     font-weight: 700;
     text-transform: uppercase;
@@ -5952,7 +5953,7 @@ Vertical Timeline - by CodyHouse.co
 
 .email-title .new-messages {
     font-size: 1rem;
-    color: #3d405c;
+    color: #caf2fa;
     margin-left: 3px;
 }
 
@@ -6046,13 +6047,13 @@ Vertical Timeline - by CodyHouse.co
 
 .email-list-item--unread .from,
 .email-list-item--unread .msg {
-    color: #3d405c;
+    color: #caf2fa;
     font-weight: 800;
     -webkit-font-smoothing: initial;
 }
 
 .email-list-item--unread .msg {
-    color: #3d405c;
+    color: #caf2fa;
 }
 
 .email-list-actions {
@@ -6117,7 +6118,7 @@ Vertical Timeline - by CodyHouse.co
     display: block;
     font-size: 1.769rem;
     font-weight: 300;
-    color: #3d405c;
+    color: #caf2fa;
 }
 
 .email-head-subject .title>a.active .icon {
@@ -6237,7 +6238,7 @@ Vertical Timeline - by CodyHouse.co
     border-bottom: 1px solid white;
     display: block;
     font-weight: 400;
-    color: #3d405c;
+    color: #caf2fa;
     font-size: 1.769rem;
 }
 
@@ -6826,6 +6827,7 @@ Media Query
     }
     .dashboard-wrapper {
         margin-left: 0px;
+        background-color: #08081f;
     }
     .dashboard-footer {
         margin-left: 0px;
@@ -6902,6 +6904,7 @@ Media Query
 
     .dashboard-wrapper {
         margin-left: 0px;
+        background-color: #08081f;
     }
     .dashboard-footer {
         margin-left: 0px;

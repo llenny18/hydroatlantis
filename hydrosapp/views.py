@@ -210,6 +210,12 @@ def get_waterbio(request):
     
     return render(request, "water_biofil.html", context)
 
+def cameras(request):
+    
+    return render(request, "cameras.html")
+
+    
+
 def get_waterbiochart(request):
     biofilters = Biofilter.objects.all()
 
