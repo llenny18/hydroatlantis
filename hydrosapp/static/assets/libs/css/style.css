@@ -1294,7 +1294,7 @@ Top Header
     padding: 8px 0px;
     border-bottom: 1px solid #e3e3e3;
     line-height: 1.5;
-    background-color: #fffffe;
+    background-color:#08081f ;
 }
 
 .notification-list {}
@@ -1305,20 +1305,22 @@ Top Header
     margin-top: -1px;
     border-left: transparent;
     border-right: transparent;
+    background-color:#08081f ;
 }
 
 .notification-list .list-group-item.active {
     z-index: 2;
     color: #caf2fa;
-    background-color: #f7f7fb;
     border-color: #e1e1e7;
+    background-color:#08081f ;
 }
 
 .notification-list .list-group-item-action:focus,
 .list-group-item-action:hover {
     color: #404040;
     text-decoration: none;
-    background-color: #f7f7fb;
+    background-color:#0e152e ;
+
 }
 
 .notification-list .list-group-item:last-child {}
@@ -1491,17 +1493,17 @@ Top Header
     padding: 12px 22px 15px;
     clear: both;
     font-weight: 400;
-    color: #686972;
+    color: #fff;
     text-align: inherit;
     white-space: nowrap;
-    background-color: transparent;
+    background-color: #080c1c;
     border: 0;
     font-size: 13px;
     line-height: 0.4;
 }
 
 .nav-user-dropdown .dropdown-item:hover {
-    background-color: #f7f7fb;
+    background-color: #0e152e;
 }
 
 
