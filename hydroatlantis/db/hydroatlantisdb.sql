@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 13, 2025 at 07:47 AM
--- Server version: 11.6.2-MariaDB
+-- Generation Time: Feb 19, 2025 at 08:05 AM
+-- Server version: 11.7.2-MariaDB
 -- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -20,6 +20,227 @@ SET time_zone = "+00:00";
 --
 -- Database: `hydroatlantisdb`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `actuator_device_infos`
+--
+
+CREATE TABLE `actuator_device_infos` (
+  `id` varchar(36) DEFAULT NULL,
+  `created_at` varchar(10) DEFAULT NULL,
+  `updated_at` varchar(10) DEFAULT NULL,
+  `deleted_at` varchar(0) DEFAULT NULL,
+  `device_name` varchar(20) DEFAULT NULL,
+  `type_id` varchar(36) DEFAULT NULL,
+  `statusz` tinyint(4) DEFAULT NULL,
+  `parent_edge_device_id` varchar(36) DEFAULT NULL,
+  `row_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+
+--
+-- Dumping data for table `actuator_device_infos`
+--
+
+INSERT INTO `actuator_device_infos` (`id`, `created_at`, `updated_at`, `deleted_at`, `device_name`, `type_id`, `statusz`, `parent_edge_device_id`, `row_id`) VALUES
+('43ffb88e-f721-4823-95c0-8c9a840eee46', '2024-03-07', '2024-03-07', '', 'Humidifier', '402c9565-4690-4d18-962d-9d108fdc4551', 1, '09a52f4d-0b92-4050-80d7-c8f4f6e18688', 1),
+('ba29346b-b8ee-403a-84f5-093c92b6a174', '2024-03-16', '2024-03-16', '', 'Grow Lamp', 'f1b4bbb4-d82f-4af8-9922-60592f3c1da8', 0, '09a52f4d-0b92-4050-80d7-c8f4f6e18688', 2),
+('b5f15541-5154-4303-82ba-1c882f0aaca4', '2024-03-14', '2024-03-14', '', 'Exhaust Fans', '35488e4c-d92d-4cab-9b20-29b8451c309c', 0, '09a52f4d-0b92-4050-80d7-c8f4f6e18688', 3),
+('c99dd16a-fe8d-431e-a502-131752547b1a', '2024-03-09', '2024-03-09', '', 'Greenhouse Shading', '8b2a9ce3-f235-4f2e-b3d6-bcc4b2546bb6', 0, '09a52f4d-0b92-4050-80d7-c8f4f6e18688', 4),
+('214d1bc6-a432-40ac-a916-b9d0cf6bc05a', '2024-03-08', '2024-03-08', '', 'Fish Feeder', '1da982f4-95a7-4440-aacf-22913062cc07', 0, '09a52f4d-0b92-4050-80d7-c8f4f6e18688', 5),
+('f2e36748-1552-4bd4-9c5d-b3ae7e9c2400', '2024-03-08', '2024-05-30', '', 'Water Blender', '1c0196f4-db39-4921-8409-a15f9bd6a224', 0, '09a52f4d-0b92-4050-80d7-c8f4f6e18688', 6),
+('2c596186-8b34-43bf-af0f-3e7d722bdc0d', '2024-03-22', '2024-03-22', '', 'Ph Down', '8326cb3f-4c10-47b1-aa39-daeb867552a0', 0, '09a52f4d-0b92-4050-80d7-c8f4f6e18688', 7),
+('d93ab677-0a68-4773-a916-ff31bd1e3532', '2024-03-18', '2024-08-06', '', 'Ph Up', '6bfb31dc-437e-42d2-aaec-9ae3403df21f', 0, '09a52f4d-0b92-4050-80d7-c8f4f6e18688', 8),
+('ac7c5e04-d410-4454-a828-4d541eedbe53', '2024-03-20', '2024-03-20', '', 'Aquaponics Solution', '11c74d36-db60-4b7e-8a9c-341fc601486f', 0, '09a52f4d-0b92-4050-80d7-c8f4f6e18688', 9),
+('4acfbc3d-3108-42ad-b06f-aa9b7e37c715', '2024-03-13', '2024-05-27', '', 'Clean Water', '02bb73a9-9147-48eb-953f-8977b412a834', 0, '09a52f4d-0b92-4050-80d7-c8f4f6e18688', 10),
+('13cd077d-a2fd-4704-9ad8-7f697bca64e9', '2024-03-21', '2024-08-03', '', 'Nitrate', 'b140aafb-c264-46bb-9051-20b554499ba9', 0, '09a52f4d-0b92-4050-80d7-c8f4f6e18688', 11),
+('189d0fc4-131d-41a0-bea0-40de300990d0', '2024-03-17', '2024-03-17', '', 'Exhaust Fans', '35488e4c-d92d-4cab-9b20-29b8451c309c', 0, '100f800d-132c-4d92-a892-71a6c1cb45e7', 12),
+('41cf8f6d-f697-4ca5-a38c-0740d37ba35f', '2024-03-11', '2024-03-11', '', 'Greenhouse Shading', '8b2a9ce3-f235-4f2e-b3d6-bcc4b2546bb6', 0, '100f800d-132c-4d92-a892-71a6c1cb45e7', 13),
+('c40ca10d-e713-4886-8f45-65a3687f9e8f', '2024-04-28', '2024-04-28', '', 'Exhaust Fans ', '35488e4c-d92d-4cab-9b20-29b8451c309c', 0, 'a7cd79d5-0759-41bb-8857-cac4f696c93b', 14),
+('7785af3e-5c30-44a1-b329-ffc54d84f895', '2024-04-30', '2024-04-30', '', 'Humidifier ', '402c9565-4690-4d18-962d-9d108fdc4551', 0, 'a7cd79d5-0759-41bb-8857-cac4f696c93b', 15),
+('ce9752ba-b6c4-4984-8a3b-cbf8102608c0', '2024-05-01', '2024-05-01', '', 'Grow Lamp ', 'f1b4bbb4-d82f-4af8-9922-60592f3c1da8', 0, 'a7cd79d5-0759-41bb-8857-cac4f696c93b', 16),
+('5531de02-dad1-429a-bec9-70f49dd42cd5', '2024-05-03', '2024-05-03', '', 'Greenhouse Shading ', '8b2a9ce3-f235-4f2e-b3d6-bcc4b2546bb6', 0, 'a7cd79d5-0759-41bb-8857-cac4f696c93b', 17),
+('83a5b5c5-44b7-414b-96e8-261602bda264', '2024-05-05', '2024-05-05', '', 'Camera Fish ', '16a91ac6-ee34-4d0b-8852-473568adbeb1', 0, 'a7cd79d5-0759-41bb-8857-cac4f696c93b', 18),
+('58322529-02f3-4aa7-a99e-a54e430e3808', '2024-05-07', '2024-05-07', '', 'Camera Plant ', 'cb487d22-3fdd-4e82-af96-45c470685fbd', 0, 'a7cd79d5-0759-41bb-8857-cac4f696c93b', 19),
+('e0fe0d0e-223f-4845-9f1f-f3829324b51c', '2024-04-27', '2024-04-27', '', 'Water Blender ', '1c0196f4-db39-4921-8409-a15f9bd6a224', 0, 'a7cd79d5-0759-41bb-8857-cac4f696c93b', 20),
+('e09de4b1-f76c-4b50-a27a-fb1c6950c2e8', '2024-04-29', '2024-04-29', '', 'Fish Feeder ', '1da982f4-95a7-4440-aacf-22913062cc07', 0, 'a7cd79d5-0759-41bb-8857-cac4f696c93b', 21),
+('e70fee79-64f9-46ec-880f-c9d8656721e5', '2024-04-30', '2024-04-30', '', 'Return Pump Main ', '60c41d59-5649-446b-9efa-af24a0b560cc', 0, 'a7cd79d5-0759-41bb-8857-cac4f696c93b', 22),
+('1135f9bc-733e-4df1-8708-9f68dc420f3b', '2024-05-02', '2024-05-02', '', 'Return Pump Standby ', 'c2d06588-54b2-463a-98c3-54b0b72506a6', 0, 'a7cd79d5-0759-41bb-8857-cac4f696c93b', 23),
+('97518adb-bf1e-49a8-83f5-97874a888b76', '2024-05-05', '2024-05-05', '', 'Ph Down ', '8326cb3f-4c10-47b1-aa39-daeb867552a0', 0, 'a7cd79d5-0759-41bb-8857-cac4f696c93b', 24),
+('9106566f-2b92-4582-815b-16e92bb20ba7', '2024-05-07', '2024-05-07', '', 'Ph Up ', '6bfb31dc-437e-42d2-aaec-9ae3403df21f', 0, 'a7cd79d5-0759-41bb-8857-cac4f696c93b', 25),
+('390bde7f-e81c-485f-98b9-ff72bc6f71b8', '2024-04-29', '2024-04-29', '', 'Aquaponics Solution ', '11c74d36-db60-4b7e-8a9c-341fc601486f', 0, 'a7cd79d5-0759-41bb-8857-cac4f696c93b', 26),
+('f52932fa-15c2-4b66-98a2-4108b55c35af', '2024-05-01', '2024-05-01', '', 'Clean Water ', '02bb73a9-9147-48eb-953f-8977b412a834', 0, 'a7cd79d5-0759-41bb-8857-cac4f696c93b', 27),
+('850fb957-2927-4087-92f8-141bc64062e9', '2024-05-03', '2024-05-03', '', 'Nitrate ', 'b140aafb-c264-46bb-9051-20b554499ba9', 0, 'a7cd79d5-0759-41bb-8857-cac4f696c93b', 28),
+('046f8c2b-54b1-42cb-a9e7-fb34f62c1acc', '2024-10-05', '2024-10-05', '', 'Exhaust Fans ', '35488e4c-d92d-4cab-9b20-29b8451c309c', 0, '1fcc0c3a-aa5d-4cc9-8a98-74f1298edbfc', 29),
+('c635d004-16d7-4714-b380-1cf0d0a7209e', '2024-10-08', '2024-10-08', '', 'Humidifier ', '402c9565-4690-4d18-962d-9d108fdc4551', 0, '1fcc0c3a-aa5d-4cc9-8a98-74f1298edbfc', 30),
+('22fdefce-607e-4a08-82b7-69da2c64f8ee', '2024-10-10', '2024-10-10', '', 'Grow Lamp ', 'f1b4bbb4-d82f-4af8-9922-60592f3c1da8', 0, '1fcc0c3a-aa5d-4cc9-8a98-74f1298edbfc', 31),
+('e436879e-9602-4d5c-877c-7c4202007c3b', '2024-10-12', '2024-10-12', '', 'Greenhouse Shading ', '8b2a9ce3-f235-4f2e-b3d6-bcc4b2546bb6', 0, '1fcc0c3a-aa5d-4cc9-8a98-74f1298edbfc', 32),
+('2fd11b69-a7fb-4c4b-b134-247afc16f51b', '2024-10-14', '2024-10-14', '', 'Camera Fish ', '16a91ac6-ee34-4d0b-8852-473568adbeb1', 0, '1fcc0c3a-aa5d-4cc9-8a98-74f1298edbfc', 33),
+('fc9b373c-d1c0-4ae8-94ea-4464dc9ab898', '2024-10-05', '2024-10-05', '', 'Camera Plant ', 'cb487d22-3fdd-4e82-af96-45c470685fbd', 0, '1fcc0c3a-aa5d-4cc9-8a98-74f1298edbfc', 34),
+('c9c3293b-fa9c-4b3d-9abe-5469582b79a4', '2024-10-07', '2024-10-07', '', 'Water Blender ', '1c0196f4-db39-4921-8409-a15f9bd6a224', 0, '1fcc0c3a-aa5d-4cc9-8a98-74f1298edbfc', 35),
+('ff32e411-8aac-4b99-aa93-8c1a41851a31', '2024-10-09', '2024-10-09', '', 'Fish Feeder ', '1da982f4-95a7-4440-aacf-22913062cc07', 0, '1fcc0c3a-aa5d-4cc9-8a98-74f1298edbfc', 36),
+('186faaa4-67b0-4049-950b-93deaad3501c', '2024-10-10', '2024-10-10', '', 'Return Pump Main ', '60c41d59-5649-446b-9efa-af24a0b560cc', 0, '1fcc0c3a-aa5d-4cc9-8a98-74f1298edbfc', 37),
+('c0cadab6-0999-4d6d-b3aa-68c23e6cda99', '2024-10-12', '2024-10-12', '', 'Return Pump Standby ', 'c2d06588-54b2-463a-98c3-54b0b72506a6', 0, '1fcc0c3a-aa5d-4cc9-8a98-74f1298edbfc', 38),
+('830736ab-af7d-4fc7-9563-84a3ea094e79', '2024-10-05', '2024-10-05', '', 'Ph Down ', '8326cb3f-4c10-47b1-aa39-daeb867552a0', 0, '1fcc0c3a-aa5d-4cc9-8a98-74f1298edbfc', 39),
+('a0ae4e75-b98c-40bd-8b38-b5f99d22b574', '2024-10-07', '2024-10-07', '', 'Ph Up ', '6bfb31dc-437e-42d2-aaec-9ae3403df21f', 0, '1fcc0c3a-aa5d-4cc9-8a98-74f1298edbfc', 40),
+('1a188cc7-4f64-4e18-bd1a-aae08daa5c7c', '2024-10-09', '2024-10-09', '', 'Aquaponics Solution ', '11c74d36-db60-4b7e-8a9c-341fc601486f', 0, '1fcc0c3a-aa5d-4cc9-8a98-74f1298edbfc', 41),
+('1955ce1b-1e05-4005-ae00-af7d9906f9d3', '2024-10-11', '2024-10-11', '', 'Clean Water ', '02bb73a9-9147-48eb-953f-8977b412a834', 0, '1fcc0c3a-aa5d-4cc9-8a98-74f1298edbfc', 42),
+('6e0360ea-c3ee-4dfc-97e2-a0e5b1336742', '2024-10-14', '2024-10-14', '', 'Nitrate ', 'b140aafb-c264-46bb-9051-20b554499ba9', 0, '1fcc0c3a-aa5d-4cc9-8a98-74f1298edbfc', 43),
+('4d4b9463-a84b-49d8-907b-f5da31e6b753', '2024-10-10', '2024-10-10', '', 'Exhaust Fans ', '35488e4c-d92d-4cab-9b20-29b8451c309c', 0, '2aa53fc5-0369-483a-b618-8db6cae21313', 44),
+('02ee39c1-1cc4-499b-b9df-6f62222c5f32', '2024-10-13', '2024-10-13', '', 'Humidifier ', '402c9565-4690-4d18-962d-9d108fdc4551', 0, '2aa53fc5-0369-483a-b618-8db6cae21313', 45),
+('e65eece6-2f14-4619-992b-40c249016393', '2024-10-15', '2024-10-15', '', 'Grow Lamp ', 'f1b4bbb4-d82f-4af8-9922-60592f3c1da8', 0, '2aa53fc5-0369-483a-b618-8db6cae21313', 46),
+('f31c6261-1791-498f-b587-e243a341e404', '2024-10-06', '2024-10-06', '', 'Greenhouse Shading ', '8b2a9ce3-f235-4f2e-b3d6-bcc4b2546bb6', 0, '2aa53fc5-0369-483a-b618-8db6cae21313', 47),
+('63f41fb0-d29c-466a-a178-4d7a53c40de2', '2024-10-09', '2024-10-09', '', 'Camera Fish ', '16a91ac6-ee34-4d0b-8852-473568adbeb1', 0, '2aa53fc5-0369-483a-b618-8db6cae21313', 48),
+('2c3b7ddc-6392-4926-808b-57ae7bf2a11c', '2024-10-11', '2024-10-11', '', 'Camera Plant ', 'cb487d22-3fdd-4e82-af96-45c470685fbd', 0, '2aa53fc5-0369-483a-b618-8db6cae21313', 49),
+('48714662-4f22-4059-876d-49e7ef2664f8', '2024-10-13', '2024-10-13', '', 'Water Blender ', '1c0196f4-db39-4921-8409-a15f9bd6a224', 0, '2aa53fc5-0369-483a-b618-8db6cae21313', 50),
+('3b83ada3-115c-4e66-a7e5-267ce6157002', '2024-10-15', '2024-10-15', '', 'Fish Feeder ', '1da982f4-95a7-4440-aacf-22913062cc07', 0, '2aa53fc5-0369-483a-b618-8db6cae21313', 51),
+('44efaede-c15d-48aa-b553-836c45d2f5eb', '2024-10-05', '2024-10-05', '', 'Return Pump Main ', '60c41d59-5649-446b-9efa-af24a0b560cc', 0, '2aa53fc5-0369-483a-b618-8db6cae21313', 52),
+('9a96e68f-16c0-4726-9f00-3c29420b7324', '2024-10-06', '2024-10-06', '', 'Return Pump Standby ', 'c2d06588-54b2-463a-98c3-54b0b72506a6', 0, '2aa53fc5-0369-483a-b618-8db6cae21313', 53),
+('cae19965-bd2c-4cc0-a90c-482b61e3e91d', '2024-10-08', '2024-10-08', '', 'Ph Down ', '8326cb3f-4c10-47b1-aa39-daeb867552a0', 0, '2aa53fc5-0369-483a-b618-8db6cae21313', 54),
+('db8250ca-d51a-422e-845e-7537ce84d30d', '2024-10-04', '2024-10-04', '', 'Ph Up ', '6bfb31dc-437e-42d2-aaec-9ae3403df21f', 0, '2aa53fc5-0369-483a-b618-8db6cae21313', 55),
+('c28833fc-9403-44af-9ea8-9e860758780a', '2024-10-11', '2024-10-11', '', 'Aquaponics Solution ', '11c74d36-db60-4b7e-8a9c-341fc601486f', 0, '2aa53fc5-0369-483a-b618-8db6cae21313', 56),
+('5adb258d-0528-498d-95ad-78e6a03fb927', '2024-10-13', '2024-10-13', '', 'Clean Water ', '02bb73a9-9147-48eb-953f-8977b412a834', 0, '2aa53fc5-0369-483a-b618-8db6cae21313', 57),
+('fbe28072-216b-423d-80ce-e95621022569', '2024-10-15', '2024-10-15', '', 'Nitrate ', 'b140aafb-c264-46bb-9051-20b554499ba9', 0, '2aa53fc5-0369-483a-b618-8db6cae21313', 58),
+('2da90374-7e48-4cdf-9e1d-9e086b39f6e3', '2024-12-24', '2024-12-24', '', 'Exhaust Fans ', '35488e4c-d92d-4cab-9b20-29b8451c309c', 0, '79dea917-a396-46aa-87b4-e0a6c9f8c4fe', 59),
+('9fded486-28f5-40a8-8608-cd6f21defb91', '2024-12-26', '2024-12-26', '', 'Humidifier ', '402c9565-4690-4d18-962d-9d108fdc4551', 0, '79dea917-a396-46aa-87b4-e0a6c9f8c4fe', 60),
+('6678cbef-a3eb-4250-9156-c74b4e98c711', '2024-12-27', '2024-12-27', '', 'Grow Lamp ', 'f1b4bbb4-d82f-4af8-9922-60592f3c1da8', 0, '79dea917-a396-46aa-87b4-e0a6c9f8c4fe', 61),
+('f9b30def-2f15-4a08-b1b3-b0d5275de07b', '2024-12-29', '2024-12-29', '', 'Greenhouse Shading ', '8b2a9ce3-f235-4f2e-b3d6-bcc4b2546bb6', 0, '79dea917-a396-46aa-87b4-e0a6c9f8c4fe', 62),
+('bcd78fdf-a8e1-446e-91f2-1cc635a33983', '2024-12-20', '2024-12-20', '', 'Camera Fish ', '16a91ac6-ee34-4d0b-8852-473568adbeb1', 0, '79dea917-a396-46aa-87b4-e0a6c9f8c4fe', 63),
+('f6cc7301-59da-4b58-b76b-450faa1ca37d', '2024-12-21', '2024-12-21', '', 'Camera Plant ', 'cb487d22-3fdd-4e82-af96-45c470685fbd', 0, '79dea917-a396-46aa-87b4-e0a6c9f8c4fe', 64),
+('8f7e5af6-b6bb-45c5-ac1f-198d718b7d08', '2024-12-23', '2024-12-23', '', 'Water Blender ', '1c0196f4-db39-4921-8409-a15f9bd6a224', 0, '79dea917-a396-46aa-87b4-e0a6c9f8c4fe', 65),
+('353ab125-b351-4895-8cc3-a11d09a609d4', '2024-12-25', '2024-12-25', '', 'Fish Feeder ', '1da982f4-95a7-4440-aacf-22913062cc07', 0, '79dea917-a396-46aa-87b4-e0a6c9f8c4fe', 66),
+('56933248-e539-4d58-81cc-d5bafef1af0d', '2024-12-26', '2024-12-26', '', 'Return Pump Main ', '60c41d59-5649-446b-9efa-af24a0b560cc', 0, '79dea917-a396-46aa-87b4-e0a6c9f8c4fe', 67),
+('979dae64-3f81-4049-a863-64768a07bb9c', '2024-12-28', '2024-12-28', '', 'Return Pump Standby ', 'c2d06588-54b2-463a-98c3-54b0b72506a6', 0, '79dea917-a396-46aa-87b4-e0a6c9f8c4fe', 68),
+('005a8ba0-49b6-419f-89e5-672dedbcd67f', '2024-12-19', '2024-12-19', '', 'Ph Down ', '8326cb3f-4c10-47b1-aa39-daeb867552a0', 0, '79dea917-a396-46aa-87b4-e0a6c9f8c4fe', 69),
+('69cb9036-779a-4579-aa75-8a2d6e7b429f', '2024-12-20', '2024-12-20', '', 'Ph Up ', '6bfb31dc-437e-42d2-aaec-9ae3403df21f', 0, '79dea917-a396-46aa-87b4-e0a6c9f8c4fe', 70),
+('793ce3d4-ea3b-40f8-a804-fb6000ea2398', '2024-12-22', '2024-12-22', '', 'Aquaponics Solution ', '11c74d36-db60-4b7e-8a9c-341fc601486f', 0, '79dea917-a396-46aa-87b4-e0a6c9f8c4fe', 71),
+('81ddd544-1acd-438b-be7f-8cb5217a3b71', '2024-12-23', '2024-12-23', '', 'Clean Water ', '02bb73a9-9147-48eb-953f-8977b412a834', 0, '79dea917-a396-46aa-87b4-e0a6c9f8c4fe', 72),
+('38baaf95-31ec-4c5b-90f4-6ce999882c51', '2024-12-25', '2024-12-25', '', 'Nitrate ', 'b140aafb-c264-46bb-9051-20b554499ba9', 0, '79dea917-a396-46aa-87b4-e0a6c9f8c4fe', 73);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `actuator_updates`
+--
+
+CREATE TABLE `actuator_updates` (
+  `id` varchar(36) DEFAULT NULL,
+  `created_at` varchar(10) DEFAULT NULL,
+  `updated_at` varchar(10) DEFAULT NULL,
+  `deleted_at` varchar(0) DEFAULT NULL,
+  `actuator_device_info_id` varchar(36) DEFAULT NULL,
+  `statusz` tinyint(4) DEFAULT NULL,
+  `timestamp` varchar(26) DEFAULT NULL,
+  `remarks` varchar(0) DEFAULT NULL,
+  `made_by` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+
+--
+-- Dumping data for table `actuator_updates`
+--
+
+INSERT INTO `actuator_updates` (`id`, `created_at`, `updated_at`, `deleted_at`, `actuator_device_info_id`, `statusz`, `timestamp`, `remarks`, `made_by`) VALUES
+('3dfee380-6f95-40a9-b519-c526a002fc4a', '2024-04-25', '2024-04-25', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 0, '2024-04-24 09:21:91', '', 'toggle'),
+('bbc8f86d-fe9f-4f08-829e-3ba78f41734c', '2024-05-02', '2024-05-02', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 1, '2024-04-24 09:28:64', '', 'toggle'),
+('8a4314df-3776-4568-a037-b5a556387809', '2024-04-29', '2024-04-29', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 0, '2024-04-24 09:29:33', '', 'toggle'),
+('6f53c30c-f53e-4c6e-b748-89aa0e33a3c5', '2024-04-25', '2024-04-25', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 1, '2024-04-24 09:35:06', '', 'toggle'),
+('26ee445b-ff2c-4227-80c8-67abe9fbd95f', '2024-06-08', '2024-06-08', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 1, '2024-05-29 08:56:09.703602', '', 'toggle'),
+('422d39d1-6c28-4fd5-9d3f-5dd4f458ac91', '2024-05-29', '2024-05-29', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 0, '2024-05-29 08:57:35.340112', '', 'toggle'),
+('92b2c8b2-d421-4230-ba2a-49dc8c6f875c', '2024-06-07', '2024-06-07', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 0, '2024-05-29 09:17:39.567502', '', 'toggle'),
+('719afbc0-a0f2-4ec8-8dd7-e6f221063cbc', '2024-07-30', '2024-07-30', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 1, '2024-07-23 13:50:26.965995', '', 'automation'),
+('1e6428cd-1ab9-424f-8df8-889b7b6a09dc', '2024-07-23', '2024-07-23', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 1, '2024-07-23 13:50:31.387931', '', 'automation'),
+('782027dc-7901-4188-85d8-c994f4e1e90c', '2024-08-01', '2024-08-01', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 0, '2024-07-23 13:50:44.090962', '', 'automation'),
+('5b6c61ce-2abe-498d-86ec-06d5b7ef0950', '2024-08-02', '2024-08-02', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 0, '2024-07-23 13:57:39.311102', '', 'automation'),
+('ed28294e-c9e1-47c3-8584-d303a92ebf42', '2024-07-31', '2024-07-31', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 1, '2024-07-23 14:00:04.977828', '', 'automation'),
+('f2a0d92b-cb32-4b0a-af7d-396f6adc4ac9', '2024-07-25', '2024-07-25', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 1, '2024-07-23 14:00:31.540129', '', 'automation'),
+('3f603353-50ef-4d28-9ffd-969c91956623', '2024-08-01', '2024-08-01', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 0, '2024-07-23 14:00:43.993823', '', 'automation'),
+('9f7fbf56-58d4-4abe-acf3-b3c979298e68', '2024-07-25', '2024-07-25', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 0, '2024-07-23 14:07:17.583884', '', 'automation'),
+('3d9ab305-7d1d-45fb-a695-604d87b03f1a', '2024-07-28', '2024-07-28', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 1, '2024-07-23 14:10:04.694274', '', 'automation'),
+('74d4fe89-ac86-425f-9544-012aa17800b9', '2024-08-02', '2024-08-02', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 1, '2024-07-23 14:10:31.264320', '', 'automation'),
+('26c3d689-8c05-4943-b213-a1b732fb75d9', '2024-07-27', '2024-07-27', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 0, '2024-07-23 14:10:43.753176', '', 'automation'),
+('d951b833-94ba-44a1-b539-400b67cb33f5', '2024-08-01', '2024-08-01', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 0, '2024-07-23 14:17:17.163232', '', 'automation'),
+('aefe63fc-ece2-4e38-b252-d0ff8aa50e9d', '2024-07-27', '2024-07-27', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 1, '2024-07-23 14:20:04.751447', '', 'automation'),
+('e2a94d43-12de-470b-8b4b-84e46d104f9f', '2024-08-01', '2024-08-01', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 1, '2024-07-23 14:20:31.163273', '', 'automation'),
+('8afa6b9c-da5f-497f-9c27-086d80b585b8', '2024-07-27', '2024-07-27', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 0, '2024-07-23 14:20:43.694579', '', 'automation'),
+('6dd2d48c-2503-4641-a7ec-d97bc19e5d70', '2024-08-02', '2024-08-02', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 0, '2024-07-23 14:27:17.346272', '', 'automation'),
+('669d84ad-def5-4ea6-87a0-fba9723d26f6', '2024-07-29', '2024-07-29', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 1, '2024-07-23 14:30:04.913962', '', 'automation'),
+('206165d1-c545-4d49-948e-0876b3195071', '2024-07-30', '2024-07-30', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 1, '2024-07-23 14:30:35.907169', '', 'automation'),
+('e11fc014-37aa-4dad-9b08-06e485c62de5', '2024-07-28', '2024-07-28', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 0, '2024-07-23 14:30:48.653282', '', 'automation'),
+('a8523de9-3a47-4141-9845-f15880571b3f', '2024-07-30', '2024-07-30', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 0, '2024-07-23 14:37:17.779684', '', 'automation'),
+('9e69efa7-4c03-4c90-b041-e544e882f9c5', '2024-07-29', '2024-07-29', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 1, '2024-07-23 14:40:04.918919', '', 'automation'),
+('4ffb8e1f-b5e5-41f6-a90a-e02560d8f96e', '2024-08-03', '2024-08-03', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 1, '2024-07-23 14:40:33.261481', '', 'automation'),
+('50d8d3d3-1235-445e-a884-b9c0d8fa0c5d', '2024-08-04', '2024-08-04', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 0, '2024-07-23 14:40:46.106636', '', 'automation'),
+('a18cbfe3-50fd-4abc-8a9b-ff821d2b3d96', '2024-07-27', '2024-07-27', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 0, '2024-07-23 14:47:17.672558', '', 'automation'),
+('eb52db95-6809-43e0-bf14-09da6a747a8e', '2024-07-28', '2024-07-28', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 1, '2024-07-23 14:50:04.898791', '', 'automation'),
+('d6c2d037-2132-4199-ab29-027f6a4731c8', '2024-08-02', '2024-08-02', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 1, '2024-07-23 14:50:34.191120', '', 'automation'),
+('b42f027d-688e-4581-9a24-eeb7d9259c9d', '2024-07-24', '2024-07-24', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 0, '2024-07-23 14:50:46.835460', '', 'automation'),
+('e97d4412-d79a-4081-917c-6b2eabe9fff1', '2024-07-24', '2024-07-24', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 0, '2024-07-23 14:57:17.512855', '', 'automation'),
+('eced0b63-eabb-4f93-b4e9-47c283dad268', '2024-07-30', '2024-07-30', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 1, '2024-07-23 15:00:04.995836', '', 'automation'),
+('f686325a-fc6a-4492-939c-c33425131535', '2024-07-30', '2024-07-30', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 1, '2024-07-23 15:00:33.829168', '', 'automation'),
+('82f6dda1-bdba-4740-8b0a-4e4ab2cf14f6', '2024-07-24', '2024-07-24', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 0, '2024-07-23 15:00:46.884463', '', 'automation'),
+('a277e029-4b05-4074-8178-72f0ef3d449e', '2024-07-29', '2024-07-29', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 0, '2024-07-23 15:07:17.902574', '', 'automation'),
+('0627a30e-351c-436d-ac04-09aa1b938a25', '2024-07-28', '2024-07-28', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 1, '2024-07-23 15:10:04.773847', '', 'automation'),
+('5dac78c8-7370-483c-80b6-56cc68454186', '2024-07-26', '2024-07-26', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 1, '2024-07-23 15:10:32.613990', '', 'automation'),
+('6d1f6512-9e92-4df7-8ca0-96696d00f761', '2024-07-24', '2024-07-24', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 0, '2024-07-23 15:10:45.420526', '', 'automation'),
+('f2290365-2926-4310-ad39-3c68863e0ec5', '2024-08-02', '2024-08-02', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 0, '2024-07-23 15:17:17.195148', '', 'automation'),
+('91753df1-3ab5-4436-83a5-2127f9e52855', '2024-07-30', '2024-07-30', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 1, '2024-07-23 15:20:05.012094', '', 'automation'),
+('8461fd66-678a-44cd-b426-98b32b33b14c', '2024-07-24', '2024-07-24', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 1, '2024-07-23 15:20:31.380322', '', 'automation'),
+('c8219fb9-139d-44fe-9f37-af0b785d91b1', '2024-07-26', '2024-07-26', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 0, '2024-07-23 15:20:44.616343', '', 'automation'),
+('15d0e42f-7f66-4d43-ac8d-685e338bd1d6', '2024-07-24', '2024-07-24', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 0, '2024-07-23 15:27:17.780804', '', 'automation'),
+('b5cf56e5-cc49-4d7f-beba-a75ca6c11efa', '2024-07-27', '2024-07-27', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 1, '2024-07-23 15:30:04.732311', '', 'automation'),
+('327f1d71-a570-4fcb-a26c-396663c43ad2', '2024-07-31', '2024-07-31', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 1, '2024-07-23 15:30:32.018225', '', 'automation'),
+('5415c10e-8243-4b76-872b-81058867fa3d', '2024-07-28', '2024-07-28', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 0, '2024-07-23 15:30:44.662504', '', 'automation'),
+('e70e4205-6a1e-4226-8b2e-2e53b4b9327f', '2024-08-01', '2024-08-01', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 0, '2024-07-23 15:37:17.180309', '', 'automation'),
+('5a648182-4846-4df3-b44b-71b082f1e2e1', '2024-07-30', '2024-07-30', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 1, '2024-07-23 15:40:04.951762', '', 'automation'),
+('2a676764-d417-4d58-a54e-cc9a6230e1fc', '2024-07-23', '2024-07-23', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 1, '2024-07-23 15:40:31.449671', '', 'automation'),
+('32dcaf70-ad37-4f27-a67b-d49b54ee89d2', '2024-07-24', '2024-07-24', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 0, '2024-07-23 15:40:44.313460', '', 'automation'),
+('b66d601c-843b-4e30-9ba7-2fa05a98590f', '2024-07-26', '2024-07-26', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 0, '2024-07-23 15:47:17.646680', '', 'automation'),
+('23268ca2-0caf-4ccd-8bdd-a447e540b6f2', '2024-08-01', '2024-08-01', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 1, '2024-07-23 15:50:05.148835', '', 'automation'),
+('89762a4f-df1d-4223-9c43-28a4535aae3f', '2024-07-25', '2024-07-25', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 1, '2024-07-23 15:50:35.225573', '', 'automation'),
+('8f95e55f-16e9-472e-a2e3-6099fe8d0013', '2024-08-01', '2024-08-01', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 0, '2024-07-23 15:50:48.109224', '', 'automation'),
+('68bbbd6a-1ce8-4d60-ae2f-c304966e3bed', '2024-07-28', '2024-07-28', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 0, '2024-07-23 15:57:17.733070', '', 'automation'),
+('59789efe-2662-4e8f-a06c-afa8882e889a', '2024-07-29', '2024-07-29', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 1, '2024-07-23 16:00:04.945352', '', 'automation'),
+('d91e80b1-d09b-46a1-b089-3d8def5277f3', '2024-07-26', '2024-07-26', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 1, '2024-07-23 16:00:35.550527', '', 'automation'),
+('c6d3d393-42d9-447a-9909-3453511aad54', '2024-08-03', '2024-08-03', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 0, '2024-07-23 16:00:48.204787', '', 'automation'),
+('64d0b0fd-741e-4ebb-8b82-bcb17aea18bf', '2024-07-30', '2024-07-30', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 0, '2024-07-23 16:07:17.916750', '', 'automation'),
+('473c5cc8-b1ce-42a5-a93e-68cebd189a97', '2024-07-30', '2024-07-30', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 1, '2024-07-23 16:10:04.943191', '', 'automation'),
+('3771b9ff-c64b-46a2-9dc8-b6525afbc91d', '2024-07-31', '2024-07-31', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 1, '2024-07-23 16:10:33.880413', '', 'automation'),
+('5f17bd3e-ec9e-4dd4-8508-007dfc6ef0eb', '2024-07-27', '2024-07-27', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 0, '2024-07-23 16:10:46.693391', '', 'automation'),
+('39c6b22e-a015-4fb7-9942-bb5c09f30e60', '2024-07-29', '2024-07-29', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 0, '2024-07-23 16:17:17.813324', '', 'automation'),
+('3c90aae1-894b-482b-a16e-585577f74b4e', '2024-08-01', '2024-08-01', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 1, '2024-07-23 16:20:05.224020', '', 'automation'),
+('d4d734cb-289a-4b16-a22b-723c04d6214e', '2024-07-27', '2024-07-27', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 1, '2024-07-23 16:20:33.705852', '', 'automation'),
+('a401d359-017c-4ee5-bec9-2054be369f8e', '2024-07-25', '2024-07-25', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 0, '2024-07-23 16:20:46.219794', '', 'automation'),
+('3b73cdf7-f740-4a4b-a594-dad45e4678c7', '2024-07-29', '2024-07-29', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 0, '2024-07-23 16:27:17.928844', '', 'automation'),
+('b73ae1cf-e45f-4643-befe-96c18f538608', '2024-07-28', '2024-07-28', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 1, '2024-07-23 16:30:04.888226', '', 'automation'),
+('5de1e853-dc8c-46b9-ac88-0681d5e72b81', '2024-07-31', '2024-07-31', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 1, '2024-07-23 16:30:32.406363', '', 'automation'),
+('c7d65179-47a8-48b7-8633-b9a6d3f36c88', '2024-07-26', '2024-07-26', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 0, '2024-07-23 16:30:45.676576', '', 'automation'),
+('eb146b95-be74-4255-b862-92f2fce4bbd7', '2024-08-04', '2024-08-04', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 0, '2024-07-23 16:37:17.457023', '', 'automation'),
+('fce11510-6412-490b-a587-d83d1601c9c8', '2024-08-02', '2024-08-02', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 1, '2024-07-23 16:40:05.225780', '', 'automation'),
+('67d73059-b7b7-46d9-8d5d-39a3109694b7', '2024-07-29', '2024-07-29', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 1, '2024-07-23 16:40:31.923618', '', 'automation'),
+('96157526-811f-4b56-85f2-0e6569907ded', '2024-07-23', '2024-07-23', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 0, '2024-07-23 16:40:44.529904', '', 'automation'),
+('d644794c-0bcc-44cf-93d5-3de76dacc574', '2024-07-27', '2024-07-27', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 0, '2024-07-23 16:47:17.739161', '', 'automation'),
+('0241329e-9936-48fd-97d3-d6fdb8026e2e', '2024-07-29', '2024-07-29', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 1, '2024-07-23 16:50:04.936404', '', 'automation'),
+('c5cf4bd6-4896-4400-9229-955c475143b0', '2024-07-27', '2024-07-27', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 1, '2024-07-23 16:50:30.523351', '', 'automation'),
+('3b425437-adbf-4208-a5a5-514c3478bb41', '2024-07-27', '2024-07-27', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 0, '2024-07-23 16:50:43.679944', '', 'automation'),
+('06e4cfaf-8563-43a3-a459-58e52e603471', '2024-07-28', '2024-07-28', '', 'b5f15541-5154-4303-82ba-1c882f0aaca4', 0, '2024-07-23 16:57:17.798271', '', 'automation'),
+('c7ae271a-0050-4a98-8fda-f423b53edf4e', '2024-07-23', '2024-07-23', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 1, '2024-07-23 17:00:34.279777', '', 'automation'),
+('8023bd02-7e51-4106-ac40-3b7e3b8dc7f0', '2024-07-24', '2024-07-24', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 0, '2024-07-23 17:00:47.154999', '', 'automation'),
+('bfefe50d-8a7e-4510-9b4b-e1f2c77bc31d', '2024-07-25', '2024-07-25', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 1, '2024-07-23 17:10:35.448745', '', 'automation'),
+('c6a6d171-efbd-4330-aaa7-bd647f3ae263', '2024-08-02', '2024-08-02', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 0, '2024-07-23 17:10:48.239684', '', 'automation'),
+('c24454af-59fb-4537-b7eb-365690cf4d2a', '2024-08-02', '2024-08-02', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 1, '2024-07-23 17:20:31.131184', '', 'automation'),
+('7b990c2c-6352-4ef0-9601-0d8ae23c1b32', '2024-08-01', '2024-08-01', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 0, '2024-07-23 17:20:43.847374', '', 'automation'),
+('a75486c8-f876-42f8-a6d1-f160ac4c641b', '2024-08-01', '2024-08-01', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 1, '2024-07-23 17:30:32.744600', '', 'automation'),
+('410889a3-e8a3-44e1-86b1-40fe4a136602', '2024-07-31', '2024-07-31', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 0, '2024-07-23 17:30:46.110794', '', 'automation'),
+('f30c7023-8655-4dda-8332-07bda8b6232f', '2024-07-24', '2024-07-24', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 1, '2024-07-23 17:40:33.135074', '', 'automation'),
+('f62f73fe-a764-4c20-9561-4a09741f2b6f', '2024-08-01', '2024-08-01', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 0, '2024-07-23 17:40:45.934445', '', 'automation'),
+('9fe2ff4f-2bec-42fc-8537-0197245c5ec1', '2024-08-01', '2024-08-01', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 1, '2024-07-23 17:50:32.848472', '', 'automation'),
+('eccee317-cc5f-4c12-897e-eb3153e63305', '2024-08-03', '2024-08-03', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 0, '2024-07-23 17:50:45.673331', '', 'automation'),
+('a21b1f51-e41f-4696-8d72-03d5c714a826', '2024-07-30', '2024-07-30', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 1, '2024-07-23 18:00:31.666573', '', 'automation'),
+('d2269089-eb5f-4629-b9d7-1c2e0a3645c7', '2024-07-31', '2024-07-31', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 0, '2024-07-23 18:00:44.395179', '', 'automation'),
+('9aa4496b-941d-4284-b923-eb486f4414cb', '2024-07-29', '2024-07-29', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 1, '2024-07-23 18:10:36.683565', '', 'automation'),
+('4fe50957-c22a-44df-8dce-fb59a2a56635', '2024-08-02', '2024-08-02', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 0, '2024-07-23 18:10:49.434157', '', 'automation'),
+('6385ad5c-5f75-4c65-8c8e-4a3a5ba49515', '2024-07-26', '2024-07-26', '', 'd93ab677-0a68-4773-a916-ff31bd1e3532', 1, '2024-07-23 18:20:30.811535', '', 'automation');
 
 -- --------------------------------------------------------
 
@@ -242,6 +463,67 @@ CREATE TABLE `django_session` (
   `expire_date` datetime(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `django_session`
+--
+
+INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
+('vcix7sltgq2feo669c1syzxzc4kujqnm', '.eJyrViotTi2Kz0xRsjLSAbPzEnNTlazgzJKiSiUdpbTSnByohGNKbmaegqFRoYJjSU5iXklmsVItAFxDGCA:1tkaln:xOcNT_mo-a6n2JDKA8ql5gLa4lNSy45ZXKq8nP3Yd20', '2025-03-05 03:29:07.299711');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `edge_actuator_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `edge_actuator_view` (
+`edge_device_id` varchar(36)
+,`edge_device_name` varchar(18)
+,`edge_device_description` varchar(57)
+,`edge_device_status` tinyint(4)
+,`api_key` varchar(60)
+,`passcode` varchar(60)
+,`mqtt_client_id` varchar(44)
+,`actuator_id` varchar(36)
+,`actuator_name` varchar(20)
+,`actuator_type` varchar(36)
+,`actuator_status` tinyint(4)
+,`parent_edge_device_id` varchar(36)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `edge_device_infos`
+--
+
+CREATE TABLE `edge_device_infos` (
+  `id` varchar(36) DEFAULT NULL,
+  `created_at` varchar(10) DEFAULT NULL,
+  `updated_at` varchar(10) DEFAULT NULL,
+  `deleted_at` varchar(0) DEFAULT NULL,
+  `name` varchar(18) DEFAULT NULL,
+  `description` varchar(57) DEFAULT NULL,
+  `statusz` tinyint(4) DEFAULT NULL,
+  `api_key` varchar(60) DEFAULT NULL,
+  `passcode` varchar(60) DEFAULT NULL,
+  `mqtt_client_id` varchar(44) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+
+--
+-- Dumping data for table `edge_device_infos`
+--
+
+INSERT INTO `edge_device_infos` (`id`, `created_at`, `updated_at`, `deleted_at`, `name`, `description`, `statusz`, `api_key`, `passcode`, `mqtt_client_id`) VALUES
+('09a52f4d-0b92-4050-80d7-c8f4f6e18688', '2024-03-13', '2024-07-12', '', 'Edge Device 1-beta', 'Located at Turbulent Drip Sales Inc. in Tagaytay, Cavite.', 0, '$2a$17$Wh6XXVKpWtPpN/mwrHY91eBStkVbCtHxPd/B.gX1Xgz/7CEtGkpuu', '$2a$15$cKIsCxXDn3J58wH/hoPJluXavI38isdXzX5DalDtoI8D3BulQiZ1u', 'UDJ0N3pGbHlQZmdQV0Z0SC1ReWI0dXU2Rl9LZWVaSWo='),
+('100f800d-132c-4d92-a892-71a6c1cb45e7', '2024-03-20', '2024-03-20', '', 'Main Edge Device', 'This is the main edge Device', 0, '$2a$17$QJ7tCQk7jron4p.TD1r9/ucqkdgJRCNS5TQk7991G/XJnDJlf1HUa', '$2a$15$vDdA.bHk393eI.Xxv8CxZuSsjyJ.I3USyoVuAO/MhglQ98HTXqnQS', ''),
+('58b4bac4-7454-4abd-bf95-868e5d4a73da', '2024-05-03', '2024-05-03', '', 'Edge Device II', 'Edge device create sensor automate test', 0, '$2a$17$BMCz8JzQxAUmdQYSMDs/muBRaxjJuYT5TVMKDtyB2vr4x/4J.QYae', '$2a$15$zBtao58yq.zbTLvTLNVEN.22zK5Q8sHBZWaHwerO3uQZxXfCWwCze', ''),
+('dcf18b56-100d-41e0-a78c-d84f3123c124', '2024-05-01', '2024-05-01', '', 'Edge Device III', 'Edge device create sensor automate test', 0, '$2a$17$HGTtjL8WPcZEIP8Bk6V/0uf43fwA9dBAz.TWKp6UUkueKmLhdnjGq', '$2a$15$6/oY7eCHwtKJI0nbOzeUsOOGN31mrorxK5lEZOVSh0AS9RtJgkYJ.', ''),
+('a7cd79d5-0759-41bb-8857-cac4f696c93b', '2024-04-28', '2024-04-28', '', 'Edge Device IV', 'Edge device create sensor automate test', 0, '$2a$17$RqpzRnKb8TwRThORY.cD4em4E2OUUteLnj4spMtJ2.813.dEboD9.', '$2a$15$yvKgVy/eyOQB1kYUpIika.GxKCcH.khSAX8ScdLFSCmQ2WqrpnGcS', ''),
+('1fcc0c3a-aa5d-4cc9-8a98-74f1298edbfc', '2024-10-13', '2024-10-13', '', 'Edge Device', 'This is an edge device on the ATLANTIS system', 0, '$2a$17$YuXkF56sVyMlhGSOQPVz5.CxjlVoFTHD7I2UDZx9b2FLe9xLaS0Gm', '$2a$15$havSu5ZVTYiOFualdSuxJu0Vl1SFhhYKKH/bYmfNqlN6mkTmeUNP.', 'UWh6bnpOTjFXRjQyYmw3MmgwZlVTVUcwaTZOUHY4U2I='),
+('2aa53fc5-0369-483a-b618-8db6cae21313', '2024-10-05', '2024-10-05', '', 'Rick Edge Device', 'This is an edge device on the ATLANTIS system', 0, '$2a$17$pNYO19/xXkU9UZA84oi5cugUY.tYKqI3uvrRjRoX0LveE8A9FDu42', '$2a$15$Ub4Cg5LMih343OYJiKPZwOs3j7Y/tvMkqz/phC4b4jQj5nvVS/z22', 'WTNtWmxYR0R0Yjd1ZlluNUVRbU1oRjl0YS16Z0lXUWg='),
+('79dea917-a396-46aa-87b4-e0a6c9f8c4fe', '2024-12-23', '2024-12-23', '', 'Edge Device', 'This is an edge device on the ATLANTIS system', 0, '$2a$17$79ZvaEsJuCIfXLlqC6d63e/YVs5tCw4zVpi8HUYZQ548E0Git3KLC', '$2a$15$0yPJkUvd7UCMS6BofS2roey/TIgQFPMpkwodlHZsM7RsRWcr1h8ni', 'YkpfVmF3cnNiN3RrMlFGWGFxcHVDZ3oyUmtQTXQ1UVI=');
+
 -- --------------------------------------------------------
 
 --
@@ -460,6 +742,156 @@ INSERT INTO `greenhouse` (`id`, `created_at`, `updated_at`, `deleted_at`, `air_t
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `sensor_types`
+--
+
+CREATE TABLE `sensor_types` (
+  `id` varchar(36) DEFAULT NULL,
+  `created_at` varchar(10) DEFAULT NULL,
+  `updated_at` varchar(10) DEFAULT NULL,
+  `deleted_at` varchar(0) DEFAULT NULL,
+  `name` varchar(22) DEFAULT NULL,
+  `icon_path` varchar(45) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+
+--
+-- Dumping data for table `sensor_types`
+--
+
+INSERT INTO `sensor_types` (`id`, `created_at`, `updated_at`, `deleted_at`, `name`, `icon_path`) VALUES
+('79f9ceba-45b7-4f7a-92fa-5232d13442d3', '2024-03-06', '2024-03-06', '', 'fish', '/images/sensor_type_icons/fish.png'),
+('8da8027d-2e1a-4e36-a991-c81ec65c9d09', '2024-03-07', '2024-03-07', '', 'green_house_monitoring', '/images/sensor_type_icons/greenhouse.png'),
+('a63591c3-27dc-4379-8efd-425c533a65b6', '2024-03-08', '2024-03-08', '', 'plant', '/images/sensor_type_icons/plant.png'),
+('c8fc247b-0b08-4dd9-b57f-8f85cc34ed54', '2024-02-29', '2024-02-29', '', 'water_biofilter', '/images/sensor_type_icons/water_biofilter.png'),
+('df1b27db-7b69-4442-949e-9ef908c4fe72', '2024-03-02', '2024-03-02', '', 'water_test_bed', '/images/sensor_type_icons/water_test_bed.png');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `server_notifications`
+--
+
+CREATE TABLE `server_notifications` (
+  `id` varchar(36) DEFAULT NULL,
+  `created_at` varchar(10) DEFAULT NULL,
+  `updated_at` varchar(10) DEFAULT NULL,
+  `deleted_at` varchar(0) DEFAULT NULL,
+  `message` varchar(71) DEFAULT NULL,
+  `severity` tinyint(4) DEFAULT NULL,
+  `related_table` tinyint(4) DEFAULT NULL,
+  `related_record_id` varchar(36) DEFAULT NULL,
+  `timestamp` varchar(19) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+
+--
+-- Dumping data for table `server_notifications`
+--
+
+INSERT INTO `server_notifications` (`id`, `created_at`, `updated_at`, `deleted_at`, `message`, `severity`, `related_table`, `related_record_id`, `timestamp`) VALUES
+('651d3871-24a5-41fe-9632-5970716dbae6', '2024-04-27', '2024-04-20', '', 'Green house relative humidity is within high level threshold', 0, 8, '61534d56-5340-4d46-a222-eaba9ae3c212', '2024-04-20 00:58:59'),
+('fb030748-77c4-4a54-9f45-413121b05a8a', '2024-04-28', '2024-04-22', '', 'Green house CO2 level has reached critically low level', 1, 8, '61534d56-5340-4d46-a222-eaba9ae3c212', '2024-04-20 00:58:59'),
+('e9a54aa3-1ee9-4df2-85b6-fbaa4cd59435', '2024-04-29', '2024-04-29', '', 'Green house illumination intensity has reached critically low level', 1, 8, '61534d56-5340-4d46-a222-eaba9ae3c212', '2024-04-20 00:58:59'),
+('f4a1208a-3b04-4638-982d-fa3bec25e2b6', '2024-04-21', '2024-04-24', '', 'Green house relative humidity is within high level threshold', 0, 8, '38c776a5-85f1-45ea-b768-3871705fb02b', '2024-04-20 01:03:59'),
+('2be407fa-b0a2-4884-8801-f260495d17c9', '2024-04-22', '2024-04-28', '', 'Green house CO2 level has reached critically low level', 1, 8, '38c776a5-85f1-45ea-b768-3871705fb02b', '2024-04-20 01:03:59'),
+('d5706791-e310-4fc9-a3d6-4abf10e86932', '2024-04-23', '2024-04-20', '', 'Green house illumination intensity has reached critically low level', 1, 8, '38c776a5-85f1-45ea-b768-3871705fb02b', '2024-04-20 01:03:59'),
+('2c5d7f20-69f2-4b43-a311-97e9a827a28b', '2024-04-20', '2024-04-28', '', 'Green house relative humidity is within high level threshold', 0, 8, '983ffac9-56cb-4940-b14d-ecb727210e31', '2024-04-20 01:13:58'),
+('dcf74bfe-8067-46fd-814a-b9160822cb5c', '2024-04-20', '2024-04-23', '', 'Green house CO2 level has reached critically low level', 1, 8, '983ffac9-56cb-4940-b14d-ecb727210e31', '2024-04-20 01:13:58'),
+('1c7d2b47-7357-48e0-ade4-775fbaf9e4ff', '2024-04-22', '2024-04-29', '', 'Green house illumination intensity has reached critically low level', 1, 8, '983ffac9-56cb-4940-b14d-ecb727210e31', '2024-04-20 01:13:58'),
+('e8245c0c-c4da-454e-bc97-af13899c87df', '2024-04-23', '2024-04-24', '', 'Green house relative humidity is within high level threshold', 0, 8, 'b62a6d5e-bff5-4ca5-aa02-a1305af3d2fc', '2024-04-20 01:18:58'),
+('bab6c184-a117-4594-a546-273c71960d1e', '2024-04-25', '2024-04-30', '', 'Green house CO2 level has reached critically low level', 1, 8, 'b62a6d5e-bff5-4ca5-aa02-a1305af3d2fc', '2024-04-20 01:18:58'),
+('fa4b7841-9d6a-40ab-b46e-c2582b06953d', '2024-04-27', '2024-04-20', '', 'Green house illumination intensity has reached critically low level', 1, 8, 'b62a6d5e-bff5-4ca5-aa02-a1305af3d2fc', '2024-04-20 01:18:58'),
+('06101c95-664d-48a8-b986-2a5165c9e421', '2024-04-20', '2024-04-29', '', 'Green house relative humidity is within high level threshold', 0, 8, 'a430520b-b2bb-44ae-bc1e-e0c4b83f7f25', '2024-04-20 01:23:59'),
+('4b9500cf-149d-4f88-aead-3a26aa33ca9b', '2024-04-22', '2024-04-21', '', 'Green house CO2 level has reached critically low level', 1, 8, 'a430520b-b2bb-44ae-bc1e-e0c4b83f7f25', '2024-04-20 01:23:59'),
+('f6b6320e-2423-42d0-b105-506620f25335', '2024-04-24', '2024-04-24', '', 'Green house illumination intensity has reached critically low level', 1, 8, 'a430520b-b2bb-44ae-bc1e-e0c4b83f7f25', '2024-04-20 01:23:59'),
+('cf192c83-0119-4325-b47d-f099068f32c9', '2024-05-01', '2024-04-25', '', 'Green house relative humidity is within high level threshold', 0, 8, 'c6d5bc33-b601-4c14-ad9c-65b77e8b489d', '2024-04-20 01:28:58'),
+('b1a22db4-bd50-4fab-b6bc-f73a63ef0089', '2024-04-20', '2024-04-28', '', 'Green house CO2 level has reached critically low level', 1, 8, 'c6d5bc33-b601-4c14-ad9c-65b77e8b489d', '2024-04-20 01:28:59'),
+('8ea10607-6d91-4c35-86e3-2fabbdd61ce6', '2024-04-22', '2024-04-29', '', 'Green house illumination intensity has reached critically low level', 1, 8, 'c6d5bc33-b601-4c14-ad9c-65b77e8b489d', '2024-04-20 01:28:59'),
+('1317ded4-9d75-493f-9fee-f0d07986bde8', '2024-05-01', '2024-04-23', '', 'Green house relative humidity is within high level threshold', 0, 8, 'a0b54387-4c52-4fa1-8550-2bc1609fa221', '2024-04-20 01:33:57'),
+('711e16e2-a118-45c8-9d84-34b06056027d', '2024-04-21', '2024-04-26', '', 'Green house CO2 level has reached critically low level', 1, 8, 'a0b54387-4c52-4fa1-8550-2bc1609fa221', '2024-04-20 01:33:58'),
+('3da12e55-1baa-43ad-95c5-3da3659bbcb7', '2024-04-23', '2024-04-29', '', 'Green house illumination intensity has reached critically low level', 1, 8, 'a0b54387-4c52-4fa1-8550-2bc1609fa221', '2024-04-20 01:33:58'),
+('08dfc25e-359f-4669-8646-bd5a051283c5', '2024-04-22', '2024-05-01', '', 'Green house relative humidity is within high level threshold', 0, 8, 'e7f0ccb8-9aa2-4983-95fb-8ecf547043d5', '2024-04-20 01:38:58'),
+('db8351cc-a5e5-4f05-b59a-227884edad21', '2024-04-24', '2024-04-24', '', 'Green house CO2 level has reached critically low level', 1, 8, 'e7f0ccb8-9aa2-4983-95fb-8ecf547043d5', '2024-04-20 01:38:58'),
+('d57d1d75-3433-45d8-b1cf-3edfc24a32d1', '2024-04-26', '2024-04-26', '', 'Green house illumination intensity has reached critically low level', 1, 8, 'e7f0ccb8-9aa2-4983-95fb-8ecf547043d5', '2024-04-20 01:38:58'),
+('f2234ef7-39a8-4109-acc1-6c2cd4755114', '2024-04-27', '2024-04-28', '', 'Green house relative humidity is within high level threshold', 0, 8, '46919946-5bc1-4091-ad3a-f8c070bf9cf3', '2024-04-20 01:43:58'),
+('f835f4ca-ebd5-40c9-9625-08f44ee03e86', '2024-04-29', '2024-05-02', '', 'Green house CO2 level has reached critically low level', 1, 8, '46919946-5bc1-4091-ad3a-f8c070bf9cf3', '2024-04-20 01:43:58'),
+('73ce4d98-eee4-469e-9fba-ea71517961e5', '2024-04-20', '2024-04-25', '', 'Green house illumination intensity has reached critically low level', 1, 8, '46919946-5bc1-4091-ad3a-f8c070bf9cf3', '2024-04-20 01:43:59'),
+('891322a4-baad-4c93-9648-9c3ac99f7aaf', '2024-04-21', '2024-04-23', '', 'Green house relative humidity is within high level threshold', 0, 8, '2e1f2b1b-200f-4b60-88eb-c6f6e0b1c4db', '2024-04-20 01:48:59'),
+('6bc47325-0257-4ec5-99d9-1e3ff1303293', '2024-04-22', '2024-04-26', '', 'Green house CO2 level has reached critically low level', 1, 8, '2e1f2b1b-200f-4b60-88eb-c6f6e0b1c4db', '2024-04-20 01:48:59'),
+('7199bd46-c68d-4ad6-aeb6-650c18dbe360', '2024-04-23', '2024-04-22', '', 'Green house illumination intensity has reached critically low level', 1, 8, '2e1f2b1b-200f-4b60-88eb-c6f6e0b1c4db', '2024-04-20 01:48:59'),
+('fbf32990-0e17-46bb-9f07-4d374cba415d', '2024-04-30', '2024-04-25', '', 'Green house relative humidity is within high level threshold', 0, 8, '002808d6-18c8-4db8-b617-801b820f40cb', '2024-04-20 01:53:58'),
+('a60de9f9-2e77-4e3d-9fea-66904e61739f', '2024-05-01', '2024-05-02', '', 'Green house CO2 level has reached critically low level', 1, 8, '002808d6-18c8-4db8-b617-801b820f40cb', '2024-04-20 01:53:58'),
+('5762be9b-0805-4fc8-954e-5ad6d66b9dd8', '2024-04-21', '2024-04-21', '', 'Green house illumination intensity has reached critically low level', 1, 8, '002808d6-18c8-4db8-b617-801b820f40cb', '2024-04-20 01:53:59'),
+('403724ec-62f8-42a0-8394-552dd485d16c', '2024-04-30', '2024-04-30', '', 'Green house relative humidity is within high level threshold', 0, 8, '7c9485f7-cb48-4b0b-95b5-fb14f886a041', '2024-04-20 01:58:58'),
+('ed6f85f1-3999-4b09-a266-a9eef9cf825f', '2024-04-21', '2024-04-23', '', 'Green house CO2 level has reached critically low level', 1, 8, '7c9485f7-cb48-4b0b-95b5-fb14f886a041', '2024-04-20 01:58:59'),
+('44cf0618-9f22-4402-8579-aef0ccf61d70', '2024-04-22', '2024-04-26', '', 'Green house illumination intensity has reached critically low level', 1, 8, '7c9485f7-cb48-4b0b-95b5-fb14f886a041', '2024-04-20 01:58:59'),
+('30089320-3efd-4531-808a-c1ec89427977', '2024-04-30', '2024-04-30', '', 'Green house relative humidity is within high level threshold', 0, 8, '7fb283ce-57b8-404a-b9d8-8cfa6a3b5df8', '2024-04-20 02:03:57'),
+('f7985fb8-b87b-49a4-919a-26393e9acb53', '2024-04-23', '2024-04-21', '', 'Green house CO2 level has reached critically low level', 1, 8, '7fb283ce-57b8-404a-b9d8-8cfa6a3b5df8', '2024-04-20 02:03:58'),
+('be8c3bca-6a86-410a-b04d-bca103337c87', '2024-04-26', '2024-04-28', '', 'Green house illumination intensity has reached critically low level', 1, 8, '7fb283ce-57b8-404a-b9d8-8cfa6a3b5df8', '2024-04-20 02:03:58'),
+('1893b443-9211-4a6e-a257-c780d55c3080', '2024-04-21', '2024-04-25', '', 'Green house relative humidity is within high level threshold', 0, 8, 'e0b24e5f-7f95-401f-b51a-b2576982998f', '2024-04-20 02:08:58'),
+('10bdf4f6-c006-420a-a622-0b52dec9236e', '2024-04-23', '2024-04-21', '', 'Green house CO2 level has reached critically low level', 1, 8, 'e0b24e5f-7f95-401f-b51a-b2576982998f', '2024-04-20 02:08:58'),
+('99825d92-d3b2-4c00-8f53-161f718c5e4a', '2024-04-24', '2024-04-23', '', 'Green house illumination intensity has reached critically low level', 1, 8, 'e0b24e5f-7f95-401f-b51a-b2576982998f', '2024-04-20 02:08:58'),
+('25bf5b14-1ffa-427b-abab-861340dcbad7', '2024-04-28', '2024-04-28', '', 'Green house relative humidity is within high level threshold', 0, 8, '7b357e84-a1ea-4f54-923c-d895bce90987', '2024-04-20 02:13:58'),
+('2f6317c1-d442-4c77-a01b-4dc668602468', '2024-04-30', '2024-04-30', '', 'Green house CO2 level has reached critically low level', 1, 8, '7b357e84-a1ea-4f54-923c-d895bce90987', '2024-04-20 02:13:58'),
+('dc256f52-8e4f-4ab8-bd0d-4ce5f17ddb4b', '2024-04-20', '2024-04-23', '', 'Green house illumination intensity has reached critically low level', 1, 8, '7b357e84-a1ea-4f54-923c-d895bce90987', '2024-04-20 02:13:59'),
+('c9b04ccc-2d43-489a-befe-a1e4a6a43f56', '2024-04-21', '2024-04-26', '', 'Green house relative humidity is within high level threshold', 0, 8, '0379ac30-3700-41eb-8aec-27e0442c08de', '2024-04-20 02:18:59'),
+('07bec0a3-a153-4998-ae59-7f022c0fe857', '2024-04-23', '2024-04-21', '', 'Green house CO2 level has reached critically low level', 1, 8, '0379ac30-3700-41eb-8aec-27e0442c08de', '2024-04-20 02:18:59'),
+('21363741-d272-4614-be16-e457d4707c16', '2024-04-24', '2024-04-30', '', 'Green house illumination intensity has reached critically low level', 1, 8, '0379ac30-3700-41eb-8aec-27e0442c08de', '2024-04-20 02:18:59'),
+('2619cb7a-ffa0-4844-9aa2-9b619a656626', '2024-05-01', '2024-04-20', '', 'Green house relative humidity is within high level threshold', 0, 8, '85e44af7-eeeb-4b49-abf9-2fc222a8d5c6', '2024-04-20 02:23:58'),
+('6a720250-a1ea-4391-9dd7-aa51d6d91a3b', '2024-04-21', '2024-04-22', '', 'Green house CO2 level has reached critically low level', 1, 8, '85e44af7-eeeb-4b49-abf9-2fc222a8d5c6', '2024-04-20 02:23:59'),
+('9fca7b0d-0ea1-4182-ab8b-f73fab7d3a2a', '2024-04-23', '2024-04-20', '', 'Green house illumination intensity has reached critically low level', 1, 8, '85e44af7-eeeb-4b49-abf9-2fc222a8d5c6', '2024-04-20 02:23:59'),
+('75921feb-914a-486d-a281-56212c688859', '2024-04-27', '2024-04-23', '', 'Green house relative humidity is within high level threshold', 0, 8, 'a9616d7e-f2e4-411c-a9bf-e8ec7deae6b1', '2024-04-20 02:28:58'),
+('37022b4f-f7c7-4eb4-8cd3-91e9ddae06ff', '2024-04-30', '2024-04-30', '', 'Green house CO2 level has reached critically low level', 1, 8, 'a9616d7e-f2e4-411c-a9bf-e8ec7deae6b1', '2024-04-20 02:28:58'),
+('12fa1fe5-f3a0-43e9-8cd9-42bf322831a2', '2024-04-20', '2024-04-29', '', 'Green house illumination intensity has reached critically low level', 1, 8, 'a9616d7e-f2e4-411c-a9bf-e8ec7deae6b1', '2024-04-20 02:28:59'),
+('89574f6e-28bf-4a41-9f8b-cab229fc5ad9', '2024-04-21', '2024-04-21', '', 'Green house relative humidity is within high level threshold', 0, 8, 'c24baa22-a1ac-475f-84f7-58c79d3df0c6', '2024-04-20 02:33:58'),
+('5c44ccfa-38d3-43b5-9f53-624bd8b669bb', '2024-04-20', '2024-04-24', '', 'Green house CO2 level has reached critically low level', 1, 8, 'c24baa22-a1ac-475f-84f7-58c79d3df0c6', '2024-04-20 02:33:58'),
+('c813f1e5-5d98-4e4d-aaae-4306c3eb1824', '2024-04-25', '2024-04-26', '', 'Green house illumination intensity has reached critically low level', 1, 8, 'c24baa22-a1ac-475f-84f7-58c79d3df0c6', '2024-04-20 02:33:58'),
+('4ab523e3-fb2e-45be-851e-9b637f39b786', '2024-04-21', '2024-04-21', '', 'Green house relative humidity is within high level threshold', 0, 8, '280107e3-802c-46ed-9b4a-64d248cac4f1', '2024-04-20 02:38:59'),
+('6aa3a13d-1c1e-4287-9f84-1b6167dbc2b3', '2024-04-25', '2024-04-21', '', 'Green house CO2 level has reached critically low level', 1, 8, '280107e3-802c-46ed-9b4a-64d248cac4f1', '2024-04-20 02:38:59'),
+('ce6dd240-e4ce-4fd8-b031-1d8a64c0a611', '2024-04-27', '2024-05-01', '', 'Green house illumination intensity has reached critically low level', 1, 8, '280107e3-802c-46ed-9b4a-64d248cac4f1', '2024-04-20 02:38:59'),
+('4f4aead8-9804-4d78-a873-f84cc26cd9cc', '2024-04-30', '2024-04-28', '', 'Green house relative humidity is within high level threshold', 0, 8, '7edeaaf3-22cd-4c81-84f5-5fdcff4e39fc', '2024-04-20 02:43:58'),
+('c81fef2d-df01-463d-af17-96a0c647406d', '2024-05-01', '2024-04-24', '', 'Green house CO2 level has reached critically low level', 1, 8, '7edeaaf3-22cd-4c81-84f5-5fdcff4e39fc', '2024-04-20 02:43:58'),
+('7b1ce348-b6a3-44f9-bd1a-28d05918ed72', '2024-04-21', '2024-04-20', '', 'Green house illumination intensity has reached critically low level', 1, 8, '7edeaaf3-22cd-4c81-84f5-5fdcff4e39fc', '2024-04-20 02:43:59'),
+('d307a053-434a-4bb8-972c-545aa29d98dc', '2024-04-23', '2024-04-28', '', 'Green house relative humidity is within high level threshold', 0, 8, '9639c580-14df-4b92-bf8e-11b26bd3daa2', '2024-04-20 02:48:58'),
+('b7e3e1c0-7730-45b5-8271-177d0b79ed43', '2024-04-26', '2024-04-21', '', 'Green house CO2 level has reached critically low level', 1, 8, '9639c580-14df-4b92-bf8e-11b26bd3daa2', '2024-04-20 02:48:58'),
+('792e3f85-2494-4918-aede-ec20dc982e65', '2024-04-20', '2024-04-22', '', 'Green house illumination intensity has reached critically low level', 1, 8, '9639c580-14df-4b92-bf8e-11b26bd3daa2', '2024-04-20 02:48:58'),
+('c7ea5b90-197a-4c07-b8e6-a39372d4d036', '2024-04-24', '2024-05-01', '', 'Green house relative humidity is within high level threshold', 0, 8, '68ef2075-9c5f-4b8a-a809-9017a5df5e0e', '2024-04-20 02:53:58'),
+('131e9755-8b97-4a1a-b57d-6ef8793f82c5', '2024-04-27', '2024-04-20', '', 'Green house CO2 level has reached critically low level', 1, 8, '68ef2075-9c5f-4b8a-a809-9017a5df5e0e', '2024-04-20 02:53:58'),
+('36ee4dc7-6bd0-4a58-a8a1-07fb0e1ec2b8', '2024-04-29', '2024-04-26', '', 'Green house illumination intensity has reached critically low level', 1, 8, '68ef2075-9c5f-4b8a-a809-9017a5df5e0e', '2024-04-20 02:53:58'),
+('2c6313ae-eac9-4d8c-aba9-d3d05100e4cf', '2024-04-20', '2024-04-21', '', 'Green house relative humidity is within high level threshold', 0, 8, '924f325b-07d5-4901-b1fd-ff978116fb50', '2024-04-20 02:58:58'),
+('06f9b008-65e9-4975-96bd-92a98b9a2f9c', '2024-04-22', '2024-04-21', '', 'Green house CO2 level has reached critically low level', 1, 8, '924f325b-07d5-4901-b1fd-ff978116fb50', '2024-04-20 02:58:58'),
+('69382a9e-d810-46ed-a659-880e614b9a5f', '2024-04-24', '2024-04-21', '', 'Green house illumination intensity has reached critically low level', 1, 8, '924f325b-07d5-4901-b1fd-ff978116fb50', '2024-04-20 02:58:58'),
+('26c1d380-0b9f-455e-adf2-def4b618f874', '2024-04-28', '2024-04-21', '', 'Green house relative humidity is within high level threshold', 0, 8, 'e8400513-05d2-4b40-818b-21bf96ae81c9', '2024-04-20 03:03:58'),
+('b0ee37e5-1800-464e-8ef8-807516e5f44d', '2024-04-30', '2024-04-20', '', 'Green house CO2 level has reached critically low level', 1, 8, 'e8400513-05d2-4b40-818b-21bf96ae81c9', '2024-04-20 03:03:58'),
+('62ac1db1-1655-4437-9a92-8bc9bc0cf4cc', '2024-04-20', '2024-04-28', '', 'Green house illumination intensity has reached critically low level', 1, 8, 'e8400513-05d2-4b40-818b-21bf96ae81c9', '2024-04-20 03:03:59'),
+('eda1f783-4502-4c44-b7dd-f840c8bd977f', '2024-04-22', '2024-04-22', '', 'Green house relative humidity is within high level threshold', 0, 8, '795aee78-f208-43d1-9996-b798e81deb51', '2024-04-20 03:08:59'),
+('2fb9530f-ec6c-41df-8176-377591afda61', '2024-04-24', '2024-04-27', '', 'Green house CO2 level has reached critically low level', 1, 8, '795aee78-f208-43d1-9996-b798e81deb51', '2024-04-20 03:08:59'),
+('a1c90df4-f4d0-450f-9f21-6b979b7c6132', '2024-04-27', '2024-04-20', '', 'Green house illumination intensity has reached critically low level', 1, 8, '795aee78-f208-43d1-9996-b798e81deb51', '2024-04-20 03:08:59'),
+('10a40ff3-a5da-4983-a2ea-89b63f50556c', '2024-04-22', '2024-04-27', '', 'Green house relative humidity is within high level threshold', 0, 8, '2c90eb91-2c5c-445b-9207-da145f7c5775', '2024-04-20 03:13:58'),
+('5e6dffa9-7c36-4d2b-8c74-ebcb168739bb', '2024-04-24', '2024-04-28', '', 'Green house CO2 level has reached critically low level', 1, 8, '2c90eb91-2c5c-445b-9207-da145f7c5775', '2024-04-20 03:13:58'),
+('4078b877-767b-43eb-a040-4c72cb53300e', '2024-04-26', '2024-04-29', '', 'Green house illumination intensity has reached critically low level', 1, 8, '2c90eb91-2c5c-445b-9207-da145f7c5775', '2024-04-20 03:13:58'),
+('b84062ee-8233-4bbe-af1a-07a22a372353', '2024-04-23', '2024-04-20', '', 'Green house relative humidity is within high level threshold', 0, 8, '9f643996-32d3-413d-ba82-37e5bef0282b', '2024-04-20 03:18:58'),
+('aa7e1901-c7ca-4a85-9674-7001c832bf44', '2024-04-26', '2024-04-28', '', 'Green house CO2 level has reached critically low level', 1, 8, '9f643996-32d3-413d-ba82-37e5bef0282b', '2024-04-20 03:18:58'),
+('1be950d6-0ac0-4e04-8169-a3c7c12346eb', '2024-04-28', '2024-04-26', '', 'Green house illumination intensity has reached critically low level', 1, 8, '9f643996-32d3-413d-ba82-37e5bef0282b', '2024-04-20 03:18:58'),
+('15d65438-0b19-487c-9678-7e6a2c529d68', '2024-04-26', '2024-04-30', '', 'Green house relative humidity is within high level threshold', 0, 8, 'b163755b-e890-491e-87ec-79187f8cdef4', '2024-04-20 03:23:58'),
+('d02710f9-c676-4110-8a2f-5b6b17e3bf42', '2024-04-29', '2024-04-24', '', 'Green house CO2 level has reached critically low level', 1, 8, 'b163755b-e890-491e-87ec-79187f8cdef4', '2024-04-20 03:23:58'),
+('9ab757d6-919d-44cf-86a0-687c2d45e3aa', '2024-05-01', '2024-05-01', '', 'Green house illumination intensity has reached critically low level', 1, 8, 'b163755b-e890-491e-87ec-79187f8cdef4', '2024-04-20 03:23:58'),
+('2dbbed12-d3df-46ab-9930-38e634b2b5db', '2024-04-22', '2024-04-26', '', 'Green house relative humidity is within high level threshold', 0, 8, '56c1de03-6063-4db4-8f42-27a051639909', '2024-04-20 03:28:59'),
+('c0c7aae9-3181-472d-9bf3-278402c83a62', '2024-04-25', '2024-04-29', '', 'Green house CO2 level has reached critically low level', 1, 8, '56c1de03-6063-4db4-8f42-27a051639909', '2024-04-20 03:28:59'),
+('05e2ad8d-f162-436d-993d-9f774c011667', '2024-04-26', '2024-04-26', '', 'Green house illumination intensity has reached critically low level', 1, 8, '56c1de03-6063-4db4-8f42-27a051639909', '2024-04-20 03:28:59'),
+('2134fc99-daaa-4c72-afb8-aa563a1af1b6', '2024-04-29', '2024-04-28', '', 'Green house relative humidity is within high level threshold', 0, 8, '76dfd50a-58fa-4d2d-b151-dd10fbfb9cb4', '2024-04-20 03:33:58'),
+('24b46467-c728-4232-bac6-a9eece493580', '2024-04-30', '2024-05-01', '', 'Green house CO2 level has reached critically low level', 1, 8, '76dfd50a-58fa-4d2d-b151-dd10fbfb9cb4', '2024-04-20 03:33:58'),
+('221583e5-22c8-457b-8e0e-fec8ba2d97bf', '2024-04-20', '2024-04-26', '', 'Green house illumination intensity has reached critically low level', 1, 8, '76dfd50a-58fa-4d2d-b151-dd10fbfb9cb4', '2024-04-20 03:33:59'),
+('99be8133-9d11-4635-a738-cacfeb5e69d9', '2024-04-26', '2024-04-28', '', 'Green house relative humidity is within high level threshold', 0, 8, '9558b106-9971-44b6-a4ba-4da0e9c2e001', '2024-04-20 03:38:57'),
+('b56ab88d-60fb-4b2f-90dd-abf00e5f8a2b', '2024-04-27', '2024-04-24', '', 'Green house CO2 level has reached critically low level', 1, 8, '9558b106-9971-44b6-a4ba-4da0e9c2e001', '2024-04-20 03:38:57'),
+('79db9ef4-e517-427c-982a-c6424f5c5cdf', '2024-04-28', '2024-04-25', '', 'Green house illumination intensity has reached critically low level', 1, 8, '9558b106-9971-44b6-a4ba-4da0e9c2e001', '2024-04-20 03:38:57'),
+('eab8dd85-ed84-40d2-9129-58618914a234', '2024-04-30', '2024-04-20', '', 'Green house relative humidity is within high level threshold', 0, 8, 'c850f4dd-73ec-4059-94a1-9543a14f80af', '2024-04-20 03:43:57'),
+('febdfdec-8a78-4871-aad4-aeb07e3f58a5', '2024-04-20', '2024-04-24', '', 'Green house CO2 level has reached critically low level', 1, 8, 'c850f4dd-73ec-4059-94a1-9543a14f80af', '2024-04-20 03:43:58'),
+('5e5d8178-fa20-42d0-b533-4d6218c0a400', '2024-04-20', '2024-04-25', '', 'Green house illumination intensity has reached critically low level', 1, 8, 'c850f4dd-73ec-4059-94a1-9543a14f80af', '2024-04-20 03:43:58'),
+('2ccb5aef-8148-4345-bad5-02af85ae0e79', '2024-04-24', '2024-04-20', '', 'Green house relative humidity is within high level threshold', 0, 8, '400c2733-fdfc-40ff-9b6c-a287f4f2dd34', '2024-04-20 03:48:59');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `useraccounts`
 --
 
@@ -478,7 +910,7 @@ CREATE TABLE `useraccounts` (
 --
 
 INSERT INTO `useraccounts` (`id`, `fname`, `lname`, `email`, `username`, `password`, `created_at`) VALUES
-(2, '65464', '5654', '654654@email.com', 'usernametry', 'passwords', '2025-02-13 06:16:23');
+(2, 'Ali', 'Atlantis', 'atlantismail@email.com', 'usernametry', '2MDyjIbr7XvDVbaC9+rKY1gfuUwwBzpSboQP9/qNiB5J33dYDMiruvQAzj/aBTC4', '2025-02-13 06:16:23');
 
 -- --------------------------------------------------------
 
@@ -914,9 +1346,24 @@ INSERT INTO `water_biofilter` (`id`, `created_at`, `updated_at`, `deleted_at`, `
 ('fd66c3d1-00dd-492c-87b5-ca79a7100a51', '2024-04-16 02:04:20.682068789+08:00', '2024-04-16 02:04:20.682068789+08:00', NULL, 375.7999878, 30.60000038, 0.389999986, '16/04/2024 02:05', '8ed9b0f6-02d6-4ef3-9c11-77991b7b70a1'),
 ('fe6c5b55-ad8e-4243-8a69-c485c1ced62e', '2024-04-16 09:14:20.530392029+08:00', '2024-04-16 09:14:20.530392029+08:00', NULL, 352.2999878, 31.10000038, 0.389999986, '16/04/2024 09:15', '8ed9b0f6-02d6-4ef3-9c11-77991b7b70a1');
 
+-- --------------------------------------------------------
+
+--
+-- Structure for view `edge_actuator_view`
+--
+DROP TABLE IF EXISTS `edge_actuator_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `edge_actuator_view`  AS SELECT `e`.`id` AS `edge_device_id`, `e`.`name` AS `edge_device_name`, `e`.`description` AS `edge_device_description`, `e`.`statusz` AS `edge_device_status`, `e`.`api_key` AS `api_key`, `e`.`passcode` AS `passcode`, `e`.`mqtt_client_id` AS `mqtt_client_id`, `a`.`id` AS `actuator_id`, `a`.`device_name` AS `actuator_name`, `a`.`type_id` AS `actuator_type`, `a`.`statusz` AS `actuator_status`, `a`.`parent_edge_device_id` AS `parent_edge_device_id` FROM (`edge_device_infos` `e` join `actuator_device_infos` `a` on(`e`.`id` = `a`.`parent_edge_device_id`)) ;
+
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `actuator_device_infos`
+--
+ALTER TABLE `actuator_device_infos`
+  ADD PRIMARY KEY (`row_id`);
 
 --
 -- Indexes for table `auth_group`
@@ -1002,6 +1449,12 @@ ALTER TABLE `useraccounts`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `actuator_device_infos`
+--
+ALTER TABLE `actuator_device_infos`
+  MODIFY `row_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT for table `auth_group`
