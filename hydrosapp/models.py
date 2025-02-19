@@ -76,3 +76,26 @@ class UserAccount(models.Model):
     class Meta:
         db_table = 'useraccounts'
         managed = False
+
+
+class ServerNotifications(models.Model):
+    id = models.AutoField(primary_key=True)
+    created_at = models.CharField(max_length=100)
+    updated_at = models.CharField(max_length=100)
+    deleted_at = models.CharField(max_length=100)
+    message = models.CharField(max_length=100),
+    severity = models.DecimalField(max_digits=11, decimal_places=7)
+    related_table = models.DecimalField(max_digits=11, decimal_places=7)
+    related_record_id = models.CharField(max_length=100)
+    timestamp = models.CharField(max_length=100)
+    
+    def __str__(self):
+        return self.username
+
+    class Meta:
+        db_table = 'server_notifications'
+        managed = False
+
+
+   
+

@@ -71,17 +71,25 @@ def start(request):
 
     user_id = request.session.get('user_id', None)
     username = request.session.get('username', None)
+    fullname = request.session.get('fullname', None)
+    user_id = request.session.get('user_id', None)
+    username = request.session.get('username', None)
+    fullname = request.session.get('fullname', None)
     if not user_id:
         return redirect(reverse('login')) 
     context = {
         "user_id" : user_id, 
-        "username" : username
+        "username" : username,
+        "fullname" : fullname
     }
     return render(request, "index.html", context)
 
 
 def edit_profile(request):
+    
     user_id = request.session.get('user_id', None)
+    username = request.session.get('username', None)
+    fullname = request.session.get('fullname', None)
     
     if not user_id:
         return redirect(reverse('login')) 
@@ -129,9 +137,15 @@ def get_greenhouse(request):
     # Fetch all Greenhouse data
     greenhouse_data = Greenhouse.objects.all()
 
+    user_id = request.session.get('user_id', None)
+    username = request.session.get('username', None)
+    fullname = request.session.get('fullname', None)
     # Prepare context for the template
     context = {
-        "greenhouse_data": greenhouse_data
+        "greenhouse_data": greenhouse_data,
+        "user_id" : user_id, 
+        "username" : username,
+        "fullname" : fullname
     }
 
     # Return HTML response rendered from template
@@ -140,8 +154,14 @@ def get_greenhouse(request):
 def get_waterbed(request):
     waterbed_data = WaterBed.objects.all()
     
+    user_id = request.session.get('user_id', None)
+    username = request.session.get('username', None)
+    fullname = request.session.get('fullname', None)
     context = {
-        "waterbed_data": waterbed_data
+        "waterbed_data": waterbed_data,
+        "user_id" : user_id, 
+        "username" : username,
+        "fullname" : fullname
     }
     
     return render(request, "waterbedtable.html", context)
@@ -157,18 +177,19 @@ def login(request):
         # Query the faculty account
         with connection.cursor() as cursor:
             cursor.execute("""
-                SELECT id, username, password FROM useraccounts 
+                SELECT id, lname, fname ,  username, password FROM useraccounts 
                 WHERE username = %s
             """, [username])
             user = cursor.fetchone()
 
         if user:
-            id, username, password = user
+            id, lname, fname ,username , password = user
 
             # Assuming 'password' is hashed, compare it with the entered password
             if decrypt(hashed_pass, passwordUnique) == decrypt(password, passwordUnique):  # Use check_password to compare the hashes
                 request.session['user_id'] = id  # Store session for the user
                 request.session['username'] = username  # Store session for username
+                request.session['fullname'] = f"{fname} {lname}"  # Store session for username
 
                 messages.success(request, "Login successful!")
                 return redirect('start')  # Redirect to the desired dashboard or page
@@ -233,10 +254,16 @@ def get_waterbedchart(request):
 
     datasets_list = list(datasets.values())
 
+    user_id = request.session.get('user_id', None)
+    username = request.session.get('username', None)
+    fullname = request.session.get('fullname', None)
     context = {
         "water_beddt": json.dumps({
             "labels": labels,
-            "datasets": datasets_list
+            "datasets": datasets_list,
+            "user_id" : user_id, 
+            "username" : username,
+            "fullname" : fullname
         })
     }
     
@@ -245,8 +272,14 @@ def get_waterbedchart(request):
 def get_waterbio(request):
     biofil= Biofilter.objects.all()
     
+    user_id = request.session.get('user_id', None)
+    username = request.session.get('username', None)
+    fullname = request.session.get('fullname', None)
     context = {
-        "water_biofilterdt": biofil
+        "water_biofilterdt": biofil,
+        "user_id" : user_id, 
+        "username" : username,
+        "fullname" : fullname
     }
     
     return render(request, "water_biofil.html", context)
@@ -291,10 +324,16 @@ def get_waterbiochart(request):
 
     datasets_list = list(datasets.values())
 
+    user_id = request.session.get('user_id', None)
+    username = request.session.get('username', None)
+    fullname = request.session.get('fullname', None)
     context = {
         "water_biofilterdt": json.dumps({
             "labels": labels,
-            "datasets": datasets_list
+            "datasets": datasets_list,
+            "user_id" : user_id, 
+            "username" : username,
+            "fullname" : fullname
         })
     }
     
