@@ -5,10 +5,68 @@ from django.contrib.auth import login
 from .models import Greenhouse, WaterBed, Biofilter, UserAccount
 import json
 from django.db import connection
-from django.views.decorators.http import require_GET
-from django.http import JsonResponse
-from django.utils.dateparse import parse_datetime
-import json
+import os
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.backends import default_backend
+import base64
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+
+# Generate a key from a password
+def derive_key(password: str, salt: bytes) -> bytes:
+    kdf = PBKDF2HMAC(
+        algorithm=hashes.SHA256(),
+        length=32,  # AES-256 requires a 32-byte key
+        salt=salt,
+        iterations=100000,
+        backend=default_backend()
+    )
+    return kdf.derive(password.encode())
+
+# Encrypt function
+def encrypt(plaintext: str, password: str) -> str:
+    salt = os.urandom(16)  # Generate a new salt for each encryption
+    key = derive_key(password, salt)
+    iv = os.urandom(16)  # AES requires a 16-byte IV
+    cipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=default_backend())
+    encryptor = cipher.encryptor()
+    
+    # PKCS7 Padding
+    padding_length = 16 - (len(plaintext) % 16)
+    padded_plaintext = plaintext + (chr(padding_length) * padding_length)
+
+    ciphertext = encryptor.update(padded_plaintext.encode()) + encryptor.finalize()
+    
+    # Store salt, iv, and ciphertext together
+    return base64.b64encode(salt + iv + ciphertext).decode()
+
+# Decrypt function
+def decrypt(encrypted_text: str, password: str) -> str:
+    encrypted_data = base64.b64decode(encrypted_text)
+    
+    salt = encrypted_data[:16]  # Extract the salt
+    iv = encrypted_data[16:32]  # Extract the IV
+    ciphertext = encrypted_data[32:]  # Extract the actual ciphertext
+    
+    key = derive_key(password, salt)
+    cipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=default_backend())
+    decryptor = cipher.decryptor()
+    
+    decrypted_padded = decryptor.update(ciphertext) + decryptor.finalize()
+    
+    # Remove PKCS7 padding
+    padding_length = ord(decrypted_padded[-1:])
+    return decrypted_padded[:-padding_length].decode()
+
+# Example Usage
+passwordUnique = "72f80f3f425111c7f2de621780f46d84"
+
+# encrypted = encrypt(text_to_encrypt, password)
+# print("Encrypted:", encrypted)
+
+# decrypted = decrypt(encrypted, password)
+# print("Decrypted:", decrypted)
+
 def start(request):
 
     user_id = request.session.get('user_id', None)
@@ -48,9 +106,12 @@ def get_waterbed(request):
     return render(request, "waterbedtable.html", context)
 
 def login(request):
+  
+    
     if request.method == 'POST':
         username = request.POST.get('username')
         password1 = request.POST.get('password')
+        hashed_pass = encrypt(password1, passwordUnique)
         
         # Query the faculty account
         with connection.cursor() as cursor:
@@ -64,7 +125,7 @@ def login(request):
             id, username, password = user
 
             # Assuming 'password' is hashed, compare it with the entered password
-            if password1 == password:  # Use check_password to compare the hashes
+            if decrypt(hashed_pass, passwordUnique) == decrypt(password, passwordUnique):  # Use check_password to compare the hashes
                 request.session['user_id'] = id  # Store session for the user
                 request.session['username'] = username  # Store session for username
 
@@ -74,8 +135,9 @@ def login(request):
                 messages.error(request, "Invalid password!")
         else:
             messages.error(request, "User not found!")
+    
 
-    return render(request, "login.html")
+    return render(request, "login.html" )
 
 
 
@@ -148,62 +210,45 @@ def get_waterbio(request):
     
     return render(request, "water_biofil.html", context)
 
-@require_GET
 def get_waterbiochart(request):
-    start_date = request.GET.get('start_date')
-    end_date = request.GET.get('end_date')
-
     biofilters = Biofilter.objects.all()
 
-    if start_date and end_date:
-        start_datetime = parse_datetime(start_date)
-        end_datetime = parse_datetime(end_date)
-        
-        if start_datetime and end_datetime:
-            start_date_str = start_datetime.strftime("%d/%m/%Y %H:%M")
-            end_date_str = end_datetime.strftime("%d/%m/%Y %H:%M")
-            
-            biofilters = biofilters.filter(
-                timestamp__gte=start_date_str,
-                timestamp__lte=end_date_str
-            )
-
-    labels = [bio.timestamp for bio in biofilters]
-    
+    labels = [str(bio.created_at) for bio in biofilters] 
     datasets = {
         "nitrate": {
             "label": "Nitrate",
-            "data": [],
-            "borderColor": "rgba(54, 162, 235, 1)",
-            "backgroundColor": "rgba(54, 162, 235, 0.2)",
-            "fill": False
-        },
-        "nitrite": {
-            "label": "Nitrite",
             "data": [],
             "borderColor": "rgba(255, 99, 132, 1)",
             "backgroundColor": "rgba(255, 99, 132, 0.2)",
             "fill": False
         },
+        "nitrite": {
+            "label": "Nitrite",
+            "data": [],
+            "borderColor": "rgba(54, 162, 235, 1)",
+            "backgroundColor": "rgba(54, 162, 235, 0.2)",
+            "fill": False
+        },
         "ammonia": {
             "label": "Ammonia",
             "data": [],
-            "borderColor": "rgba(116, 235, 114, 0.8)",
-            "backgroundColor": "rgba(116, 235, 114, 0.8)",
+            "borderColor": "rgba(75, 192, 192, 1)",
+            "backgroundColor": "rgba(75, 192, 192, 0.2)",
             "fill": False
         }
     }
-    
     for bio in biofilters:
         datasets["nitrate"]["data"].append(float(bio.nitrate))
         datasets["nitrite"]["data"].append(float(bio.nitrite))
         datasets["ammonia"]["data"].append(float(bio.ammonia))
-    
-    response_data = {
-        "labels": labels,
-        "datasets": list(datasets.values())
-    }
 
-    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        return JsonResponse(response_data)
-    return render(request, "biofil_charts.html", {"water_biofilterdt": json.dumps(response_data)})
+    datasets_list = list(datasets.values())
+
+    context = {
+        "water_biofilterdt": json.dumps({
+            "labels": labels,
+            "datasets": datasets_list
+        })
+    }
+    
+    return render(request, "biofil_charts.html", context)
