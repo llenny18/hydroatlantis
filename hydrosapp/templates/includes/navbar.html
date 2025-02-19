@@ -20,39 +20,17 @@
                                <div class="notification-title"> Notification</div>
                                <div class="notification-list">
                                    <div class="list-group">
-                                       <a href="#" class="list-group-item list-group-item-action active">
-                                           <div class="notification-info">
-                                               <div class="notification-list-user-img"><img src="{% static 'assets/images/avatar-2.jpg' %}" alt="" class="user-avatar-md rounded-circle"></div>
-                                               <div class="notification-list-user-block"><span class="notification-list-user-name">Jeremy Rakestraw</span>accepted your invitation to join the team.
-                                                   <div class="notification-date">2 min ago</div>
-                                               </div>
-                                           </div>
-                                       </a>
+                            {% for notif in notifs %}
+
                                        <a href="#" class="list-group-item list-group-item-action">
                                            <div class="notification-info">
-                                               <div class="notification-list-user-img"><img src="{% static 'assets/images/avatar-3.jpg' %}" alt="" class="user-avatar-md rounded-circle"></div>
-                                               <div class="notification-list-user-block"><span class="notification-list-user-name">
-John Abraham</span>is now following you
-                                                   <div class="notification-date">2 days ago</div>
+                                               <div class="notification-list-user-img"><img src="{% static 'assets/images/atlanislogo.png' %}" alt="" class="user-avatar-md rounded-circle"></div>
+                                               <div class="notification-list-user-block"><span class="notification-list-user-name">{% if notif.severity == 1  %} Bad Alert: {% endif %} {% if notif.severity == 0  %} Good Alert: {% endif %} </span> {{ notif.message  }} 
+                                                   <div class="notification-date">{{ notif.timestamp  }}</div>
                                                </div>
                                            </div>
                                        </a>
-                                       <a href="#" class="list-group-item list-group-item-action">
-                                           <div class="notification-info">
-                                               <div class="notification-list-user-img"><img src="{% static 'assets/images/avatar-4.jpg' %}" alt="" class="user-avatar-md rounded-circle"></div>
-                                               <div class="notification-list-user-block"><span class="notification-list-user-name">Monaan Pechi</span> is watching your main repository
-                                                   <div class="notification-date">2 min ago</div>
-                                               </div>
-                                           </div>
-                                       </a>
-                                       <a href="#" class="list-group-item list-group-item-action">
-                                           <div class="notification-info">
-                                               <div class="notification-list-user-img"><img src="{% static 'assets/images/avatar-5.jpg' %}" alt="" class="user-avatar-md rounded-circle"></div>
-                                               <div class="notification-list-user-block"><span class="notification-list-user-name">Jessica Caruso</span>accepted your invitation to join the team.
-                                                   <div class="notification-date">2 min ago</div>
-                                               </div>
-                                           </div>
-                                       </a>
+                                      {% endfor %}
                                    </div>
                                </div>
                            </li>
@@ -217,11 +195,11 @@ John Abraham</span>is now following you
                            Device Monitoring
                        </li>
                        <li class="nav-item">
-                           <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-6" aria-controls="submenu-6"><i class="fas fa-fw fa-file"></i>Edge Devices</a>
-                           <div id="submenu-6" class="collapse submenu" style="">
+                           <a class="nav-link {% if request.path == '/edge_devices/' %}active{% endif %}" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-6" aria-controls="submenu-6"><i class="fas fa-fw fa-file"></i>Edge Devices</a>
+                           <div id="submenu-6" class="collapse submenu {% if request.path == '/edge_devices/' %}show{% endif %}" style="">
                                <ul class="nav flex-column">
                                    <li class="nav-item">
-                                       <a class="nav-link" href="invoice.html">Edge Devices</a>
+                                       <a class="nav-link {% if request.path == '/edge_devices/' %}active{% endif %}" href="{% url 'edge_devices' %}">Edge Devices</a>
                                    </li>
                                </ul>
                            </div>
@@ -238,27 +216,32 @@ John Abraham</span>is now following you
                            </div>
                        </li>
                        <li class="nav-item">
-                           <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-8" aria-controls="submenu-8"><i class="fas fa-fw fa-columns"></i>Actuators</a>
+                           <a class="nav-link {% if request.path == '/actuators/' or request.path == '/actuator_updates/' %}active{% endif %}" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-8" aria-controls="submenu-8"><i class="fas fa-fw fa-plug"></i>Actuators</a>
+                           <div id="submenu-8" class="collapse submenu {% if request.path == '/actuators/' or request.path == '/actuator_updates/' %}show{% endif %}" style="">
+                               <ul class="nav flex-column">
+                                
+                                <li class="nav-item">
+                                    <a class="nav-link {% if request.path == '/actuators/' %}active{% endif %}" href="{% url 'actuators' %}">Menu/List</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {% if request.path == '/actuator_updates/' %}active{% endif %}" href="{% url 'actuator_updates' %}"">Updates</a>
+                                </li>
+
+                              
+                               </ul>
+                           </div>
+                       </li>
+                       <li class="nav-item">
+                           <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-8" aria-controls="submenu-8"><i class="fas fa-fw fa-life-ring"></i>Sensors</a>
                            <div id="submenu-8" class="collapse submenu" style="">
                                <ul class="nav flex-column">
                                    <li class="nav-item">
-                                       <a class="nav-link" href="icon-fontawesome.html">FontAwesome Icons</a>
+                                       <a class="nav-link" href="icon-fontawesome.html">Recent Records</a>
                                    </li>
                                    <li class="nav-item">
-                                       <a class="nav-link" href="icon-material.html">Material Icons</a>
+                                       <a class="nav-link" href="icon-material.html">History</a>
                                    </li>
-                                   <li class="nav-item">
-                                       <a class="nav-link" href="icon-simple-lineicon.html">Simpleline Icon</a>
-                                   </li>
-                                   <li class="nav-item">
-                                       <a class="nav-link" href="icon-themify.html">Themify Icon</a>
-                                   </li>
-                                   <li class="nav-item">
-                                       <a class="nav-link" href="icon-flag.html">Flag Icons</a>
-                                   </li>
-                                   <li class="nav-item">
-                                       <a class="nav-link" href="icon-weather.html">Weather Icon</a>
-                                   </li>
+                              
                                </ul>
                            </div>
                        </li>

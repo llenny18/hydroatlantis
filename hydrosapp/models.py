@@ -83,7 +83,7 @@ class ServerNotifications(models.Model):
     created_at = models.CharField(max_length=100)
     updated_at = models.CharField(max_length=100)
     deleted_at = models.CharField(max_length=100)
-    message = models.CharField(max_length=100),
+    message = models.CharField(max_length=255),
     severity = models.DecimalField(max_digits=11, decimal_places=7)
     related_table = models.DecimalField(max_digits=11, decimal_places=7)
     related_record_id = models.CharField(max_length=100)
@@ -97,5 +97,77 @@ class ServerNotifications(models.Model):
         managed = False
 
 
-   
+
+class EdgeDeviceInfo(models.Model):
+    id = models.CharField(max_length=36, primary_key=True)
+    created_at = models.CharField(max_length=10, null=True, blank=True)
+    updated_at = models.CharField(max_length=10, null=True, blank=True)
+    deleted_at = models.CharField(max_length=10, null=True, blank=True)
+    name = models.CharField(max_length=18, null=True, blank=True)
+    description = models.CharField(max_length=57, null=True, blank=True)
+    statusz = models.SmallIntegerField(null=True, blank=True)
+    api_key = models.CharField(max_length=60, null=True, blank=True)
+    passcode = models.CharField(max_length=60, null=True, blank=True)
+    mqtt_client_id = models.CharField(max_length=44, null=True, blank=True)
+    
+    class Meta:
+        db_table = 'edge_device_infos'
+
+
+class EdgeActuatorView(models.Model):
+    edge_device_id = models.CharField(max_length=36, primary_key=True)
+    edge_device_name = models.CharField(max_length=18, null=True, blank=True)
+    edge_device_description = models.CharField(max_length=57, null=True, blank=True)
+    edge_device_status = models.SmallIntegerField(null=True, blank=True)
+    api_key = models.CharField(max_length=60, null=True, blank=True)
+    passcode = models.CharField(max_length=60, null=True, blank=True)
+    mqtt_client_id = models.CharField(max_length=44, null=True, blank=True)
+    actuator_id = models.CharField(max_length=36, null=True, blank=True)
+    actuator_name = models.CharField(max_length=20, null=True, blank=True)
+    actuator_type = models.CharField(max_length=36, null=True, blank=True)
+    actuator_status = models.SmallIntegerField(null=True, blank=True)
+    parent_edge_device_id = models.CharField(max_length=36, null=True, blank=True)
+
+    class Meta:
+        managed = False  # Since this is a database view
+        db_table = 'edge_actuator_view'
+
+class ActuatorDeviceInfo(models.Model):
+    id = models.CharField(max_length=36, primary_key=True)
+    created_at = models.CharField(max_length=10, null=True, blank=True)
+    updated_at = models.CharField(max_length=10, null=True, blank=True)
+    deleted_at = models.CharField(max_length=10, null=True, blank=True)
+    device_name = models.CharField(max_length=20, null=True, blank=True)
+    type_id = models.CharField(max_length=36, null=True, blank=True)
+    statusz = models.SmallIntegerField(null=True, blank=True)
+    parent_edge_device = models.ForeignKey(EdgeDeviceInfo, on_delete=models.SET_NULL, null=True, blank=True, db_column='parent_edge_device_id')
+    
+    class Meta:
+        db_table = 'actuator_device_infos'
+
+class ActuatorUpdate(models.Model):
+    id = models.CharField(max_length=36, primary_key=True)
+    created_at = models.CharField(max_length=10, null=True, blank=True)
+    updated_at = models.CharField(max_length=10, null=True, blank=True)
+    deleted_at = models.CharField(max_length=10, null=True, blank=True)
+    actuator_device_info = models.ForeignKey(ActuatorDeviceInfo, on_delete=models.SET_NULL, null=True, blank=True, db_column='actuator_device_info_id')
+    statusz = models.SmallIntegerField(null=True, blank=True)
+    timestamp = models.CharField(max_length=26, null=True, blank=True)
+    remarks = models.TextField(null=True, blank=True)
+    made_by = models.CharField(max_length=10, null=True, blank=True)
+    
+    class Meta:
+        db_table = 'actuator_updates'
+
+class SensorType(models.Model):
+    id = models.CharField(max_length=36, primary_key=True)
+    created_at = models.CharField(max_length=10, null=True, blank=True)
+    updated_at = models.CharField(max_length=10, null=True, blank=True)
+    deleted_at = models.CharField(max_length=10, null=True, blank=True)
+    name = models.CharField(max_length=22, null=True, blank=True)
+    icon_path = models.CharField(max_length=45, null=True, blank=True)
+    
+    class Meta:
+        db_table = 'sensor_types'
+
 

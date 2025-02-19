@@ -17,5 +17,8 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('cameras/', views.cameras, name='cameras'),
     path('edit_profile/', views.edit_profile, name='edit_profile'),
+    path('actuators/', views.get_actuator_list, name='actuators'),
+    path('actuator_updates/', views.get_actuator_updates, name='actuator_updates'),
+    path('edge_devices/', views.get_edge_devices, name='edge_devices'),
     path('', views.start),
 ]
