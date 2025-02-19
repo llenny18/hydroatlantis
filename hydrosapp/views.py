@@ -80,6 +80,47 @@ def start(request):
     return render(request, "index.html", context)
 
 
+def edit_profile(request):
+    user_id = request.session.get('user_id', None)
+    
+    if not user_id:
+        return redirect(reverse('login')) 
+    
+    user_data = UserAccount.objects.filter(id=user_id).first()
+
+    if not user_data:
+        messages.error(request, "User not found.")
+        return redirect(reverse('login'))
+
+    if request.method == "POST":
+        fname = request.POST.get('fname')
+        lname = request.POST.get('lname')
+        email = request.POST.get('email')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        if fname and lname and email and username and password:
+            user_data.fname = fname
+            user_data.lname = lname
+            user_data.email = email
+            user_data.username = username
+            user_data.password = encrypt(password, passwordUnique)  # Encrypt before saving
+            user_data.save()
+
+            messages.success(request, "Profile updated successfully!")
+            return redirect(reverse('edit_profile'))  # Redirect to profile page
+
+    password = decrypt(user_data.password, passwordUnique)
+
+    context = {
+        "user_id": user_id,
+        "user_data": user_data,
+        "password": password
+    }
+    
+    return render(request, "profile.html", context)
+
+
 def logout(request):
     request.session.flush()
     return redirect('login')

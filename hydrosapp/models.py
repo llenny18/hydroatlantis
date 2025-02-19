@@ -64,8 +64,8 @@ class Biofilter(models.Model):
 # Optional: Create a custom user model by extending the User model
 class UserAccount(models.Model):
     id = models.AutoField(primary_key=True)
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
+    fname = models.CharField(max_length=100)
+    lname = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=100, unique=True)
     password = models.CharField(max_length=255)
