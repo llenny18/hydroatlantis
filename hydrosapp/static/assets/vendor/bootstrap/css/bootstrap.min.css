@@ -581,7 +581,7 @@ pre code {
     min-height: 1px;
     padding-right: 15px;
     padding-left: 15px;
-    background-color: #100c2c;
+    background-color: #08081f;
 }
 
 .col {
@@ -4270,7 +4270,7 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
     flex-direction: column;
     min-width: 0;
     word-wrap: break-word;
-    background-color: #100c2c;
+    background-color: #08081f;
     background-clip: border-box;
     border: 1px solid rgba(0, 0, 0, .125);
     border-radius: .25rem
@@ -5989,7 +5989,7 @@ a.bg-dark:focus, a.bg-dark:hover, button.bg-dark:focus, button.bg-dark:hover {
 }
 
 .bg-white {
-    background-color: #100c2c !important
+    background-color: #08081f !important
 }
 
 .bg-transparent {

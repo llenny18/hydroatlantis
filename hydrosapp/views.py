@@ -6,6 +6,11 @@ from .models import Greenhouse, WaterBed, Biofilter, UserAccount
 import json
 from django.db import connection
 
+def logout(request):
+    request.session.flush()
+    return redirect('login')
+
+
 def start(request):
 
     user_id = request.session.get('user_id', None)
@@ -18,10 +23,6 @@ def start(request):
     }
     return render(request, "index.html", context)
 
-
-def logout(request):
-    request.session.flush()
-    return redirect('login')
 
 def get_greenhouse(request):
     # Fetch all Greenhouse data
