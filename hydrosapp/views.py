@@ -1,8 +1,8 @@
 
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login
-from .models import Greenhouse, WaterBed, Biofilter, UserAccount, ActuatorDeviceInfo, EdgeActuatorView, EdgeDeviceInfo, ActuatorUpdate, ServerNotifications
+from .models import Greenhouse, WaterBed, Biofilter, UserAccount, ActuatorDeviceInfo, EdgeActuatorView, EdgeDeviceInfo, ActuatorUpdate, ServerNotifications, SensorType
 import json
 from django.db import connection
 import os
@@ -469,3 +469,10 @@ def get_waterbiochart(request):
     }
     
     return render(request, "biofil_charts.html", context)
+
+def sensor_detail(request, sensor_id):
+    sensor_type = get_object_or_404(SensorType, pk=sensor_id)
+    return render(request, 'sensors/detail.html', {
+        'sensor_type': sensor_type,
+        # Add any additional context here
+    })

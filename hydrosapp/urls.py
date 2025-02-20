@@ -20,5 +20,6 @@ urlpatterns = [
     path('actuators/', views.get_actuator_list, name='actuators'),
     path('actuator_updates/', views.get_actuator_updates, name='actuator_updates'),
     path('edge_devices/', views.get_edge_devices, name='edge_devices'),
+    path('sensors/<uuid:sensor_id>/', views.sensor_detail, name='sensor_detail'),
     path('', views.start),
 ]
