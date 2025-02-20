@@ -77,6 +77,7 @@ def start(request):
     fullname = request.session.get('fullname', None)
     if not user_id:
         return redirect(reverse('login')) 
+    
     notifs = ServerNotifications.objects.all()
     context = {
         "notifs" : notifs,
