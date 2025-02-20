@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 19, 2025 at 08:05 AM
--- Server version: 11.7.2-MariaDB
+-- Generation Time: Feb 20, 2025 at 02:41 AM
+-- Server version: 11.6.2-MariaDB
 -- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -468,6 +468,7 @@ CREATE TABLE `django_session` (
 --
 
 INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
+('k6wfh01iut6a9kovhgx6buouxr4500aa', '.eJyrViotTi2Kz0xRsjLSAbPzEnNTlazgzJKiSiUdpbTSnByohGNOpoJjSU5iXklmsVItANQrFlk:1tkfEB:F8iYsECzXQu-B_m9JyqCdah05AiSXgcxPiFsGmpl0aU', '2025-03-05 08:14:43.760290'),
 ('vcix7sltgq2feo669c1syzxzc4kujqnm', '.eJyrViotTi2Kz0xRsjLSAbPzEnNTlazgzJKiSiUdpbTSnByohGNKbmaegqFRoYJjSU5iXklmsVItAFxDGCA:1tkaln:xOcNT_mo-a6n2JDKA8ql5gLa4lNSy45ZXKq8nP3Yd20', '2025-03-05 03:29:07.299711');
 
 -- --------------------------------------------------------
@@ -742,11 +743,48 @@ INSERT INTO `greenhouse` (`id`, `created_at`, `updated_at`, `deleted_at`, `air_t
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `sensors`
+--
+
+CREATE TABLE `sensors` (
+  `id` varchar(36) NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `deleted_at` datetime DEFAULT NULL,
+  `name` varchar(23) DEFAULT NULL,
+  `type_id` varchar(36) DEFAULT NULL,
+  `parent_edge_device_id` varchar(36) DEFAULT NULL,
+  `sensor_location` varchar(6) DEFAULT NULL,
+  `size_limit_floor` varchar(3) DEFAULT NULL,
+  `size_limit_ceiling` varchar(3) DEFAULT NULL,
+  `size_limit_floor_threshold` varchar(3) DEFAULT NULL,
+  `size_limit_ceiling_threshold` varchar(3) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sensor_limits`
+--
+
+CREATE TABLE `sensor_limits` (
+  `id` int(11) NOT NULL,
+  `sensor_id` varchar(36) DEFAULT NULL,
+  `limit_type` enum('width','height','weight','air_temperature','relative_humidity','co2_level','illumination_intensity','health','nitrate','nitrite','ammonia','ph_level','electrical_conductivity','dissolved_o2_level','water_temperature','total_dissolved_solids') DEFAULT NULL,
+  `limit_floor` decimal(10,2) DEFAULT NULL,
+  `limit_ceiling` decimal(10,2) DEFAULT NULL,
+  `limit_floor_threshold` decimal(10,2) DEFAULT NULL,
+  `limit_ceiling_threshold` decimal(10,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `sensor_types`
 --
 
 CREATE TABLE `sensor_types` (
-  `id` varchar(36) DEFAULT NULL,
+  `id` varchar(36) NOT NULL,
   `created_at` varchar(10) DEFAULT NULL,
   `updated_at` varchar(10) DEFAULT NULL,
   `deleted_at` varchar(0) DEFAULT NULL,
@@ -1439,6 +1477,26 @@ ALTER TABLE `django_session`
   ADD KEY `django_session_expire_date_a5c62663` (`expire_date`);
 
 --
+-- Indexes for table `sensors`
+--
+ALTER TABLE `sensors`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `type_id` (`type_id`);
+
+--
+-- Indexes for table `sensor_limits`
+--
+ALTER TABLE `sensor_limits`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `sensor_id` (`sensor_id`);
+
+--
+-- Indexes for table `sensor_types`
+--
+ALTER TABLE `sensor_types`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `useraccounts`
 --
 ALTER TABLE `useraccounts`
@@ -1511,6 +1569,12 @@ ALTER TABLE `django_migrations`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
+-- AUTO_INCREMENT for table `sensor_limits`
+--
+ALTER TABLE `sensor_limits`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `useraccounts`
 --
 ALTER TABLE `useraccounts`
@@ -1553,6 +1617,18 @@ ALTER TABLE `auth_user_user_permissions`
 ALTER TABLE `django_admin_log`
   ADD CONSTRAINT `django_admin_log_content_type_id_c4bce8eb_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
   ADD CONSTRAINT `django_admin_log_user_id_c564eba6_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
+
+--
+-- Constraints for table `sensors`
+--
+ALTER TABLE `sensors`
+  ADD CONSTRAINT `sensors_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `sensor_types` (`id`);
+
+--
+-- Constraints for table `sensor_limits`
+--
+ALTER TABLE `sensor_limits`
+  ADD CONSTRAINT `sensor_limits_ibfk_1` FOREIGN KEY (`sensor_id`) REFERENCES `sensors` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
