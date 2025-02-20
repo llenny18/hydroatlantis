@@ -138,6 +138,9 @@ def logout(request):
     request.session.flush()
     return redirect('login')
 
+def landing(request):
+    return render(request, "landing.html")
+
 def get_greenhouse(request):
     # Fetch all Greenhouse data
     greenhouse_data = Greenhouse.objects.all()
