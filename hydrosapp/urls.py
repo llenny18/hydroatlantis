@@ -6,7 +6,10 @@ from hydrosapp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('start/', views.start, name='start'),
+    path('home/', views.start, name='start'),
+    path('', views.landing, name='landing'),
+    path('/', views.landing, name='landing'),
+
     path('greenhouse/', views.get_greenhouse, name='greenhouse'),
     path('waterbed/', views.get_waterbed, name='waterbed'),
     path('waterbiofilter/', views.get_waterbio, name='waterbiofilter'),
