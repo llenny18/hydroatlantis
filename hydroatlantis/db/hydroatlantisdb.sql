@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 20, 2025 at 02:41 AM
+-- Generation Time: Feb 20, 2025 at 03:16 AM
 -- Server version: 11.6.2-MariaDB
 -- PHP Version: 8.2.12
 
@@ -499,7 +499,7 @@ CREATE TABLE `edge_actuator_view` (
 --
 
 CREATE TABLE `edge_device_infos` (
-  `id` varchar(36) DEFAULT NULL,
+  `id` varchar(36) NOT NULL,
   `created_at` varchar(10) DEFAULT NULL,
   `updated_at` varchar(10) DEFAULT NULL,
   `deleted_at` varchar(0) DEFAULT NULL,
@@ -518,12 +518,12 @@ CREATE TABLE `edge_device_infos` (
 INSERT INTO `edge_device_infos` (`id`, `created_at`, `updated_at`, `deleted_at`, `name`, `description`, `statusz`, `api_key`, `passcode`, `mqtt_client_id`) VALUES
 ('09a52f4d-0b92-4050-80d7-c8f4f6e18688', '2024-03-13', '2024-07-12', '', 'Edge Device 1-beta', 'Located at Turbulent Drip Sales Inc. in Tagaytay, Cavite.', 0, '$2a$17$Wh6XXVKpWtPpN/mwrHY91eBStkVbCtHxPd/B.gX1Xgz/7CEtGkpuu', '$2a$15$cKIsCxXDn3J58wH/hoPJluXavI38isdXzX5DalDtoI8D3BulQiZ1u', 'UDJ0N3pGbHlQZmdQV0Z0SC1ReWI0dXU2Rl9LZWVaSWo='),
 ('100f800d-132c-4d92-a892-71a6c1cb45e7', '2024-03-20', '2024-03-20', '', 'Main Edge Device', 'This is the main edge Device', 0, '$2a$17$QJ7tCQk7jron4p.TD1r9/ucqkdgJRCNS5TQk7991G/XJnDJlf1HUa', '$2a$15$vDdA.bHk393eI.Xxv8CxZuSsjyJ.I3USyoVuAO/MhglQ98HTXqnQS', ''),
-('58b4bac4-7454-4abd-bf95-868e5d4a73da', '2024-05-03', '2024-05-03', '', 'Edge Device II', 'Edge device create sensor automate test', 0, '$2a$17$BMCz8JzQxAUmdQYSMDs/muBRaxjJuYT5TVMKDtyB2vr4x/4J.QYae', '$2a$15$zBtao58yq.zbTLvTLNVEN.22zK5Q8sHBZWaHwerO3uQZxXfCWwCze', ''),
-('dcf18b56-100d-41e0-a78c-d84f3123c124', '2024-05-01', '2024-05-01', '', 'Edge Device III', 'Edge device create sensor automate test', 0, '$2a$17$HGTtjL8WPcZEIP8Bk6V/0uf43fwA9dBAz.TWKp6UUkueKmLhdnjGq', '$2a$15$6/oY7eCHwtKJI0nbOzeUsOOGN31mrorxK5lEZOVSh0AS9RtJgkYJ.', ''),
-('a7cd79d5-0759-41bb-8857-cac4f696c93b', '2024-04-28', '2024-04-28', '', 'Edge Device IV', 'Edge device create sensor automate test', 0, '$2a$17$RqpzRnKb8TwRThORY.cD4em4E2OUUteLnj4spMtJ2.813.dEboD9.', '$2a$15$yvKgVy/eyOQB1kYUpIika.GxKCcH.khSAX8ScdLFSCmQ2WqrpnGcS', ''),
 ('1fcc0c3a-aa5d-4cc9-8a98-74f1298edbfc', '2024-10-13', '2024-10-13', '', 'Edge Device', 'This is an edge device on the ATLANTIS system', 0, '$2a$17$YuXkF56sVyMlhGSOQPVz5.CxjlVoFTHD7I2UDZx9b2FLe9xLaS0Gm', '$2a$15$havSu5ZVTYiOFualdSuxJu0Vl1SFhhYKKH/bYmfNqlN6mkTmeUNP.', 'UWh6bnpOTjFXRjQyYmw3MmgwZlVTVUcwaTZOUHY4U2I='),
 ('2aa53fc5-0369-483a-b618-8db6cae21313', '2024-10-05', '2024-10-05', '', 'Rick Edge Device', 'This is an edge device on the ATLANTIS system', 0, '$2a$17$pNYO19/xXkU9UZA84oi5cugUY.tYKqI3uvrRjRoX0LveE8A9FDu42', '$2a$15$Ub4Cg5LMih343OYJiKPZwOs3j7Y/tvMkqz/phC4b4jQj5nvVS/z22', 'WTNtWmxYR0R0Yjd1ZlluNUVRbU1oRjl0YS16Z0lXUWg='),
-('79dea917-a396-46aa-87b4-e0a6c9f8c4fe', '2024-12-23', '2024-12-23', '', 'Edge Device', 'This is an edge device on the ATLANTIS system', 0, '$2a$17$79ZvaEsJuCIfXLlqC6d63e/YVs5tCw4zVpi8HUYZQ548E0Git3KLC', '$2a$15$0yPJkUvd7UCMS6BofS2roey/TIgQFPMpkwodlHZsM7RsRWcr1h8ni', 'YkpfVmF3cnNiN3RrMlFGWGFxcHVDZ3oyUmtQTXQ1UVI=');
+('58b4bac4-7454-4abd-bf95-868e5d4a73da', '2024-05-03', '2024-05-03', '', 'Edge Device II', 'Edge device create sensor automate test', 0, '$2a$17$BMCz8JzQxAUmdQYSMDs/muBRaxjJuYT5TVMKDtyB2vr4x/4J.QYae', '$2a$15$zBtao58yq.zbTLvTLNVEN.22zK5Q8sHBZWaHwerO3uQZxXfCWwCze', ''),
+('79dea917-a396-46aa-87b4-e0a6c9f8c4fe', '2024-12-23', '2024-12-23', '', 'Edge Device', 'This is an edge device on the ATLANTIS system', 0, '$2a$17$79ZvaEsJuCIfXLlqC6d63e/YVs5tCw4zVpi8HUYZQ548E0Git3KLC', '$2a$15$0yPJkUvd7UCMS6BofS2roey/TIgQFPMpkwodlHZsM7RsRWcr1h8ni', 'YkpfVmF3cnNiN3RrMlFGWGFxcHVDZ3oyUmtQTXQ1UVI='),
+('a7cd79d5-0759-41bb-8857-cac4f696c93b', '2024-04-28', '2024-04-28', '', 'Edge Device IV', 'Edge device create sensor automate test', 0, '$2a$17$RqpzRnKb8TwRThORY.cD4em4E2OUUteLnj4spMtJ2.813.dEboD9.', '$2a$15$yvKgVy/eyOQB1kYUpIika.GxKCcH.khSAX8ScdLFSCmQ2WqrpnGcS', ''),
+('dcf18b56-100d-41e0-a78c-d84f3123c124', '2024-05-01', '2024-05-01', '', 'Edge Device III', 'Edge device create sensor automate test', 0, '$2a$17$HGTtjL8WPcZEIP8Bk6V/0uf43fwA9dBAz.TWKp6UUkueKmLhdnjGq', '$2a$15$6/oY7eCHwtKJI0nbOzeUsOOGN31mrorxK5lEZOVSh0AS9RtJgkYJ.', '');
 
 -- --------------------------------------------------------
 
@@ -1401,7 +1401,8 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- Indexes for table `actuator_device_infos`
 --
 ALTER TABLE `actuator_device_infos`
-  ADD PRIMARY KEY (`row_id`);
+  ADD PRIMARY KEY (`row_id`),
+  ADD KEY `fk_parent_edge_device_1` (`parent_edge_device_id`);
 
 --
 -- Indexes for table `auth_group`
@@ -1477,11 +1478,18 @@ ALTER TABLE `django_session`
   ADD KEY `django_session_expire_date_a5c62663` (`expire_date`);
 
 --
+-- Indexes for table `edge_device_infos`
+--
+ALTER TABLE `edge_device_infos`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `sensors`
 --
 ALTER TABLE `sensors`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `type_id` (`type_id`);
+  ADD KEY `type_id` (`type_id`),
+  ADD KEY `fk_parent_edge_device` (`parent_edge_device_id`);
 
 --
 -- Indexes for table `sensor_limits`
@@ -1585,6 +1593,12 @@ ALTER TABLE `useraccounts`
 --
 
 --
+-- Constraints for table `actuator_device_infos`
+--
+ALTER TABLE `actuator_device_infos`
+  ADD CONSTRAINT `fk_parent_edge_device_1` FOREIGN KEY (`parent_edge_device_id`) REFERENCES `edge_device_infos` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
 -- Constraints for table `auth_group_permissions`
 --
 ALTER TABLE `auth_group_permissions`
@@ -1622,6 +1636,7 @@ ALTER TABLE `django_admin_log`
 -- Constraints for table `sensors`
 --
 ALTER TABLE `sensors`
+  ADD CONSTRAINT `fk_parent_edge_device` FOREIGN KEY (`parent_edge_device_id`) REFERENCES `edge_device_infos` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `sensors_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `sensor_types` (`id`);
 
 --
