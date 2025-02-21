@@ -1,8 +1,8 @@
 
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login
-from .models import Greenhouse, WaterBed, Biofilter, UserAccount, ActuatorDeviceInfo, EdgeActuatorView, EdgeDeviceInfo, ActuatorUpdate, ServerNotifications
+from .models import Greenhouse, WaterBed, Biofilter, UserAccount, ActuatorDeviceInfo, EdgeActuatorView, EdgeDeviceInfo, ActuatorUpdate, ServerNotifications, SensorType
 import json
 from django.db import connection
 import os
@@ -142,6 +142,9 @@ def edit_profile(request):
 def logout(request):
     request.session.flush()
     return redirect('login')
+
+def landing(request):
+    return render(request, "landing.html")
 
 def get_greenhouse(request):
     # Fetch all Greenhouse data
@@ -488,7 +491,14 @@ def get_waterbiochart(request):
         "labels": labels,
         "datasets": list(datasets.values())
     }
-    
+  
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         return JsonResponse(response_data)
     return render(request, "biofil_charts.html", {"water_biofilterdt": json.dumps(response_data)})
+
+def sensor_detail(request, sensor_id):
+    sensor_type = get_object_or_404(SensorType, pk=sensor_id)
+    return render(request, 'sensors/detail.html', {
+        'sensor_type': sensor_type,
+        # Add any additional context here
+    })

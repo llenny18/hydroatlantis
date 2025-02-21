@@ -169,5 +169,8 @@ class SensorType(models.Model):
     
     class Meta:
         db_table = 'sensor_types'
+        ordering = ['name']
 
-
+    def __str__(self):
+        return self.name or f'Sensor {self.id}'
+        
