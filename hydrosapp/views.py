@@ -11,6 +11,11 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.backends import default_backend
 import base64
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from django.views.decorators.http import require_GET
+from django.http import JsonResponse
+from django.utils.dateparse import parse_datetime
+from datetime import datetime
+import json
 
 # Generate a key from a password
 def derive_key(password: str, salt: bytes) -> bytes:
@@ -422,56 +427,74 @@ def cameras(request):
 
     
 
+@require_GET
 def get_waterbiochart(request):
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+
     biofilters = Biofilter.objects.all()
 
-    labels = [str(bio.created_at) for bio in biofilters] 
+    if start_date and end_date:
+        try:
+            # Parse ISO dates (e.g., "2024-04-16T00:00")
+            start_datetime = datetime.fromisoformat(start_date)
+            end_datetime = datetime.fromisoformat(end_date)
+
+            # Convert to database format "DD/MM/YYYY HH:mm"
+            db_start = start_datetime.strftime("%d/%m/%Y %H:%M")
+            db_end = end_datetime.strftime("%d/%m/%Y %H:%M")
+
+            # Filter using the VARCHAR field (e.g., "timestamp")
+            biofilters = biofilters.filter(
+                timestamp__gte=db_start,
+                timestamp__lte=db_end
+            )
+        except ValueError as e:
+            return JsonResponse({"error": f"Invalid date format: {e}"}, status=400)
+    labels = [bio.timestamp for bio in biofilters]
+
     datasets = {
         "nitrate": {
             "label": "Nitrate",
-            "data": [],
-            "borderColor": "rgba(255, 99, 132, 1)",
-            "backgroundColor": "rgba(255, 99, 132, 0.2)",
-            "fill": False
-        },
-        "nitrite": {
-            "label": "Nitrite",
             "data": [],
             "borderColor": "rgba(54, 162, 235, 1)",
             "backgroundColor": "rgba(54, 162, 235, 0.2)",
             "fill": False
         },
+        "nitrite": {
+            "label": "Nitrite",
+            "data": [],
+            "borderColor": "rgba(255, 99, 132, 1)",
+            "backgroundColor": "rgba(255, 99, 132, 0.2)",
+            "fill": False
+        },
         "ammonia": {
             "label": "Ammonia",
             "data": [],
-            "borderColor": "rgba(75, 192, 192, 1)",
-            "backgroundColor": "rgba(75, 192, 192, 0.2)",
+            "borderColor": "rgba(116, 235, 114, 0.8)",
+            "backgroundColor": "rgba(116, 235, 114, 0.8)",
             "fill": False
         }
     }
+
     for bio in biofilters:
         datasets["nitrate"]["data"].append(float(bio.nitrate))
         datasets["nitrite"]["data"].append(float(bio.nitrite))
         datasets["ammonia"]["data"].append(float(bio.ammonia))
 
-    datasets_list = list(datasets.values())
-
-    user_id = request.session.get('user_id', None)
-    username = request.session.get('username', None)
-    fullname = request.session.get('fullname', None)
-    notifs = ServerNotifications.objects.all()
-    context = {
-            "notifs" : notifs,
-            "water_biofilterdt": json.dumps({
-            "labels": labels,
-            "datasets": datasets_list,
-            "user_id" : user_id, 
-            "username" : username,
-            "fullname" : fullname
-        })
+    response_data = {
+        "labels": labels,
+        "datasets": list(datasets.values())
     }
-    
-    return render(request, "biofil_charts.html", context)
+
+    response_data = {
+        "labels": labels,
+        "datasets": list(datasets.values())
+    }
+  
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return JsonResponse(response_data)
+    return render(request, "biofil_charts.html", {"water_biofilterdt": json.dumps(response_data)})
 
 def sensor_detail(request, sensor_id):
     sensor_type = get_object_or_404(SensorType, pk=sensor_id)
