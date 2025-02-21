@@ -148,14 +148,14 @@
                            </div>
                        </li> -->
                        <li class="nav-item">
-                           <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-3" aria-controls="submenu-3"><i class="fas fa-fw fa-chart-pie"></i>Chart</a>
-                           <div id="submenu-3" class="collapse submenu" style="">
+                           <a class="nav-link {% if request.path == '/waterbiofiltercharts/' or request.path == '/waterbedcharts/'  %}active{% endif %}" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-3" aria-controls="submenu-3"><i class="fas fa-fw fa-chart-pie"></i>Chart</a>
+                           <div id="submenu-3" class="collapse submenu  {% if request.path == '/waterbiofiltercharts/' or request.path == '/waterbedcharts/'  %}show{% endif %}" style="">
                                <ul class="nav flex-column">
-                                   <li class="nav-item">
-                                       <a class="nav-link" href="{% url 'waterbiofiltercharts' %}">Bio Filter Charts</a>
+                                   <li class="nav-item ">
+                                       <a class="nav-link {% if request.path == '/waterbiofiltercharts/' %}active{% endif %}" href="{% url 'waterbiofiltercharts' %}">Bio Filter Charts</a>
                                    </li>
                                    <li class="nav-item">
-                                       <a class="nav-link" href="{% url 'waterbedcharts' %}">Water Bed Charts</a>
+                                       <a class="nav-link {% if request.path == '/waterbedcharts/' %}active{% endif  %}" href="{% url 'waterbedcharts' %}">Water Bed Charts</a>
                                    </li>
                                </ul>
                            </div>
