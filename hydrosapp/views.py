@@ -432,7 +432,7 @@ def get_waterbiochart(request):
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
 
-    biofilters = Biofilter.objects.all()
+    biofilters = Biofilter.objects.all().order_by('timestamp')
 
     if start_date and end_date:
         try:
@@ -487,14 +487,21 @@ def get_waterbiochart(request):
         "datasets": list(datasets.values())
     }
 
-    response_data = {
-        "labels": labels,
-        "datasets": list(datasets.values())
+    user_id = request.session.get('user_id', None)
+    username = request.session.get('username', None)
+    fullname = request.session.get('fullname', None)
+    notifs = ServerNotifications.objects.all()
+    context = {
+        "notifs" : notifs,
+        "water_biofilterdt": json.dumps(response_data),
+        "user_id" : user_id, 
+        "username" : username,
+        "fullname" : fullname
     }
-  
+    
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         return JsonResponse(response_data)
-    return render(request, "biofil_charts.html", {"water_biofilterdt": json.dumps(response_data)})
+    return render(request, "biofil_charts.html", context)
 
 def sensor_detail(request, sensor_id):
     sensor_type = get_object_or_404(SensorType, pk=sensor_id)
