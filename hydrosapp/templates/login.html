@@ -1,4 +1,6 @@
 {% load static %}
+
+
 <!doctype html>
 <html lang="en">
  
@@ -31,12 +33,104 @@
         background-repeat:   no-repeat;
         background-position: center center; 
     }
+    @keyframes fadeInSmooth {
+    0% {
+        opacity: 0;
+        visibility: visible;
+    }
+    1% {
+        opacity: 0.01;
+        visibility: visible;
+    }
+    2% {
+        opacity: 0.02;
+        visibility: visible;
+    }
+    3% {
+        opacity: 0.03;
+        visibility: visible;
+    }
+    4% {
+        opacity: 0.04;
+        visibility: visible;
+    }
+    5% {
+        opacity: 0.05;
+        visibility: visible;
+    }
+    6% {
+        opacity: 0.06;
+        visibility: visible;
+    }
+    7% {
+        opacity: 0.07;
+        visibility: visible;
+    }
+    8% {
+        opacity: 0.08;
+        visibility: visible;
+    }
+    9% {
+        opacity: 0.09;
+        visibility: visible;
+    }
+    10% {
+        opacity: 0.1;
+        visibility: visible;
+    }
+    20% {
+        opacity: 0.2;
+        visibility: visible;
+    }
+    30% {
+        opacity: 0.3;
+        visibility: visible;
+    }
+    40% {
+        opacity: 0.4;
+        visibility: visible;
+    }
+    50% {
+        opacity: 0.5;
+        visibility: visible;
+    }
+    60% {
+        opacity: 0.6;
+        visibility: visible;
+    }
+    70% {
+        opacity: 0.7;
+        visibility: visible;
+    }
+    80% {
+        opacity: 0.8;
+        visibility: visible;
+    }
+    90% {
+        opacity: 0.9;
+        visibility: visible;
+    }
+    100% {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+    .splash-container {
+    opacity: 0;
+    visibility: hidden;
+    animation: fadeInSmooth 2s ease-out forwards;
+    animation-delay: 1s; /* Wait 0.8s before starting the fade-in */
+}
+
+
+
     </style>
 </head>
 
 <body>
-
     {% include 'includes/loader.html' %}
+
    
     <!-- ============================================================== -->
     <!-- login page  -->
