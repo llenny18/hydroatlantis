@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 20, 2025 at 03:16 AM
+-- Generation Time: Feb 28, 2025 at 08:20 AM
 -- Server version: 11.6.2-MariaDB
 -- PHP Version: 8.2.12
 
@@ -31,7 +31,7 @@ CREATE TABLE `actuator_device_infos` (
   `id` varchar(36) DEFAULT NULL,
   `created_at` varchar(10) DEFAULT NULL,
   `updated_at` varchar(10) DEFAULT NULL,
-  `deleted_at` varchar(0) DEFAULT NULL,
+  `deleted_at` varchar(10) DEFAULT NULL,
   `device_name` varchar(20) DEFAULT NULL,
   `type_id` varchar(36) DEFAULT NULL,
   `statusz` tinyint(4) DEFAULT NULL,
@@ -468,7 +468,7 @@ CREATE TABLE `django_session` (
 --
 
 INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
-('k6wfh01iut6a9kovhgx6buouxr4500aa', '.eJyrViotTi2Kz0xRsjLSAbPzEnNTlazgzJKiSiUdpbTSnByohGNOpoJjSU5iXklmsVItANQrFlk:1tkfEB:F8iYsECzXQu-B_m9JyqCdah05AiSXgcxPiFsGmpl0aU', '2025-03-05 08:14:43.760290'),
+('k6wfh01iut6a9kovhgx6buouxr4500aa', '.eJyrViotTi2Kz0xRsjLSAbPzEnNTlazgzJKiSiUdpbTSnByohGNOpoJjSU5iXklmsVItANQrFlk:1tnuQ7:rz788qkSxqq4Z1q5-jHo7GIqJB4GZASYI9bXcNE69kE', '2025-03-14 07:04:27.618613'),
 ('vcix7sltgq2feo669c1syzxzc4kujqnm', '.eJyrViotTi2Kz0xRsjLSAbPzEnNTlazgzJKiSiUdpbTSnByohGNKbmaegqFRoYJjSU5iXklmsVItAFxDGCA:1tkaln:xOcNT_mo-a6n2JDKA8ql5gLa4lNSy45ZXKq8nP3Yd20', '2025-03-05 03:29:07.299711');
 
 -- --------------------------------------------------------
@@ -748,18 +748,89 @@ INSERT INTO `greenhouse` (`id`, `created_at`, `updated_at`, `deleted_at`, `air_t
 
 CREATE TABLE `sensors` (
   `id` varchar(36) NOT NULL,
-  `created_at` datetime DEFAULT current_timestamp(),
-  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `deleted_at` datetime DEFAULT NULL,
-  `name` varchar(23) DEFAULT NULL,
+  `created_at` varchar(10) DEFAULT NULL,
+  `updated_at` varchar(10) DEFAULT NULL,
+  `deleted_at` varchar(10) DEFAULT NULL,
+  `name` varchar(36) DEFAULT NULL,
   `type_id` varchar(36) DEFAULT NULL,
   `parent_edge_device_id` varchar(36) DEFAULT NULL,
-  `sensor_location` varchar(6) DEFAULT NULL,
-  `size_limit_floor` varchar(3) DEFAULT NULL,
-  `size_limit_ceiling` varchar(3) DEFAULT NULL,
-  `size_limit_floor_threshold` varchar(3) DEFAULT NULL,
-  `size_limit_ceiling_threshold` varchar(3) DEFAULT NULL
+  `sensor_location` varchar(6) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+
+--
+-- Dumping data for table `sensors`
+--
+
+INSERT INTO `sensors` (`id`, `created_at`, `updated_at`, `deleted_at`, `name`, `type_id`, `parent_edge_device_id`, `sensor_location`) VALUES
+('1', '2024-06-03', '2024-06-03', 'null', 'Air Temperature & Rel Humidity 1', '8da8027d-2e1a-4e36-a991-c81ec65c9d09', '09a52f4d-0b92-4050-80d7-c8f4f6e18688', 'inside'),
+('10', '2024-06-03', '2024-06-03', 'null', 'Air Temperature & Rel Humidity 4', '8da8027d-2e1a-4e36-a991-c81ec65c9d09', 'a7cd79d5-0759-41bb-8857-cac4f696c93b', 'inside'),
+('11', '2024-06-03', '2024-06-03', 'null', 'CO2 4', '8da8027d-2e1a-4e36-a991-c81ec65c9d09', 'a7cd79d5-0759-41bb-8857-cac4f696c93b', 'inside'),
+('12', '2024-06-03', '2024-06-03', 'null', 'Illuminance 4', '8da8027d-2e1a-4e36-a991-c81ec65c9d09', 'a7cd79d5-0759-41bb-8857-cac4f696c93b', 'inside'),
+('13', '2024-06-03', '2024-06-03', 'null', 'Air Temperature & Rel Humidity 5', '8da8027d-2e1a-4e36-a991-c81ec65c9d09', '1fcc0c3a-aa5d-4cc9-8a98-74f1298edbfc', 'inside'),
+('14', '2024-06-03', '2024-06-03', 'null', 'CO2 5', '8da8027d-2e1a-4e36-a991-c81ec65c9d09', '1fcc0c3a-aa5d-4cc9-8a98-74f1298edbfc', 'inside'),
+('15', '2024-06-03', '2024-06-03', 'null', 'Illuminance 5', '8da8027d-2e1a-4e36-a991-c81ec65c9d09', '1fcc0c3a-aa5d-4cc9-8a98-74f1298edbfc', 'inside'),
+('16', '2024-06-03', '2024-06-03', 'null', 'Air Temperature & Rel Humidity 6', '8da8027d-2e1a-4e36-a991-c81ec65c9d09', '2aa53fc5-0369-483a-b618-8db6cae21313', 'inside'),
+('17', '2024-06-03', '2024-06-03', 'null', 'CO2 6', '8da8027d-2e1a-4e36-a991-c81ec65c9d09', '2aa53fc5-0369-483a-b618-8db6cae21313', 'inside'),
+('18', '2024-06-03', '2024-06-03', 'null', 'Illuminance 6', '8da8027d-2e1a-4e36-a991-c81ec65c9d09', '2aa53fc5-0369-483a-b618-8db6cae21313', 'inside'),
+('19', '2024-06-03', '2024-06-03', 'null', 'Air Temperature & Rel Humidity 7', '8da8027d-2e1a-4e36-a991-c81ec65c9d09', '79dea917-a396-46aa-87b4-e0a6c9f8c4fe', 'inside'),
+('2', '2024-06-03', '2024-06-03', 'null', 'CO2 1', '8da8027d-2e1a-4e36-a991-c81ec65c9d09', '09a52f4d-0b92-4050-80d7-c8f4f6e18688', 'inside'),
+('20', '2024-06-03', '2024-06-03', 'null', 'CO2 7', '8da8027d-2e1a-4e36-a991-c81ec65c9d09', '79dea917-a396-46aa-87b4-e0a6c9f8c4fe', 'inside'),
+('21', '2024-06-03', '2024-06-03', 'null', 'Illuminance 7', '8da8027d-2e1a-4e36-a991-c81ec65c9d09', '79dea917-a396-46aa-87b4-e0a6c9f8c4fe', 'inside'),
+('22', '2024-06-03', '2024-06-03', 'null', 'Fish Tank D.O 1', '79f9ceba-45b7-4f7a-92fa-5232d13442d3', '09a52f4d-0b92-4050-80d7-c8f4f6e18688', 'inside'),
+('23', '2024-06-03', '2024-06-03', 'null', 'Fish Tank pH & Water Temp 1', '79f9ceba-45b7-4f7a-92fa-5232d13442d3', '09a52f4d-0b92-4050-80d7-c8f4f6e18688', 'inside'),
+('24', '2024-06-03', '2024-06-03', 'null', 'Fish Tank D.O 2', '79f9ceba-45b7-4f7a-92fa-5232d13442d3', 'dcf18b56-100d-41e0-a78c-d84f3123c124', 'inside'),
+('25', '2024-06-03', '2024-06-03', 'null', 'Fish Tank pH & Water Temp 2', '79f9ceba-45b7-4f7a-92fa-5232d13442d3', 'dcf18b56-100d-41e0-a78c-d84f3123c124', 'inside'),
+('26', '2024-06-03', '2024-06-03', 'null', 'Biofilter Nitrite 1', 'c8fc247b-0b08-4dd9-b57f-8f85cc34ed54', '09a52f4d-0b92-4050-80d7-c8f4f6e18688', 'inside'),
+('27', '2024-06-03', '2024-06-03', 'null', 'Biofilter Nitrate 1', 'c8fc247b-0b08-4dd9-b57f-8f85cc34ed54', '09a52f4d-0b92-4050-80d7-c8f4f6e18688', 'inside'),
+('28', '2024-06-03', '2024-06-03', 'null', 'Biofilter Ammonia 1', 'c8fc247b-0b08-4dd9-b57f-8f85cc34ed54', '09a52f4d-0b92-4050-80d7-c8f4f6e18688', 'inside'),
+('29', '2024-06-03', '2024-06-03', 'null', 'Biofilter Nitrite 2', 'c8fc247b-0b08-4dd9-b57f-8f85cc34ed54', 'dcf18b56-100d-41e0-a78c-d84f3123c124', 'inside'),
+('3', '2024-06-03', '2024-06-03', 'null', 'Illuminance 1', '8da8027d-2e1a-4e36-a991-c81ec65c9d09', '09a52f4d-0b92-4050-80d7-c8f4f6e18688', 'inside'),
+('30', '2024-06-03', '2024-06-03', 'null', 'Biofilter Nitrate 2', 'c8fc247b-0b08-4dd9-b57f-8f85cc34ed54', 'dcf18b56-100d-41e0-a78c-d84f3123c124', 'inside'),
+('31', '2024-06-03', '2024-06-03', 'null', 'Biofilter Ammonia 2', 'c8fc247b-0b08-4dd9-b57f-8f85cc34ed54', 'dcf18b56-100d-41e0-a78c-d84f3123c124', 'inside'),
+('32', '2024-06-03', '2024-06-03', 'null', 'Testbed pH & Water Temp 1', 'df1b27db-7b69-4442-949e-9ef908c4fe72', '09a52f4d-0b92-4050-80d7-c8f4f6e18688', 'inside'),
+('33', '2024-06-03', '2024-06-03', 'null', 'Testbed EC 1', 'df1b27db-7b69-4442-949e-9ef908c4fe72', '09a52f4d-0b92-4050-80d7-c8f4f6e18688', 'inside'),
+('34', '2024-06-03', '2024-06-03', 'null', 'Testbed TDS 1', 'df1b27db-7b69-4442-949e-9ef908c4fe72', '09a52f4d-0b92-4050-80d7-c8f4f6e18688', 'inside'),
+('35', '2024-06-03', '2024-06-03', 'null', 'Testbed DO 1', 'df1b27db-7b69-4442-949e-9ef908c4fe72', '09a52f4d-0b92-4050-80d7-c8f4f6e18688', 'inside'),
+('36', '2024-06-03', '2024-06-03', 'null', 'Testbed Ammonia 1', 'df1b27db-7b69-4442-949e-9ef908c4fe72', '09a52f4d-0b92-4050-80d7-c8f4f6e18688', 'inside'),
+('37', '2024-06-03', '2024-06-03', 'null', 'Testbed Nitrite 1', 'df1b27db-7b69-4442-949e-9ef908c4fe72', '09a52f4d-0b92-4050-80d7-c8f4f6e18688', 'inside'),
+('38', '2024-06-03', '2024-06-03', 'null', 'Testbed Nitrate 1', 'df1b27db-7b69-4442-949e-9ef908c4fe72', '09a52f4d-0b92-4050-80d7-c8f4f6e18688', 'inside'),
+('39', '2025-02-28', '2025-02-28', NULL, 'Plant Air Temperature & Rel Humidity', 'a63591c3-27dc-4379-8efd-425c533a65b6', 'a7cd79d5-0759-41bb-8857-cac4f696c93b', 'inside'),
+('4', '2024-06-03', '2024-06-03', 'null', 'Air Temperature & Rel Humidity 2', '8da8027d-2e1a-4e36-a991-c81ec65c9d09', '100f800d-132c-4d92-a892-71a6c1cb45e7', 'inside'),
+('40', '2025-02-28', '2025-02-28', 'null', 'Plant Air Temperature & Rel Humidity', 'a63591c3-27dc-4379-8efd-425c533a65b6', 'a7cd79d5-0759-41bb-8857-cac4f696c93b', 'inside'),
+('5', '2024-06-03', '2024-06-03', 'null', 'CO2 2', '8da8027d-2e1a-4e36-a991-c81ec65c9d09', '100f800d-132c-4d92-a892-71a6c1cb45e7', 'inside'),
+('6', '2024-06-03', '2024-06-03', 'null', 'Illuminance 2', '8da8027d-2e1a-4e36-a991-c81ec65c9d09', '100f800d-132c-4d92-a892-71a6c1cb45e7', 'inside'),
+('7', '2024-06-03', '2024-06-03', 'null', 'Air Temperature & Rel Humidity 3', '8da8027d-2e1a-4e36-a991-c81ec65c9d09', 'dcf18b56-100d-41e0-a78c-d84f3123c124', 'inside'),
+('8', '2024-06-03', '2024-06-03', 'null', 'CO2 3', '8da8027d-2e1a-4e36-a991-c81ec65c9d09', 'dcf18b56-100d-41e0-a78c-d84f3123c124', 'inside'),
+('9', '2024-06-03', '2024-06-03', 'null', 'Illuminance 3', '8da8027d-2e1a-4e36-a991-c81ec65c9d09', 'dcf18b56-100d-41e0-a78c-d84f3123c124', 'inside');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `sensor_device_info`
+-- (See below for the actual view)
+--
+CREATE TABLE `sensor_device_info` (
+`sensor_id` varchar(36)
+,`name` varchar(36)
+,`type_id` varchar(36)
+,`edge_device_status` tinyint(4)
+,`parent_edge_device_id` varchar(36)
+,`edge_device_name` varchar(18)
+,`api_key` varchar(60)
+,`passcode` varchar(60)
+,`mqtt_client_id` varchar(44)
+,`sensor_type_name` varchar(22)
+,`icon_path` varchar(45)
+,`sensor_created_at` varchar(10)
+,`sensor_updated_at` varchar(10)
+,`sensor_deleted_at` varchar(10)
+,`edge_created_at` varchar(10)
+,`edge_updated_at` varchar(10)
+,`edge_deleted_at` varchar(0)
+,`sensor_type_created_at` varchar(10)
+,`sensor_type_updated_at` varchar(10)
+,`sensor_type_deleted_at` varchar(10)
+);
 
 -- --------------------------------------------------------
 
@@ -770,7 +841,7 @@ CREATE TABLE `sensors` (
 CREATE TABLE `sensor_limits` (
   `id` int(11) NOT NULL,
   `sensor_id` varchar(36) DEFAULT NULL,
-  `limit_type` enum('width','height','weight','air_temperature','relative_humidity','co2_level','illumination_intensity','health','nitrate','nitrite','ammonia','ph_level','electrical_conductivity','dissolved_o2_level','water_temperature','total_dissolved_solids') DEFAULT NULL,
+  `limit_type` enum('width','height','weight','air_temperature','relative_humidity','co2_level','illumination_intensity','health','nitrate','nitrite','ammonia','ph_level','electrical_conductivity','dissolved_o2_level','water_temperature','total_dissolved_solids','size') DEFAULT NULL,
   `limit_floor` decimal(10,2) DEFAULT NULL,
   `limit_ceiling` decimal(10,2) DEFAULT NULL,
   `limit_floor_threshold` decimal(10,2) DEFAULT NULL,
@@ -787,7 +858,7 @@ CREATE TABLE `sensor_types` (
   `id` varchar(36) NOT NULL,
   `created_at` varchar(10) DEFAULT NULL,
   `updated_at` varchar(10) DEFAULT NULL,
-  `deleted_at` varchar(0) DEFAULT NULL,
+  `deleted_at` varchar(10) DEFAULT NULL,
   `name` varchar(22) DEFAULT NULL,
   `icon_path` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
@@ -1392,6 +1463,15 @@ INSERT INTO `water_biofilter` (`id`, `created_at`, `updated_at`, `deleted_at`, `
 DROP TABLE IF EXISTS `edge_actuator_view`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `edge_actuator_view`  AS SELECT `e`.`id` AS `edge_device_id`, `e`.`name` AS `edge_device_name`, `e`.`description` AS `edge_device_description`, `e`.`statusz` AS `edge_device_status`, `e`.`api_key` AS `api_key`, `e`.`passcode` AS `passcode`, `e`.`mqtt_client_id` AS `mqtt_client_id`, `a`.`id` AS `actuator_id`, `a`.`device_name` AS `actuator_name`, `a`.`type_id` AS `actuator_type`, `a`.`statusz` AS `actuator_status`, `a`.`parent_edge_device_id` AS `parent_edge_device_id` FROM (`edge_device_infos` `e` join `actuator_device_infos` `a` on(`e`.`id` = `a`.`parent_edge_device_id`)) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `sensor_device_info`
+--
+DROP TABLE IF EXISTS `sensor_device_info`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `sensor_device_info`  AS SELECT `s`.`id` AS `sensor_id`, `s`.`name` AS `name`, `s`.`type_id` AS `type_id`, `e`.`statusz` AS `edge_device_status`, `s`.`parent_edge_device_id` AS `parent_edge_device_id`, `e`.`name` AS `edge_device_name`, `e`.`api_key` AS `api_key`, `e`.`passcode` AS `passcode`, `e`.`mqtt_client_id` AS `mqtt_client_id`, `st`.`name` AS `sensor_type_name`, `st`.`icon_path` AS `icon_path`, `s`.`created_at` AS `sensor_created_at`, `s`.`updated_at` AS `sensor_updated_at`, `s`.`deleted_at` AS `sensor_deleted_at`, `e`.`created_at` AS `edge_created_at`, `e`.`updated_at` AS `edge_updated_at`, `e`.`deleted_at` AS `edge_deleted_at`, `st`.`created_at` AS `sensor_type_created_at`, `st`.`updated_at` AS `sensor_type_updated_at`, `st`.`deleted_at` AS `sensor_type_deleted_at` FROM ((`sensors` `s` left join `edge_device_infos` `e` on(`s`.`parent_edge_device_id` = `e`.`id`)) left join `sensor_types` `st` on(`s`.`type_id` = `st`.`id`)) ;
 
 --
 -- Indexes for dumped tables
