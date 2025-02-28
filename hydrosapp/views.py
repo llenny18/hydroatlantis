@@ -246,10 +246,32 @@ def register(request):
     return render(request, 'register.html')
 
 
+@require_GET
 def get_waterbedchart(request):
-    waterbeds = WaterBed.objects.all()
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
 
-    labels = [str(wb.created_at) for wb in waterbeds] 
+    biofilters = WaterBed.objects.all().order_by('timestamp')
+
+    if start_date and end_date:
+        try:
+            # Parse ISO dates (e.g., "2024-04-16T00:00")
+            start_datetime = datetime.fromisoformat(start_date)
+            end_datetime = datetime.fromisoformat(end_date)
+
+            # Convert to database format "DD/MM/YYYY HH:mm"
+            db_start = start_datetime.strftime("%d/%m/%Y %H:%M")
+            db_end = end_datetime.strftime("%d/%m/%Y %H:%M")
+
+            # Filter using the VARCHAR field (e.g., "timestamp")
+            biofilters = biofilters.filter(
+                timestamp__gte=db_start,
+                timestamp__lte=db_end
+            )
+        except ValueError as e:
+            return JsonResponse({"error": f"Invalid date format: {e}"}, status=400)
+    labels = [bio.timestamp for bio in biofilters]
+
     datasets = {
         "total_dissolved_solids": {
             "label": "Total Dissolved Solids (TDS)",
@@ -266,11 +288,15 @@ def get_waterbedchart(request):
             "fill": False
         },
     }
-    for wb in waterbeds:
-        datasets["total_dissolved_solids"]["data"].append(float(wb.total_dissolved_solids))
-        datasets["dissolved_o2_level"]["data"].append(float(wb.dissolved_O2_level))
 
-    datasets_list = list(datasets.values())
+    for bio in biofilters:
+        datasets["total_dissolved_solids"]["data"].append(float(bio.total_dissolved_solids))
+        datasets["dissolved_o2_level"]["data"].append(float(bio.dissolved_O2_level))
+
+    response_data = {
+        "labels": labels,
+        "datasets": list(datasets.values())
+    }
 
     user_id = request.session.get('user_id', None)
     username = request.session.get('username', None)
@@ -278,16 +304,16 @@ def get_waterbedchart(request):
     notifs = ServerNotifications.objects.all()
     context = {
         "notifs" : notifs,
-        "water_beddt": json.dumps({
-            "labels": labels,
-            "datasets": datasets_list,
-            "user_id" : user_id, 
-            "username" : username,
-            "fullname" : fullname
-        })
+        "waterbeddt": json.dumps(response_data),
+        "user_id" : user_id, 
+        "username" : username,
+        "fullname" : fullname
     }
     
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return JsonResponse(response_data)
     return render(request, "waterbed_charts.html", context)
+
 
 def get_waterbio(request):
     biofil= Biofilter.objects.all()
@@ -543,3 +569,73 @@ def sensor_detail(request, sensor_id):
     }
 
     return render(request, template_name, context)
+        # Add any additional context here
+    })
+
+@require_GET
+def get_greenchart(request):
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+
+    biofilters = Greenhouse.objects.all().order_by('timestamp')
+
+    if start_date and end_date:
+        try:
+            # Parse ISO dates (e.g., "2024-04-16T00:00")
+            start_datetime = datetime.fromisoformat(start_date)
+            end_datetime = datetime.fromisoformat(end_date)
+
+            # Convert to database format "DD/MM/YYYY HH:mm"
+            db_start = start_datetime.strftime("%d/%m/%Y %H:%M")
+            db_end = end_datetime.strftime("%d/%m/%Y %H:%M")
+
+            # Filter using the VARCHAR field (e.g., "timestamp")
+            biofilters = biofilters.filter(
+                timestamp__gte=db_start,
+                timestamp__lte=db_end
+            )
+        except ValueError as e:
+            return JsonResponse({"error": f"Invalid date format: {e}"}, status=400)
+    labels = [bio.timestamp for bio in biofilters]
+
+    datasets = {
+        "air_temperature": {
+            "label": "Air Temperature",
+            "data": [],
+            "borderColor": "rgba(255, 99, 132, 1)",
+            "backgroundColor": "rgba(255, 99, 132, 0.2)",
+            "fill": False
+        },
+        "relative_humidity": {
+            "label": "Relative Humidity",
+            "data": [],
+            "borderColor": "rgba(54, 162, 235, 1)",
+            "backgroundColor": "rgba(54, 162, 235, 0.2)",
+            "fill": False
+        },
+    }
+
+    for bio in biofilters:
+        datasets["air_temperature"]["data"].append(float(bio.air_temperature))
+        datasets["relative_humidity"]["data"].append(float(bio.relative_humidity))
+
+    response_data = {
+        "labels": labels,
+        "datasets": list(datasets.values())
+    }
+
+    user_id = request.session.get('user_id', None)
+    username = request.session.get('username', None)
+    fullname = request.session.get('fullname', None)
+    notifs = ServerNotifications.objects.all()
+    context = {
+        "notifs" : notifs,
+        "greenchartdt": json.dumps(response_data),
+        "user_id" : user_id, 
+        "username" : username,
+        "fullname" : fullname
+    }
+    
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return JsonResponse(response_data)
+    return render(request, "greenhousechart.html", context)

@@ -6,13 +6,13 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
     <link rel="shortcut icon" href="{% static 'assets/images/atlanislogo.png' %}" type="image/x-icon">
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{%static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}">
     <link href="{%static 'assets/vendor/fonts/circular-std/style.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="{% static  'assets/libs/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'assets/vendor/fonts/fontawesome/css/fontawesome-all.css' %}">
-    <title>ATLANTIS -  Water Bed Charts</title>
+    <title>ATLANTIS -  Bio Filter CHarts</title>
 </head>
 
 <body>
@@ -56,17 +56,17 @@
                     <!-- line chart  -->
                     <!-- ============================================================== -->
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <div class="date-filter">
-                            <label for="dateStart">Start Date</label>
-                            <input type="datetime-local" id="startDate" class="form-control">
-                            <label for="endDate">End Date</label>
-                            <input type="datetime-local" id="endDate" class="form-control">
-                            <button onclick="updateChart()" class="btn btn-primary">Filter</button>
-                        </div>
+                            <div class="date-filter">
+                                <label for="dateStart">Start Date</label>
+                                <input type="datetime-local" id="startDate" class="form-control">
+                                <label for="endDate">End Date</label>
+                                <input type="datetime-local" id="endDate" class="form-control">
+                                <button onclick="updateChart()" class="btn btn-primary">Filter</button>
+                            </div>
                         <div class="card">
-                            <h5 class="card-header">Chart of Water Bed Data</h5>
+                            <h5 class="card-header">Chart of Water Biofilter</h5>
                             <div class="card-body">
-                                <canvas id="waterBedChart"></canvas>
+                                <canvas id="greenChart"></canvas>
                             </div>
                         </div>
                     </div>
@@ -148,12 +148,12 @@
     <script src="{% static 'assets/vendor/charts/charts-bundle/chartjs.js' %}"></script>
     <script src="{% static 'assets/libs/js/main-js.js' %}"></script>
     <script>
-        let biofilterChart = null;
+        let greenChart = null;
         function createChart(data) {
-            const ctx = document.getElementById('waterBedChart').getContext('2d');
-            if (biofilterChart) biofilterChart.destroy();
+            const ctx = document.getElementById('greenChart').getContext('2d');
+            if (greenChart) greenChart.destroy();
             
-            biofilterChart = new Chart(ctx, {
+            greenChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: data.labels,
@@ -178,7 +178,7 @@
         }
         // Initial load
         document.addEventListener('DOMContentLoaded', () => {
-            const initialData = JSON.parse('{{ waterbeddt|safe }}');
+            const initialData = JSON.parse('{{greenchartdt|safe }}');
             createChart(initialData);
         });
     </script>

@@ -15,6 +15,7 @@ urlpatterns = [
     path('waterbiofilter/', views.get_waterbio, name='waterbiofilter'),
     path('waterbiofiltercharts/', views.get_waterbiochart, name='waterbiofiltercharts'),
     path('waterbedcharts/', views.get_waterbedchart, name='waterbedcharts'),
+    path('greencharts/', views.get_greenchart, name='greencharts'),
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
     path('register/', views.register, name='register'),
