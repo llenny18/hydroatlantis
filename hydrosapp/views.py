@@ -2,7 +2,7 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login
-from .models import Greenhouse, WaterBed, Biofilter, UserAccount, ActuatorDeviceInfo, EdgeActuatorView, EdgeDeviceInfo, ActuatorUpdate, ServerNotifications, SensorType
+from .models import Greenhouse, WaterBed, Biofilter, UserAccount, ActuatorDeviceInfo, EdgeActuatorView, EdgeDeviceInfo, ActuatorUpdate, ServerNotifications, SensorType, SensorDeviceInfo
 import json
 from django.db import connection
 import os
@@ -529,10 +529,46 @@ def get_waterbiochart(request):
         return JsonResponse(response_data)
     return render(request, "biofil_charts.html", context)
 
-def sensor_detail(request, sensor_id):
-    sensor_type = get_object_or_404(SensorType, pk=sensor_id)
-    return render(request, 'sensors/detail.html', {
+def sensor_list_by_type(request, sensor_type_id):
+    # Get the sensor type
+    try:
+        sensor_type = SensorDeviceInfo.objects.get(type_id=sensor_type_id)
+    except SensorDeviceInfo.DoesNotExist:
+        # Handle the case where the sensor type doesn't exist
+        return render(request, 'sensor_type_not_found.html', {'sensor_type_id': sensor_type_id})
+
+    # Filter sensors by the selected sensor type
+    sensors = SensorDeviceInfo.objects.filter(type_id=sensor_type_id)
+
+    # Construct the template name using sensor_type_name
+    template_name = f'sensors_{sensor_type.sensor_type_name.lower().replace(" ", "_")}.html'
+
+    context = {
         'sensor_type': sensor_type,
+        'sensors': sensors,
+    }
+
+    # Render the page with the dynamic template name
+    return render(request, template_name, context)
+
+def sensor_detail(request, sensor_id):
+    sensors = SensorDeviceInfo.objects.filter(type_id=sensor_id)
+    edgedevices = EdgeDeviceInfo.objects.all()
+
+    if not sensors.exists():
+        return render(request, 'sensor_type_not_found.html', {'sensor_type_id': sensor_id})
+
+    sensor_type = sensors.first() #get the first sensor to get the type name.
+
+    template_name = f'sensor/sensor_{sensor_type.sensor_type_name.lower().replace(" ", "_")}.html'
+
+    context = {
+        'sensors': sensors,
+        'sensor_type': sensor_type,
+        'edgedevices': edgedevices,
+    }
+
+    return render(request, template_name, context)
         # Add any additional context here
     })
 
