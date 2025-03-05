@@ -17,6 +17,10 @@ from django.utils.dateparse import parse_datetime
 from datetime import datetime
 import json
 
+# timestamp to proper date conversion
+# date_time_obj = datetime.datetime.strptime("2025-06-21 23:59:31", '%Y-%m-%d %H:%M:%S')
+# formatted_date = date_time_obj.strftime("%B %d, %Y %I:%M:%S %p") 
+
 # Generate a key from a password
 def derive_key(password: str, salt: bytes) -> bytes:
     kdf = PBKDF2HMAC(
@@ -570,7 +574,7 @@ def sensor_detail(request, sensor_id):
 
     return render(request, template_name, context)
         # Add any additional context here
-    })
+    
 
 @require_GET
 def get_greenchart(request):
