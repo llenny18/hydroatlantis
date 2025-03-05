@@ -26,8 +26,8 @@ class WaterBed(models.Model):
     deleted_at = models.CharField(max_length=30, null=True, blank=True)  # deleted_at as varchar(30), nullable
     water_temperature = models.DecimalField(max_digits=11, decimal_places=8)  # water_temperature as decimal(11,8)
     dissolved_O2_level = models.DecimalField(max_digits=11, decimal_places=9)  # dissolved_02_level as decimal(11,9)
-    electrical_conductivity = models.IntegerField  # electrical_conductivity as int
-    total_dissolved_solids = models.IntegerField  # total_dissolved_solids as int 
+    electrical_conductivity =  models.DecimalField(max_digits=11, decimal_places=6)   # electrical_conductivity as int
+    total_dissolved_solids =  models.DecimalField(max_digits=11, decimal_places=6)   # total_dissolved_solids as int 
     nitrate = models.DecimalField(max_digits=11, decimal_places=6)  # nitrate as decimal(11,6)
     nitrite = models.DecimalField(max_digits=11, decimal_places=8)  # nitrite as decimal(11,8)
     ammonia = models.DecimalField(max_digits=11, decimal_places=9)  # ammonia as decimal(11,9)
