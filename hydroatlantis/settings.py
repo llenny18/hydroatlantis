@@ -26,7 +26,9 @@ SECRET_KEY = 'django-insecure-6jttw_n!#plsby29j$8!w5uwf*z053r3-gofqi!*lm$-b-w^wd
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['hydroatlantis.onrender.com']
+ALLOWED_HOSTS = [  '127.0.0.1',  # Localhost for development
+    'localhost',
+    'hydroatlantis.onrender.com']
 
 # settings.py
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
