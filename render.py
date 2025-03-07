@@ -1,14 +1,19 @@
 import subprocess
 
-def install_requirements():
+def run_command(command):
+    """Runs a shell command and prints output."""
     try:
-        subprocess.run(["pip", "install", "-r", "requirements.txt"], check=True)
-        print("Requirements installed successfully.")
+        subprocess.run(command, check=True, shell=True)
+        print(f"Command '{command}' executed successfully.")
     except subprocess.CalledProcessError as e:
-        print(f"Error occurred: {e}")
+        print(f"Error occurred while running '{command}': {e}")
 
 if __name__ == "__main__":
-    install_requirements()
+    # Install requirements
+    run_command("pip install -r requirements.txt")
 
-python manage.py collectstatic --noinput
-python manage.py migrate
+    # Collect static files
+    run_command("python manage.py collectstatic --noinput")
+
+    # Run migrations
+    run_command("python manage.py migrate")
