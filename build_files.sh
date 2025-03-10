@@ -2,6 +2,7 @@
 
 # Install dependencies
 python3 -m pip install -r requirements.txt
+python -m pip install gunicorn
 
 # Collect static files
 python3 manage.py collectstatic --noinput
