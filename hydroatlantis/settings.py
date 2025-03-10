@@ -81,10 +81,10 @@ WSGI_APPLICATION = 'hydroatlantis.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'hydroatlantisdb',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST':'localhost',
+        'NAME': 'hydroatlantisdb_database',
+        'USER': '403315_jm',
+        'PASSWORD': 'Dzey3m@30',
+        'HOST':'mysql-hydroatlantisdb.alwaysdata.net',
         'PORT':'3306',
     }
 }
