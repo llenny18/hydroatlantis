@@ -14,7 +14,26 @@
     <link rel="stylesheet" href="{% static 'assets//libs/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'assets//vendor/fonts/fontawesome/css/fontawesome-all.css' %}">
     <link rel="stylesheet" href="{% static 'assets/vendor/pagination/pagination.css' %}">
-
+    <style>
+        .card-body {
+            display: flex;
+            flex-direction: column; /* Ensure items stack vertically */
+            align-items: center;      /* Center items horizontally */
+        }
+        .table-responsive{
+            width: 100%; /* Make the table take up the card width */
+        }
+    
+        /* Optional: Add a max-width to the table if it's too wide */
+        #waterbedTable {
+            max-width: 90%; /* Adjust as needed */
+        }
+    
+        .pagination {
+            justify-content: center; /* Center pagination items */
+        }
+    </style>
+    
 </head>
 
 <body>
@@ -60,36 +79,36 @@
                         <!-- ============================================================== -->
                         <div class="col-xl-12 col-lg-6 col-md-12 col-sm-12 col-12">
                             <div class="card">
-                                <h5 class="card-header">Basic Printing of Greenhouse data</h5>
+                                <h5 class="card-header">Greenhouse Data History</h5>
                                 <div class="card-body">
                                     <table class="table  table-responsive" id="waterbedTable">
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
-                                                <th>Created At</th>
-                                                <th>Updated At</th>
-                                                <th>Deleted At</th>
-                                                <th>Air Temperature</th>
-                                                <th>Relative Humidity</th>
-                                                <th>CO2 Level</th>
-                                                <th>Illumination Intensity</th>
                                                 <th>Timestamp</th>
-                                                <th>Sensor ID</th>
+                                                <th>Air Temp ID</th>
+                                                <th>Air Temperature</th>
+                                                <th> Rel Humid ID</th>
+                                                <th>Relative Humidity</th>
+                                                <th>CO2 ID</th>
+                                                <th>CO2 Level</th>
+                                                <th>Illumination ID</th>
+                                                <th>Illumination Intensity</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {% for greenhouse in greenhouse_data %}
                                             <tr>
                                                 <td>{{ greenhouse.id }}</td>
-                                                <td>{{ greenhouse.created_at }}</td>
-                                                <td>{{ greenhouse.updated_at }}</td>
-                                                <td>{{ greenhouse.deleted_at }}</td>
-                                                <td>{{ greenhouse.air_temperature }}</td>
-                                                <td>{{ greenhouse.relative_humidity }}</td>
-                                                <td>{{ greenhouse.co2_level }}</td>
-                                                <td>{{ greenhouse.illumination_intensity }}</td>
                                                 <td>{{ greenhouse.timestamp }}</td>
-                                                <td>{{ greenhouse.sensor_id }}</td>
+                                                <td>{{ greenhouse.airtemp_sensID }}</td>
+                                                <td>{{ greenhouse.air_temperature }}</td>
+                                                <td>{{ greenhouse.relhumid_sensID }}</td>
+                                                <td>{{ greenhouse.relative_humidity }}</td>
+                                                <td>{{ greenhouse.co2_sensID }}</td>
+                                                <td>{{ greenhouse.co2_level }}</td>
+                                                <td>{{ greenhouse.illumination_sensID }}</td>                                                
+                                                <td>{{ greenhouse.illumination_intensity }}</td>
                                             </tr>
                                             {% empty %}
                                             <tr>

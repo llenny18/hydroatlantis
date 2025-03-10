@@ -65,38 +65,44 @@
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
-                                                <th>Created At</th>
-                                                <th>Updated At</th>
-                                                <th>Deleted At</th>
+                                                <th>Timestamp</th>
+                                                <th>WaterTemp Sensor ID</th>
                                                 <th>Water Temperature</th>
+                                                <th>DO2 Sensor ID</th>
                                                 <th>Dissolved O2 Level</th>
                                                 <th>Electrical Conductivity</th>
+                                                <th>TDS Sensor ID</th>
                                                 <th>Total Dissolved Solids</th>
+                                                <th>Nitrate Sensor ID</th>
                                                 <th>Nitrate</th>
+                                                <th>Nitrite Sensor ID</th>
                                                 <th>Nitrite</th>
+                                                <th>Ammonia Sensor ID</th>
                                                 <th>Ammonia</th>
+                                                <th>PH Sensor ID</th>
                                                 <th>PH Level</th>
-                                                <th>Timestamp</th>
-                                                <th>Sensor ID</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {% for waterbed in waterbed_data %}
                                             <tr>
                                                 <td>{{ waterbed.id }}</td>
-                                                <td>{{ waterbed.created_at }}</td>
-                                                <td>{{ waterbed.updated_at }}</td>
-                                                <td>{{ waterbed.deleted_at }}</td>
+                                                <td>{{ waterbed.timestamp }}</td>
+                                                <td>{{ waterbed.watertemp_sensID }}</td>
                                                 <td>{{ waterbed.water_temperature }}</td>
+                                                <td>{{ waterbed.do2_sensID }}</td>
                                                 <td>{{ waterbed.dissolved_o2_level }}</td>
                                                 <td>{{ waterbed.electrical_conductivity }}</td>
+                                                <td>{{ waterbed.tds_sensID }}</td>
                                                 <td>{{ waterbed.total_dissolved_solids }}</td>
+                                                <td>{{ waterbed.nitrate_sensID }}</td>
                                                 <td>{{ waterbed.nitrate }}</td>
+                                                <td>{{ waterbed.nitrite_sensID }}</td>
                                                 <td>{{ waterbed.nitrite }}</td>
+                                                <td>{{ waterbed.ammonia_sensID }}</td>
                                                 <td>{{ waterbed.ammonia }}</td>
+                                                <td>{{ waterbed.ph_sensID }}</td>
                                                 <td>{{ waterbed.ph_level }}</td>
-                                                <td>{{ waterbed.timestamp }}</td>
-                                                <td>{{ waterbed.sensor_id }}</td>
                                             </tr>
                                             {% empty %}
                                             <tr>
