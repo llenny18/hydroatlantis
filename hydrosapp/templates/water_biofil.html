@@ -65,26 +65,27 @@
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
-                                                <th>Created At</th>
-                                                <th>Updated At</th>
-                                                <th>Deleted At</th>
-                                                <th>Nitrate</th>
-                                                <th>Nitrite</th>
-                                                <th>Ammonia</th>
                                                 <th>Timestamp</th>
+                                                <th>Nitrate ID</th>
+                                                <th>NItrate</th>
+                                                <th>Nitrite ID</th>
+                                                <th>Nitrite</th>
+                                                <th>Nitrite ID</th>
+                                                <th>Ammonia</th>
+                                                
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {% for waterbiofilter in water_biofilterdt %}
                                             <tr>
                                                 <td>{{ waterbiofilter.id }}</td>
-                                                <td>{{ waterbiofilter.created_at }}</td>
-                                                <td>{{ waterbiofilter.updated_at }}</td>
-                                                <td>{{ waterbiofilter.deleted_at }}</td>
-                                                <td>{{ waterbiofilter.nitrate }}</td>
-                                                <td>{{ waterbiofilter.nitrite }}</td>
-                                                <td>{{ waterbiofilter.ammonia }}</td>
                                                 <td>{{ waterbiofilter.timestamp}}</td>
+                                                <td>{{ waterbiofilter.nitrate_sensID }}</td>
+                                                <td>{{ waterbiofilter.nitrate }}</td>
+                                                <td>{{ waterbiofilter.nitrite_sensID }}</td>
+                                                <td>{{ waterbiofilter.nitrite }}</td>
+                                                <td>{{ waterbiofilter.ammonia_sensID }}</td>
+                                                <td>{{ waterbiofilter.ammonia }}</td>
                                             </tr>
                                             {% empty %}
                                             <tr>

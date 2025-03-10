@@ -11,6 +11,10 @@ class Greenhouse(models.Model):
     illumination_intensity = models.DecimalField(max_digits=13, decimal_places=9)  # illumination_intensity as decimal(13,9)
     timestamp = models.CharField(max_length=16)  # timestamp as varchar(16)
     sensor_id = models.CharField(max_length=36)  # sensor_id as varchar(36)
+    airtemp_sensID = models.CharField(max_length=36)  # airtemp_sensID as varchar(36)
+    relhumid_sensID = models.CharField(max_length=36)  # relhumid_sensID as varchar(36)
+    co2_sensID = models.CharField(max_length=36)  # co2_sensID as varchar(36)
+    illumination_sensID = models.CharField(max_length=36)  # illumination_sensID as varchar(36)
 
     def __str__(self):
         return self.id
@@ -34,6 +38,15 @@ class WaterBed(models.Model):
     ph_level = models.DecimalField(max_digits=11, decimal_places=9)  # ph_level as decimal(11,9)
     timestamp = models.CharField(max_length=16)  # timestamp as varchar(16)
     sensor_id = models.CharField(max_length=36)  # sensor_id as varchar(36)
+    watertemp_sensID = models.CharField(max_length=36)  # watertemp_sensID as varchar(36)
+    do2_sensID = models.CharField(max_length=36)  # do2_sensID as varchar(36)
+    tds_sensID = models.CharField(max_length=36)  # tds_sensID as varchar(36)
+    nitrate_sensID = models.CharField(max_length=36)  # nitrate_sensID as varchar(36)
+    nitrite_sensID = models.CharField(max_length=36)  # nitrite_sensID as varchar(36)
+    ammonia_sensID = models.CharField(max_length=36)  # ammonia_sensID as varchar(36)
+    ph_sensID = models.CharField(max_length=36)  # ph_sensID as varchar(36)
+    
+    # There is no Electrical Conductivity Sensors ID in the database table. 
     
     def __str__(self):
         return self.id
@@ -52,6 +65,9 @@ class Biofilter(models.Model):
     nitrite = models.DecimalField(max_digits=11, decimal_places=8)  # nitrite as decimal(11,8)
     ammonia = models.DecimalField(max_digits=11, decimal_places=9)  # ammonia as decimal(11,9)
     timestamp = models.CharField(max_length=16)  # timestamp as varchar(16)
+    nitrate_sensID = models.CharField(max_length=36)  # nitrate_sensID as varchar(36)
+    nitrite_sensID = models.CharField(max_length=36)  # nitrite_sensorID as varchar(36)
+    ammonia_sensID = models.CharField(max_length=36)  # ammonia_sensID as varchar(36)
     def __str__(self):
         return self.id
 
