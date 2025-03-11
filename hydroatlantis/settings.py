@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-6jttw_n!#plsby29j$8!w5uwf*z053r3-gofqi!*lm$-b-w^wd
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://hydroatlantishosting.onrender.com/' , '127.0.0.1']
+ALLOWED_HOSTS = ['https://hydroatlantis-im1l.onrender.com' , '127.0.0.1']
 
 # settings.py
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "whitenoise.middleware.WhiteNoiseMiddleware"
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -81,10 +82,10 @@ WSGI_APPLICATION = 'hydroatlantis.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'hydroatlantisdb_database',
-        'USER': '403315_jm',
-        'PASSWORD': 'Dzey3m@30',
-        'HOST':'mysql-hydroatlantisdb.alwaysdata.net',
+        'NAME': 'hydroatlantis-db_database',
+        'USER': '403518_ali',
+        'PASSWORD': '052503_ali',
+        'HOST':'mysql-hydroatlantis-db.alwaysdata.net',
         'PORT':'3306',
     }
 }
