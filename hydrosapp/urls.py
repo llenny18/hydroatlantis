@@ -19,6 +19,7 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
     path('register/', views.register, name='register'),
+    path('verify_otp/', views.verify_otp, name='verify_otp'),
     path('cameras/', views.cameras, name='cameras'),
     path('edit_profile/', views.edit_profile, name='edit_profile'),
     path('actuators/', views.get_actuator_list, name='actuators'),

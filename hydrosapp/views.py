@@ -2,6 +2,9 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login
+from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from django.conf import settings
 from .models import Greenhouse, WaterBed, Biofilter, UserAccount, ActuatorDeviceInfo, EdgeActuatorView, EdgeDeviceInfo, ActuatorUpdate, ServerNotifications, SensorType, SensorDeviceInfo
 import json
 from django.db import connection
@@ -16,6 +19,7 @@ from django.http import JsonResponse
 from django.utils.dateparse import parse_datetime
 from datetime import datetime
 import json
+import random
 
 # timestamp to proper date conversion
 # date_time_obj = datetime.datetime.strptime("2025-06-21 23:59:31", '%Y-%m-%d %H:%M:%S')
@@ -225,30 +229,84 @@ def login(request):
 
 
 
+OTP_STORAGE = {}  # Temporary storage for OTPs
+
 def register(request):
     if request.method == 'POST':
-        # Get form data
         first_name = request.POST.get('fname')
         last_name = request.POST.get('lname')
         email = request.POST.get('email')
         username = request.POST.get('username')
         password = request.POST.get('password')
         confirm_password = request.POST.get('password2')
-        
 
-        # Create a new user
-        with connection.cursor() as cursor:
-                    # Insert into student_info table
-            cursor.execute(
-                "INSERT INTO useraccounts ( fname, lname, email, username, password) VALUES (%s, %s, %s, %s, %s)",
-                    (first_name, last_name, email, username, password),
-                )
+        # Check if all fields are filled
+        if not all([first_name, last_name, email, username, password, confirm_password]):
+            messages.error(request, "All fields are required.")
+            return redirect("register")
 
-                    
-            return redirect("login")  # Redirect to login page after successful registration
+        # Check if passwords match
+        if password != confirm_password:
+            messages.error(request, "Passwords do not match.")
+            return redirect("register")
+
+        # Generate and send OTP
+        otp = random.randint(100000, 999999)
+        OTP_STORAGE[email] = otp  # Store OTP temporarily
+
+        send_mail(
+            'Your OTP for Registration',
+            f'Your OTP is: {otp}',
+            settings.EMAIL_HOST_USER,
+            [email],
+            fail_silently=False,
+        )
+
+        request.session['otp_email'] = email
+        request.session['user_data'] = {
+            'fname': first_name,
+            'lname': last_name,
+            'email': email,
+            'username': username,
+            'password': password,
+        }
+
+        return redirect('verify_otp')  # Redirect to OTP verification page
 
     return render(request, 'register.html')
 
+def verify_otp(request):
+    if request.method == "POST":
+        email = request.session.get('otp_email')
+        entered_otp = request.POST.get('otp')
+
+        if email in OTP_STORAGE and int(entered_otp) == OTP_STORAGE[email]:
+            # Retrieve stored user data
+            user_data = request.session.get('user_data')
+            if not user_data:
+                messages.error(request, "Session expired. Please register again.")
+                return redirect('register')
+
+            # Insert into the database
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    "INSERT INTO useraccounts (fname, lname, email, username, password) VALUES (%s, %s, %s, %s, %s)",
+                    (user_data['fname'], user_data['lname'], user_data['email'], user_data['username'], user_data['password']),
+                )
+
+            # Cleanup session and OTP storage
+            del OTP_STORAGE[email]
+            del request.session['otp_email']
+            del request.session['user_data']
+
+            messages.success(request, "Registration successful! You can now log in.")
+            return redirect("login")
+
+        else:
+            messages.error(request, "Invalid OTP. Please try again.")
+            return redirect("verify_otp")
+
+    return render(request, 'verify_otp.html')
 
 @require_GET
 def get_waterbedchart(request):

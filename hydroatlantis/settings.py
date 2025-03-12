@@ -90,6 +90,14 @@ DATABASES = {
     }
 }
 
+# EMAIL REGISTRATION AND VALIDATION DETAILS
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Use Gmail SMTP
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'atlantis.hydros@gmail.com'
+EMAIL_HOST_PASSWORD = 'AtlantisPass'
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
