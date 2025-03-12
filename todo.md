@@ -1,4 +1,4 @@
-/ Timestamp to date
+- / Timestamp to date
 - Connections of raw data in database fixes (sensor id and cluster id)
 - Main dashboard charts (exs: Line chart of spikes per day, donut chart of spikes this week, etc)
 - Filter 5 location water quality tables by cluster
@@ -13,8 +13,8 @@
 - New page for sensors data maintenance and calibration schedules
 - Model for predictive analytics per sensors=location
 - Model for predictive analytics for sensor maintenance and calibration
-/ Eye icon to view and hide password in login
-/ Register using email OTP
+- / Eye icon to view and hide password in login
+- / Register using email OTP
 - Connection from jetson nano
 - View profile of user
 - Change password using OTP
