@@ -82,13 +82,21 @@ WSGI_APPLICATION = 'hydroatlantis.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'hydroatlantis-db_database',
-        'USER': '403518_ali',
-        'PASSWORD': '052503_ali',
-        'HOST':'mysql-hydroatlantis-db.alwaysdata.net',
+        'NAME': 'atlantis-hydros_db',
+        'USER': '404016_admin',
+        'PASSWORD': '020525_Admin',
+        'HOST':'mysql-atlantis-hydros.alwaysdata.net',
         'PORT':'3306',
     }
 }
+
+# EMAIL REGISTRATION AND VALIDATION DETAILS
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Use Gmail SMTP
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'atlantis.hydros@gmail.com'
+EMAIL_HOST_PASSWORD = 'wwhe wfax xgcl vwjb'
 
 
 # Password validation
