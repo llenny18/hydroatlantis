@@ -239,6 +239,7 @@ def register(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         confirm_password = request.POST.get('password2')
+        hashed_pass = encrypt(password, passwordUnique)
 
         # Check if all fields are filled
         if not all([first_name, last_name, email, username, password, confirm_password]):
@@ -268,7 +269,7 @@ def register(request):
             'lname': last_name,
             'email': email,
             'username': username,
-            'password': password,
+            'password': hashed_pass,
         }
 
         return redirect('verify_otp')  # Redirect to OTP verification page
