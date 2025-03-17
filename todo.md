@@ -18,3 +18,6 @@
 - Connection from jetson nano
 - View profile of user
 - Change password using OTP
+- Fish tank database
+- Fish tank UI
+- Fish tank connection of sensors
