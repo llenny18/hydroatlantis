@@ -12,7 +12,7 @@
 - New notifications that is main problem
 - New page for sensors data maintenance and calibration schedules
 - / Model for predictive analytics per sensors=location
-- Model for predictive analytics for sensor maintenance and calibration
+- / Model for predictive analytics for sensor maintenance and calibration
 - / Eye icon to view and hide password in login
 - / Register using email OTP
 - Connection from jetson nano
@@ -21,3 +21,5 @@
 - Fish tank database
 - Fish tank UI
 - Fish tank connection of sensors
+- Add column to sesonrs = last_maintained(date time type)
+- Make a view of sensors last sent data(per sensor_id, get latest data sent)
