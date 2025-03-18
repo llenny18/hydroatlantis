@@ -78,14 +78,6 @@ Devices controlled by the system:
 - **Receive alerts** for water quality and sensor issues.
 - **Control devices** remotely from the dashboard.
 
-## Future Enhancements
-- **Mobile App Integration** for remote monitoring.
-- **AI-based automation** for actuator control.
-- **Cloud-based Data Storage** for scalability.
 
 ## Contributors
 - **Digital Transformation Center** - Developer & Researcher
-
-## License
-This project is licensed under the MIT License.
-
