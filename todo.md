@@ -17,6 +17,8 @@
 - / Register using email OTP
 - Connection from jetson nano
 - View profile of user
+- / github description
+- / github topics
 - Change password using OTP
 - Fish tank database
 - Fish tank UI
