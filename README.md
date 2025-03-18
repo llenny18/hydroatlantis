@@ -84,7 +84,7 @@ Devices controlled by the system:
 - **Cloud-based Data Storage** for scalability.
 
 ## Contributors
-- **Your Name** - Developer & Researcher
+- **Digital Transformation Center** - Developer & Researcher
 
 ## License
 This project is licensed under the MIT License.
