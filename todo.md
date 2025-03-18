@@ -11,7 +11,7 @@
 - New notifications this day
 - New notifications that is main problem
 - New page for sensors data maintenance and calibration schedules
-- Model for predictive analytics per sensors=location
+- / Model for predictive analytics per sensors=location
 - Model for predictive analytics for sensor maintenance and calibration
 - / Eye icon to view and hide password in login
 - / Register using email OTP
