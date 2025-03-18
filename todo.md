@@ -23,3 +23,4 @@
 - Fish tank connection of sensors
 - Add column to sesonrs = last_maintained(date time type)
 - Make a view of sensors last sent data(per sensor_id, get latest data sent)
+- readme file
