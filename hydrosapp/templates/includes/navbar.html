@@ -41,28 +41,24 @@
                        </ul>
                    </li>
                    <li class="nav-item dropdown connection">
-                       <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fas fa-fw fa-th"></i> </a>
+                       <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fas fa-fw fa-exclamation-circle"></i> </a>
                        <ul class="dropdown-menu dropdown-menu-right connection-dropdown">
                            <li class="connection-list">
                                <div class="row">
-                                   <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
+                                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 ">
                                        <a href="#" class="connection-item"><img src="{% static 'assets/images/github.png' %}" alt="" > <span>Github</span></a>
                                    </div>
-                                   <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
+                                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 ">
                                        <a href="#" class="connection-item"><img src="{% static 'assets/images/dribbble.png' %}" alt="" > <span>Dribbble</span></a>
                                    </div>
-                                   <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                       <a href="#" class="connection-item"><img src="{% static 'assets/images/dropbox.png' %}" alt="" > <span>Dropbox</span></a>
-                                   </div>
+                                 
                                </div>
                                <div class="row">
-                                   <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                       <a href="#" class="connection-item"><img src="{% static 'assets/images/bitbucket.png' %}" alt=""> <span>Bitbucket</span></a>
-                                   </div>
-                                   <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
+                                  
+                                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 ">
                                        <a href="#" class="connection-item"><img src="{% static 'assets/images/mail_chimp.png' %}" alt="" ><span>Mail chimp</span></a>
                                    </div>
-                                   <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
+                                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 ">
                                        <a href="#" class="connection-item"><img src="{% static 'assets/images/slack.png' %}" alt="" > <span>Slack</span></a>
                                    </div>
                                </div>
@@ -180,7 +176,7 @@
                            </div>
                        </li> -->
                        <li class="nav-item">
-                           <a class="nav-link  {% if request.path == '/greenhouse/' or request.path == '/waterbiofilter/' or request.path == '/waterbed/'  %}active{% endif %}" href="#" data-toggle="collapse" aria-expanded="{% if request.path == '/greenhouse/' or request.path == '/waterbiofilter/' or request.path == '/waterbed/'  %}true{% endif %}" data-target="#submenu-5" aria-controls="submenu-5"><i class="fas fa-fw fa-table"></i>Tables</a>
+                           <a class="nav-link  {% if request.path == '/greenhouse/' or request.path == '/waterbiofilter/' or request.path == '/waterbed/'  %}active{% endif %}" href="#" data-toggle="collapse" aria-expanded="{% if request.path == '/greenhouse/' or request.path == '/waterbiofilter/' or request.path == '/waterbed/'  %}true{% endif %}" data-target="#submenu-5" aria-controls="submenu-5"><i class="fas fa-fw fa-table"></i>Records</a>
                            <div id="submenu-5" class="collapse submenu {% if request.path == '/greenhouse/' or request.path == '/waterbiofilter/' or request.path == '/waterbed/'  %}show{% endif %}" style="">
                                <ul class="nav flex-column">
                                    <li class="nav-item">
