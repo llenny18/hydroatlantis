@@ -16,7 +16,7 @@
 - / Eye icon to view and hide password in login
 - / Register using email OTP
 - Connection from jetson nano
-- View profile of user
+- View profile of user (update, delete account)
 - / github description
 - / github topics
 - Change password using OTP
@@ -27,3 +27,8 @@
 - Make a view of sensors last sent data(per sensor_id, get latest data sent)
 - / readme file
 - add results per row in location datas
+- / Fix UI colors
+- / Fix UI buttons
+- / Fix UI texts
+- / Fix UI descriptions and displays
+- / Make charts templated in masin dashboard aligned to the topic
