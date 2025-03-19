@@ -1356,6 +1356,7 @@ Top Header
     padding-left: 50px;
     font-size: 14px;
     line-height: 21px;
+    color: white;
 }
 
 .notification-list-user-name {
@@ -1375,18 +1376,25 @@ Top Header
     background-color: #04bee5;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
+    cursor: pointer;
 }
 
 .list-footer a,
 .conntection-footer a {
-    color: #fff;
+    color: #080820;
 }
 
 .list-footer a:hover,
 .conntection-footer a:hover {
-    color: #fff;
+    color: #080820;
 }
 
+.conntection-footer:hover {
+    background-color: #5edcf7;
+}
+.list-footer:hover {
+    background-color: #5edcf7;
+}
 .indicator {
     content: '';
     position: absolute;
@@ -1447,8 +1455,9 @@ Top Header
 }
 
 .connection-item:hover {
-    background-color: #fff;
+    background-color: #32d7fa;
     border: 1px solid white;
+    color: black;
 }
 
 .connection-item span {
@@ -2068,7 +2077,7 @@ Pageheader
     border-top: 1px solid rgba(152, 166, 173, .2);
     padding: 14px 30px 14px;
     color: white;
-    background-color: #fff;
+    background-color: #08081f;
     width: 100%;
     /*position: absolute; bottom: 0;*/
 }

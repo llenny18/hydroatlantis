@@ -4060,7 +4060,9 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
     }
 
     .navbar-expand-lg .navbar-nav .dropdown-menu {
-        position: absolute
+        position: absolute;
+        border: 3px solid white;
+        background-color: #080820;
     }
 
     .navbar-expand-lg .navbar-nav .nav-link {
