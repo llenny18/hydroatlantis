@@ -1,4 +1,5 @@
 
+
 import pymysql
 
 # Database connection parameters
@@ -31,3 +32,4 @@ except Exception as e:
 finally:
     cursor.close()
     connection.close()
+
