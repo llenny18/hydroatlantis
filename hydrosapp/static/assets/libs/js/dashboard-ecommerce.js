@@ -229,11 +229,11 @@
         bindto: "#c3chart_category",
         data: {
             columns: [
-                ['Men', 100],
-                ['Women', 80],
-                ['Accessories', 50],
-                ['Children', 40],
-                ['Apperal', 20],
+                ['Water bed', 100],
+                ['Fish Tank', 80],
+                ['Water Bio-filter', 50],
+                ['Greenhouse', 40],
+                ['Plant', 20],
 
             ],
             type: 'donut',
