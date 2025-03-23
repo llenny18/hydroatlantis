@@ -1,4 +1,3 @@
-
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login
@@ -20,7 +19,8 @@ from django.utils.dateparse import parse_datetime
 from datetime import datetime
 import json
 import random
-
+from django.shortcuts import render, get_object_or_404
+from .models import EdgeDeviceInfo, ClusterGreenData, ClusterBiofilterData, ClusterWaterBedData
 # timestamp to proper date conversion
 # date_time_obj = datetime.datetime.strptime("2025-06-21 23:59:31", '%Y-%m-%d %H:%M:%S')
 # formatted_date = date_time_obj.strftime("%B %d, %Y %I:%M:%S %p") 
@@ -701,3 +701,119 @@ def get_greenchart(request):
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         return JsonResponse(response_data)
     return render(request, "greenhousechart.html", context)
+
+def view_device_data(request, device_id, data_type):
+    device = get_object_or_404(EdgeDeviceInfo, id=device_id)
+    identifier = device.id
+
+    # Initialize data
+    data = []
+    
+    # Filter data based on the selected model
+    if data_type == 'greenhouse':
+        queryset = ClusterGreenData.objects.filter(indentifier=identifier)
+        data = list(queryset.values())
+        data_label = "🌱 Greenhouse Data"
+        columns = ["Temperature (°C)", "Humidity (%)", "CO2 Level", "Illumination", "Timestamp"]
+        
+        # Debug information
+        print(f"Greenhouse Data Count: {len(data)}")
+        if data:
+            print(f"First item: {data[0]}")
+        
+    elif data_type == 'biofilter':
+        queryset = ClusterBiofilterData.objects.filter(indentifier=identifier)
+        data = list(queryset.values())
+        data_label = "🧪 Biofilter Data"
+        columns = ["Nitrate", "Nitrite", "Ammonia", "Timestamp"]
+        
+        # Debug information
+        print(f"Biofilter Data Count: {len(data)}")
+        if data:
+            print(f"First item: {data[0]}")
+        
+    elif data_type == 'waterbed':
+        queryset = ClusterWaterBedData.objects.filter(indentifier=identifier)
+        data = list(queryset.values())
+        data_label = "💧 Waterbed Data"
+        columns = ["Water Temp (°C)", "DO Level", "TDS", "Nitrate", "Nitrite", "Ammonia", "pH Level", "Timestamp"]
+        
+        # Debug information
+        print(f"Waterbed Data Count: {len(data)}")
+        if data:
+            print(f"First item: {data[0]}")
+        
+    else:
+        data = []
+        data_label = "No Data Available"
+        columns = []
+
+    context = {
+        'device': device,
+        'data': data,
+        'data_label': data_label,
+        'columns': columns,
+        'data_type': data_type
+    }
+
+    return render(request, 'cluster/cluster_filter_view.html', context)
+
+def view_device_data_modal(request, device_id):
+    device = get_object_or_404(EdgeDeviceInfo, id=device_id)
+    data_type = request.GET.get('data_type', 'greenhouse')  # Default to 'greenhouse'
+
+    data = []
+    data_label = ""
+    columns = []
+
+    if data_type == 'greenhouse':
+        queryset = ClusterGreenData.objects.filter(indentifier=device_id)
+        data = list(queryset.values())
+        data_label = "🌱 Greenhouse Data"
+        columns = [
+            {'display': 'Temperature (°C)', 'field': 'air_temperature'},
+            {'display': 'Humidity (%)', 'field': 'relative_humidity'},
+            {'display': 'CO2 Level', 'field': 'co2_level'},
+            {'display': 'Illumination', 'field': 'illumination_intensity'},
+            {'display': 'Timestamp', 'field': 'greenhouse_timestamp'},
+        ]
+    elif data_type == 'biofilter':
+        queryset = ClusterBiofilterData.objects.filter(indentifier=device_id)
+        data = list(queryset.values())
+        data_label = "🧪 Biofilter Data"
+        columns = [
+            {'display': 'Nitrate', 'field': 'biofilter_nitrate'},
+            {'display': 'Nitrite', 'field': 'biofilter_nitrite'},
+            {'display': 'Ammonia', 'field': 'biofilter_ammonia'},
+            {'display': 'Timestamp', 'field': 'biofilter_timestamp'},
+        ]
+    elif data_type == 'waterbed':
+        queryset = ClusterWaterBedData.objects.filter(indentifier=device_id)
+        data = list(queryset.values())
+        data_label = "💧 Waterbed Data"
+        columns = [
+            {'display': 'Water Temp (°C)', 'field': 'water_temperature'},
+            {'display': 'DO Level', 'field': 'dissolved_o2_level'},
+            {'display': 'TDS', 'field': 'total_dissolved_solids'},
+            {'display': 'Nitrate', 'field': 'waterbed_nitrate'},
+            {'display': 'Nitrite', 'field': 'waterbed_nitrite'},
+            {'display': 'Ammonia', 'field': 'waterbed_ammonia'},
+            {'display': 'pH Level', 'field': 'ph_level'},
+            {'display': 'Timestamp', 'field': 'waterbed_timestamp'},
+        ]
+
+    # Convert bytes to strings if necessary
+    for row in data:
+        for key, value in row.items():
+            if isinstance(value, bytes):
+                row[key] = value.decode('utf-8')
+            elif isinstance(value, datetime):
+                row[key] = value.isoformat()
+
+    response_data = {
+        'data_label': data_label,
+        'columns': columns,
+        'data': data,
+    }
+
+    return JsonResponse(response_data)

@@ -1,0 +1,225 @@
+{% extends 'edge_devices.html' %}
+{% load static %}
+
+{% block title %}{{ data_label }} - {{ device.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">{{ data_label }} for {{ device.name }}</h5>
+            <div>
+                <a href="{% url 'get_edge_devices' %}" class="btn btn-sm btn-outline-light">
+                    <i class="fas fa-arrow-left"></i> Back to Devices
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Device ID:</strong> {{ device.id }}
+                </div>
+                <div class="col-md-6">
+                    <strong>Device Name:</strong> {{ device.name }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if data %}
+        <!-- Latest Data Card -->
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Latest Reading</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% if data_type == 'greenhouse' %}
+                        <div class="col-md-3 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <h1 class="display-4 mb-0">{{ data.0.air_temperature|floatformat:1 }}°C</h1>
+                                    <p class="text-muted">Temperature</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <h1 class="display-4 mb-0">{{ data.0.relative_humidity|floatformat:1 }}%</h1>
+                                    <p class="text-muted">Humidity</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <h1 class="display-4 mb-0">{{ data.0.co2_level }}</h1>
+                                    <p class="text-muted">CO2 Level</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <h1 class="display-4 mb-0">{{ data.0.illumination_intensity|floatformat:0 }}</h1>
+                                    <p class="text-muted">Illumination (lux)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 text-center">
+                            <p class="text-muted">
+                                Last updated: {{ data.0.greenhouse_timestamp }}
+                            </p>
+                        </div>
+                    {% elif data_type == 'biofilter' %}
+                        <!-- Biofilter specific data display -->
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <h1 class="display-4 mb-0">{{ data.0.biofilter_nitrate|floatformat:2 }}</h1>
+                                    <p class="text-muted">Nitrate</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <h1 class="display-4 mb-0">{{ data.0.biofilter_nitrite|floatformat:2 }}</h1>
+                                    <p class="text-muted">Nitrite</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <h1 class="display-4 mb-0">{{ data.0.biofilter_ammonia|floatformat:2 }}</h1>
+                                    <p class="text-muted">Ammonia</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 text-center">
+                            <p class="text-muted">
+                                Last updated: {{ data.0.biofilter_timestamp }}
+                            </p>
+                        </div>
+                    {% elif data_type == 'waterbed' %}
+                        <!-- Waterbed specific data display -->
+                        <div class="col-md-3 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <h1 class="display-4 mb-0">{{ data.0.water_temperature|floatformat:1 }}°C</h1>
+                                    <p class="text-muted">Water Temperature</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <h1 class="display-4 mb-0">{{ data.0.dissolved_o2_level|floatformat:2 }}</h1>
+                                    <p class="text-muted">DO Level</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <h1 class="display-4 mb-0">{{ data.0.total_dissolved_solids|floatformat:0 }}</h1>
+                                    <p class="text-muted">TDS</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <h1 class="display-4 mb-0">{{ data.0.ph_level|floatformat:1 }}</h1>
+                                    <p class="text-muted">pH Level</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 text-center">
+                            <p class="text-muted">
+                                Last updated: {{ data.0.waterbed_timestamp }}
+                            </p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Historical Data Table -->
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">Historical Data</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover" id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>Cluster</th>
+                                {% if data_type == 'greenhouse' %}
+                                    <th>Temperature (°C)</th>
+                                    <th>Humidity (%)</th>
+                                    <th>CO2 Level</th>
+                                    <th>Illumination (lux)</th>
+                                    <th>Timestamp</th>
+                                {% elif data_type == 'biofilter' %}
+                                    <th>Nitrate</th>
+                                    <th>Nitrite</th>
+                                    <th>Ammonia</th>
+                                    <th>Timestamp</th>
+                                {% elif data_type == 'waterbed' %}
+                                    <th>Water Temp (°C)</th>
+                                    <th>DO Level</th>
+                                    <th>TDS</th>
+                                    <th>Nitrate</th>
+                                    <th>Nitrite</th>
+                                    <th>Ammonia</th>
+                                    <th>pH Level</th>
+                                    <th>Timestamp</th>
+                                {% endif %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in data %}
+                                <tr>
+                                    <td>{{ item.cluster_name }}</td>
+                                    {% if data_type == 'greenhouse' %}
+                                        <td>{{ item.air_temperature|floatformat:1 }}</td>
+                                        <td>{{ item.relative_humidity|floatformat:1 }}</td>
+                                        <td>{{ item.co2_level }}</td>
+                                        <td>{{ item.illumination_intensity|floatformat:0 }}</td>
+                                        <td>{{ item.greenhouse_timestamp }}</td>
+                                    {% elif data_type == 'biofilter' %}
+                                        <td>{{ item.biofilter_nitrate|floatformat:2 }}</td>
+                                        <td>{{ item.biofilter_nitrite|floatformat:2 }}</td>
+                                        <td>{{ item.biofilter_ammonia|floatformat:2 }}</td>
+                                        <td>{{ item.biofilter_timestamp }}</td>
+                                    {% elif data_type == 'waterbed' %}
+                                        <td>{{ item.water_temperature|floatformat:1 }}</td>
+                                        <td>{{ item.dissolved_o2_level|floatformat:2 }}</td>
+                                        <td>{{ item.total_dissolved_solids|floatformat:0 }}</td>
+                                        <td>{{ item.waterbed_nitrate|floatformat:2 }}</td>
+                                        <td>{{ item.waterbed_nitrite|floatformat:2 }}</td>
+                                        <td>{{ item.waterbed_ammonia|floatformat:2 }}</td>
+                                        <td>{{ item.ph_level|floatformat:1 }}</td>
+                                        <td>{{ item.waterbed_timestamp }}</td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-warning">
+            <i class="fas fa-exclamation-triangle"></i> No {{ data_type }} data available for this device.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{% endblock %}
