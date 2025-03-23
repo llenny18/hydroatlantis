@@ -127,7 +127,7 @@ class EdgeDeviceInfo(models.Model):
     mqtt_client_id = models.CharField(max_length=44, null=True, blank=True)
     
     class Meta:
-        db_table = 'edge_device_infos'
+        db_table = 'cluster_info'
 
 
 class EdgeActuatorView(models.Model):
@@ -146,7 +146,7 @@ class EdgeActuatorView(models.Model):
 
     class Meta:
         managed = False  # Since this is a database view
-        db_table = 'edge_actuator_view'
+        db_table = 'cluster_actuator_view'
 
 class ActuatorDeviceInfo(models.Model):
     id = models.CharField(max_length=36, primary_key=True)
@@ -215,4 +215,70 @@ class SensorType(models.Model):
 
     def __str__(self):
         return self.name or f'Sensor {self.id}'
-        
+
+
+class ClusterGreenData(models.Model):
+    cluster_id = models.IntegerField(primary_key=True)
+    indentifier = models.CharField(max_length=36, null=True, blank=True)
+    cluster_name = models.CharField(max_length=50, null=True, blank=True)
+    mqtt_client_id = models.CharField(max_length=44, null=True, blank=True)
+    api_key = models.CharField(max_length=60, null=True, blank=True)
+    cl_status = models.SmallIntegerField(null=True, blank=True)
+    air_temperature = models.DecimalField(max_digits=11, decimal_places=8, null=True, blank=True)
+    greenhouse_airtemp_sensID = models.CharField(max_length=36, null=True, blank=True)
+    relative_humidity = models.DecimalField(max_digits=11, decimal_places=8, null=True, blank=True)
+    greenhouse_relhumid_sensID = models.CharField(max_length=36, null=True, blank=True)
+    co2_level = models.BooleanField(null=True, blank=True)
+    greenhouse_co2_sensID = models.CharField(max_length=36, null=True, blank=True)
+    illumination_intensity = models.DecimalField(max_digits=13, decimal_places=9, null=True, blank=True)
+    greenhouse_illumination_sensID = models.CharField(max_length=36, null=True, blank=True)
+    greenhouse_timestamp = models.CharField(max_length=16, null=True, blank=True)
+    class Meta:
+        managed = False  # Since this is a database view
+        db_table = 'cluster_greenhouse_data'    
+
+class ClusterBiofilterData(models.Model):
+    cluster_id = models.IntegerField(primary_key=True)
+    indentifier = models.CharField(max_length=36, null=True, blank=True)
+    cluster_name = models.CharField(max_length=50, null=True, blank=True)
+    mqtt_client_id = models.CharField(max_length=44, null=True, blank=True)
+    api_key = models.CharField(max_length=60, null=True, blank=True)
+    cl_status = models.SmallIntegerField(null=True, blank=True)
+    biofilter_nitrate = models.DecimalField(max_digits=11, decimal_places=7, null=True, blank=True)
+    biofilter_nitrate_sensID = models.CharField(max_length=36, null=True, blank=True)
+    biofilter_nitrite = models.DecimalField(max_digits=11, decimal_places=8, null=True, blank=True)
+    biofilter_nitrite_sensID = models.CharField(max_length=36, null=True, blank=True)
+    biofilter_ammonia = models.DecimalField(max_digits=11, decimal_places=9, null=True, blank=True)
+    biofilter_ammonia_sensID = models.CharField(max_length=36, null=True, blank=True)
+    biofilter_timestamp = models.CharField(max_length=16, null=True, blank=True)
+    class Meta:
+        managed = False  # Since this is a database view
+        db_table = 'cluster_biofilter_data'
+
+class ClusterWaterBedData(models.Model):
+    cluster_id = models.IntegerField(primary_key=True)
+    indentifier = models.CharField(max_length=36, null=True, blank=True)
+    cluster_name = models.CharField(max_length=50, null=True, blank=True)
+    mqtt_client_id = models.CharField(max_length=44, null=True, blank=True)
+    api_key = models.CharField(max_length=60, null=True, blank=True)
+    cl_status = models.SmallIntegerField(null=True, blank=True)
+    water_temperature = models.DecimalField(max_digits=11, decimal_places=8, null=True, blank=True)
+    waterbed_watertemp_sensID = models.CharField(max_length=36, null=True, blank=True)
+    dissolved_o2_level = models.DecimalField(max_digits=11, decimal_places=9, null=True, blank=True)
+    waterbed_do2_sensID = models.CharField(max_length=36, null=True, blank=True)
+    electrical_conductivity = models.IntegerField(null=True, blank=True)
+    waterbed_tds_sensID = models.CharField(max_length=36, null=True, blank=True)
+    total_dissolved_solids = models.IntegerField(null=True, blank=True)
+    waterbed_nitrate = models.DecimalField(max_digits=11, decimal_places=6, null=True, blank=True)
+    waterbed_nitrate_sensID = models.CharField(max_length=36, null=True, blank=True)
+    waterbed_nitrite = models.DecimalField(max_digits=11, decimal_places=8, null=True, blank=True)
+    waterbed_nitrite_sensID = models.CharField(max_length=36, null=True, blank=True)
+    waterbed_ammonia = models.DecimalField(max_digits=11, decimal_places=9, null=True, blank=True)
+    waterbed_ammonia_sensID = models.CharField(max_length=36, null=True, blank=True)
+    ph_level = models.DecimalField(max_digits=11, decimal_places=9, null=True, blank=True)
+    waterbed_ph_sensID = models.CharField(max_length=36, null=True, blank=True)
+    waterbed_timestamp = models.CharField(max_length=16, null=True, blank=True)
+
+    class Meta:
+        managed = False  # Since this is a database view
+        db_table = 'cluster_waterbed_data'

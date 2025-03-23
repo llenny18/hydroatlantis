@@ -195,11 +195,11 @@
                            Device Monitoring
                        </li>
                        <li class="nav-item">
-                           <a class="nav-link {% if request.path == '/edge_devices/' %}active{% endif %}" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-6" aria-controls="submenu-6"><i class="fas fa-fw fa-file"></i>Edge Devices</a>
+                           <a class="nav-link {% if request.path == '/edge_devices/' %}active{% endif %}" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-6" aria-controls="submenu-6"><i class="fas fa-fw fa-file"></i>Cluster List</a>
                            <div id="submenu-6" class="collapse submenu {% if request.path == '/edge_devices/' %}show{% endif %}" style="">
                                <ul class="nav flex-column">
                                    <li class="nav-item">
-                                       <a class="nav-link {% if request.path == '/edge_devices/' %}active{% endif %}" href="{% url 'edge_devices' %}">Edge Devices</a>
+                                       <a class="nav-link {% if request.path == '/edge_devices/' %}active{% endif %}" href="{% url 'edge_devices' %}">Clusters</a>
                                    </li>
                                </ul>
                            </div>

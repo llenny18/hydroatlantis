@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{% static 'assets/vendor/fonts/fontawesome/css/fontawesome-all.css' %}">
     <link rel="stylesheet" href="{% static 'assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css' %}">
     <link rel="shortcut icon" href="{% static 'assets/images/atlanislogo.png' %}" type="image/x-icon">
-    <title>ATLANTIS - Edge Device List</title>
+    <title>ATLANTIS - Cluster List</title>
     <style>
         .switch {
           position: relative;
@@ -98,12 +98,12 @@
                         <div class="row">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <div class="page-header" id="top">
-                                    <h2 class="pageheader-title">Edge Devices </h2>
+                                    <h2 class="pageheader-title">Cluster Lists </h2>
                                     <div class="page-breadcrumb">
                                         <nav aria-label="breadcrumb">
                                             <ol class="breadcrumb">
                                                 <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Dashboard</a></li>
-                                                <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Edge Devices</a></li>
+                                                <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Cluster Lists</a></li>
                                              
                                             </ol>
                                         </nav>
@@ -122,7 +122,7 @@
                                 <div class="page-section" id="overview">
                                     <div class="row">
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                            <h2>Edge Device List</h2>
+                                            <h2>Cluster List</h2>
                                             
                                         </div>
                                     </div>
@@ -174,7 +174,98 @@
                                           </label>
                                           <hr>
                                           <button type="button" class="btn btn-primary"> Edit (Modal with form)</button>
+                                          <button type="button" class="btn btn-primary mt-2" onclick="openDataModal('{{ device.id }}')">View Data</button>
+
+                                    <!-- Modal for Data Selection -->
+                                    <div class="modal fade" id="dataModal" tabindex="-1" role="dialog" aria-labelledby="dataModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="dataModalLabel">Select Data to View</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form id="dataForm" method="GET">
+                                                        <input type="hidden" id="device_id" name="device_id">
+                                                        <div class="form-group">
+                                                            <label for="data_type">Select Data Type:</label>
+                                                            <select class="form-control" id="data_type" name="data_type">
+                                                                <option value="greenhouse">🌱 Greenhouse Data</option>
+                                                                <option value="biofilter">🧪 Biofilter Data</option>
+                                                                <option value="waterbed">💧 Waterbed Data</option>
+                                                            </select>
+                                                        </div>
+                                                        <button type="button" class="btn btn-primary" onclick="submitData()">View</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+                                        <!-- Modal for displaying data -->
+                                        <div class="modal fade" id="dataDisplayModal" tabindex="-1" role="dialog" aria-labelledby="dataDisplayModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg" role="document">
+                                                <div class="modal-content">
+                                                    <div class=" modal-header">
+                                                        <h5 class="modal-title" id="dataDisplayModalLabel">Data Display</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body" id="dataDisplayModalBody">
+                                                        <!-- Data will be populated here -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <script>
+                                        function openDataModal(deviceId) {
+                                            // Set device ID in the hidden field
+                                            document.getElementById('device_id').value = deviceId;
+                                            // Show modal
+                                            $('#dataModal').modal('show');
+                                        }
+
+                                        function submitData() {
+                                            const deviceId = document.getElementById('device_id').value;
+                                            const dataType = document.getElementById('data_type').value;
+
+                                            // Fetch data via AJAX
+                                            fetch(`/edge_devices/${deviceId}/data/?data_type=${dataType}`)
+                                                .then(response => response.json())
+                                                .then(data => {
+                                                    console.log(data); // Log the response to check its structure
+                                                    const modalBody = document.getElementById('dataDisplayModalBody');
+                                                    // Build the table using column.display and column.field
+                                                    modalBody.innerHTML = `
+                                                        <h5>${data.data_label}</h5>
+                                                        <table class="table table-dark">
+                                                            <thead>
+                                                                <tr>
+                                                                    ${data.columns.map(column => 
+                                                                        `<th>${column.display}</th>` // Accessing display property
+                                                                    ).join('')}
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                ${data.data.map(row => `
+                                                                    <tr>
+                                                                        ${data.columns.map(column => 
+                                                                            `<td>${row[column.field] || ''}</td>` // Accessing field property
+                                                                        ).join('')}
+                                                                    </tr>`
+                                                                ).join('')}
+                                                            </tbody>
+                                                        </table>
+                                                    `;
+                                                    $('#dataModal').modal('hide'); // Hide the initial modal
+                                                    $('#dataDisplayModal').modal('show'); // Show the data display modal
+                                                })
+                                                .catch(error => console.error('Error loading data:', error));
+                                        }
+                                    </script>
                                 </div>
                             </div>
                             {% endfor %}

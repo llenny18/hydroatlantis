@@ -1,11 +1,11 @@
 - / Timestamp to date
-- Connections of raw data in database fixes (sensor id and cluster id)
+- / Connections of raw data in database fixes (sensor id and cluster id)
 - Main dashboard charts (exs: Line chart of spikes per day, donut chart of spikes this week, etc)
 - Filter 5 location water quality tables by cluster
-- Edge device to cluster in database table columns, django models and html dipsplay 
+- / Edge device to cluster in database table columns, django models and html dipsplay 
 - Charts per location make summary charts both bar and pie chart(ex: Morning, Noon, Night values(Bar Graph))
-- Charts and table per cluster Of sensors
-- UI Cluster from edge devices
+- / Charts and table per cluster Of sensors
+- / UI Cluster from edge devices
 - Create Clusters, Delete and update using modals
 - Actuators updates not table, put history in the actuator page as modal
 - New notifications this day
