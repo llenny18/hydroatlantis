@@ -25,6 +25,30 @@ from .models import EdgeDeviceInfo, ClusterGreenData, ClusterBiofilterData, Clus
 # date_time_obj = datetime.datetime.strptime("2025-06-21 23:59:31", '%Y-%m-%d %H:%M:%S')
 # formatted_date = date_time_obj.strftime("%B %d, %Y %I:%M:%S %p") 
 
+
+
+
+def greenhouse_live_chart_data(request):
+    data = (
+        Greenhouse.objects
+        .order_by('-increment_id')[:40]
+        .values('timestamp', 'air_temperature', 'relative_humidity', 'co2_level', 'illumination_intensity')
+    )
+
+    # Convert queryset to list of dicts and sort ascending for chart
+    chart_data = list(data)[::-1]
+
+    response = {
+        "timestamps": [d['timestamp'].strftime("%H:%M:%S") for d in chart_data],
+        "air_temperature": [float(d['air_temperature']) for d in chart_data],
+        "relative_humidity": [float(d['relative_humidity']) for d in chart_data],
+        "co2_level": [int(d['co2_level']) for d in chart_data],
+        "illumination_intensity": [float(d['illumination_intensity']) for d in chart_data],
+    }
+
+    return JsonResponse(response)
+
+
 # Generate a key from a password
 def derive_key(password: str, salt: bytes) -> bytes:
     kdf = PBKDF2HMAC(
