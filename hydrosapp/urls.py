@@ -10,6 +10,8 @@ urlpatterns = [
     path('/', views.landing, name='landing'),
 
     path('greenhouse/', views.get_greenhouse, name='greenhouse'),
+    
+    path('greenhouse_live_data/', views.greenhouse_live_chart_data, name='greenhouse_live_chart_data'),
     path('waterbed/', views.get_waterbed, name='waterbed'),
     path('waterbiofilter/', views.get_waterbio, name='waterbiofilter'),
     path('waterbiofiltercharts/', views.get_waterbiochart, name='waterbiofiltercharts'),

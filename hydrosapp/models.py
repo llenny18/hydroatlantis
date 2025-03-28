@@ -15,6 +15,7 @@ class Greenhouse(models.Model):
     relhumid_sensID = models.CharField(max_length=36)  # relhumid_sensID as varchar(36)
     co2_sensID = models.CharField(max_length=36)  # co2_sensID as varchar(36)
     illumination_sensID = models.CharField(max_length=36)  # illumination_sensID as varchar(36)
+    increment_id = models.IntegerField()  # Added increment_id from DB table
 
     def __str__(self):
         return self.id
