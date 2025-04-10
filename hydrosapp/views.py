@@ -792,7 +792,7 @@ def view_device_data_modal(request, device_id):
     columns = []
 
     if data_type == 'greenhouse':
-        queryset = ClusterGreenData.objects.filter(indentifier=device_id)
+        queryset = ClusterGreenData.objects.filter(indentifier=device_id).order_by('greenhouse_timestamp')
         data = list(queryset.values())
         data_label = "🌱 Greenhouse Data"
         columns = [
@@ -803,7 +803,7 @@ def view_device_data_modal(request, device_id):
             {'display': 'Timestamp', 'field': 'greenhouse_timestamp'},
         ]
     elif data_type == 'biofilter':
-        queryset = ClusterBiofilterData.objects.filter(indentifier=device_id)
+        queryset = ClusterBiofilterData.objects.filter(indentifier=device_id).order_by('biofilter_timestamp')
         data = list(queryset.values())
         data_label = "🧪 Biofilter Data"
         columns = [
@@ -813,7 +813,7 @@ def view_device_data_modal(request, device_id):
             {'display': 'Timestamp', 'field': 'biofilter_timestamp'},
         ]
     elif data_type == 'waterbed':
-        queryset = ClusterWaterBedData.objects.filter(indentifier=device_id)
+        queryset = ClusterWaterBedData.objects.filter(indentifier=device_id).order_by('waterbed_timestamp')
         data = list(queryset.values())
         data_label = "💧 Waterbed Data"
         columns = [
