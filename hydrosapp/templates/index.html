@@ -1,15 +1,12 @@
 {% load static %}
-
 <!doctype html>
 <html lang="en">
- 
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ATLANTIS - Dashboard</title>
     <link rel="stylesheet" href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}">
-    <link href="{% static 'assets/vendor/fonts/circular-std/style.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'assets/vendor/fonts/circular-std/style.css' %}">
     <link rel="stylesheet" href="{% static 'assets/libs/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'assets/vendor/fonts/fontawesome/css/fontawesome-all.css' %}">
     <link rel="stylesheet" href="{% static 'assets/vendor/charts/chartist-bundle/chartist.css' %}">
@@ -18,556 +15,178 @@
     <link rel="stylesheet" href="{% static 'assets/vendor/charts/c3charts/c3.css' %}">
     <link rel="stylesheet" href="{% static 'assets/vendor/fonts/flag-icon-css/flag-icon.min.css' %}">
     <link rel="shortcut icon" href="{% static 'assets/images/atlanislogo.png' %}" type="image/x-icon">
-    <title>ATLANTIS - Dashboard</title>
 </head>
 
 <body>
-    <!-- ============================================================== -->
-    <!-- main wrapper -->
-    <!-- ============================================================== -->
     {% include 'includes/navbar.html' %}
-        <!-- ============================================================== -->
-        <!-- end left sidebar -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- wrapper  -->
-        <!-- ============================================================== -->
-        <div class="dashboard-wrapper">
-            <div class="dashboard-ecommerce">
-                <div class="container-fluid dashboard-content ">
-                    <!-- ============================================================== -->
-                    <!-- pageheader  -->
-                    <!-- ============================================================== -->
-                    <div class="row">
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                            <div class="page-header">
-                                <h2 class="pageheader-title">Welcome to HydroAtlantis {{ username}} </h2>
-                                <div class="page-breadcrumb">
-                                    <nav aria-label="breadcrumb">
-                                        <ol class="breadcrumb">
-                                            <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">HydroAtlantis </a></li>
-                                            <li class="breadcrumb-item active" aria-current="page">Main Dashboard</li>
-                                        </ol>
-                                    </nav>
-                                </div>
+
+    <div class="dashboard-wrapper">
+        <div class="dashboard-ecommerce">
+            <div class="container-fluid dashboard-content">
+                <!-- Page Header -->
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="page-header">
+                            <h2 class="pageheader-title">Welcome to HydroAtlantis {{ username }}</h2>
+                            <div class="page-breadcrumb">
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">HydroAtlantis</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">Main Dashboard</li>
+                                    </ol>
+                                </nav>
                             </div>
                         </div>
                     </div>
-                    <!-- ============================================================== -->
-                    <!-- end pageheader  -->
-                    <!-- ============================================================== -->
-                    <div class="ecommerce-widget">
-
-                        <div class="row">
-                            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="text-muted">Daily Status of Greenhouse</h5>
-                                        <div class="metric-value d-inline-block">
-                                            <h3 class="mb-1">Air Temperature</h3>
-                                        </div>
-                                        <div class="metric-label d-inline-block float-right text-secondary font-weight-bold">
-                                            <span><i class="fa fa-fw fa-arrow-down"></i></span><span>3.42% worse today</span>
-                                        </div>
-                                    </div>
-                                    <div id="sparkline-revenue"></div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="text-muted">Daily Status of Greenhouse</h5>
-                                        <div class="metric-value d-inline-block">
-                                            <h3 class="mb-1">Relative Humidity</h3>
-                                        </div>
-                                        <div class="metric-label d-inline-block float-right text-secondary font-weight-bold">
-                                            <span><i class="fa fa-fw fa-arrow-down"></i></span><span>5.86% worse</span>
-                                        </div>
-                                    </div>
-                                    <div id="sparkline-revenue2"></div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="text-muted">Daily Status of Greenhouse</h5>
-                                        <div class="metric-value d-inline-block">
-                                            <h3 class="mb-1">CO2 Level</h3>
-                                        </div>
-                                        <div class="metric-label d-inline-block float-right text-success font-weight-bold">
-                                            <span> <i class="fa fa-fw fa-arrow-up"></i> 1.32% better today</span>
-                                        </div>
-                                    </div>
-                                    <div id="sparkline-revenue3"></div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="text-muted">Daily Status of Greenhouse</h5>
-                                        <div class="metric-value d-inline-block">
-                                            <h3 class="mb-1">Illumination Intensity</h3>
-                                        </div>
-                                        <div class="metric-label d-inline-block float-right text-success font-weight-bold">
-                                            <span><i class="fa fa-fw fa-arrow-up"></i> 2.43% better today</span>
-                                        </div>
-                                    </div>
-                                    <div id="sparkline-revenue4"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <!-- ============================================================== -->
-                      
-                            <!-- ============================================================== -->
-
-                                          <!-- recent orders  -->
-                            <!-- ============================================================== -->
-                         
-                            <!-- ============================================================== -->
-                            <!-- end recent orders  -->
-
-    
-                            <!-- ============================================================== -->
-                            <!-- ============================================================== -->
-                            <!-- customer acquistion  -->
-                            <!-- ============================================================== -->
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                <div class="card">
-                                    <h5 class="card-header">Hydro-Atlantis Overall Hydroponics Status</h5>
-                                    <div class="card-body">
-                                        <div class="ct-chart ct-golden-section" style="height: 354px;"></div>
-                                        <div class="text-center">
-                                            <span class="legend-item mr-2">
-                                                    <span class="fa-xs text-primary mr-1 legend-tile"><i class="fa fa-fw fa-square-full"></i></span>
-                                            <span class="legend-text">Wated Bed (Fish)</span>
-                                            </span>
-                                            <span class="legend-item mr-2">
-
-                                                    <span class="fa-xs text-secondary mr-1 legend-tile"><i class="fa fa-fw fa-square-full"></i></span>
-                                            <span class="legend-text">Fish Tank</span>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- ============================================================== -->
-                            <!-- end customer acquistion  -->
-                            <!-- ============================================================== -->
-                        </div>
-                        <div class="row">
-                            <!-- ============================================================== -->
-              				                        <!-- product category  -->
-                            <!-- ============================================================== -->
-                            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <div class="card">
-                                    <h5 class="card-header"> Most Calibrated Sensors</h5>
-                                    <div class="card-body">
-                                        <div class="ct-chart-category ct-golden-section" style="height: 315px;"></div>
-                                        <div class="text-center m-t-40">
-                                            <span class="legend-item mr-3">
-                                                    <span class="fa-xs text-primary mr-1 legend-tile"><i class="fa fa-fw fa-square-full "></i></span><span class="legend-text">DO</span>
-                                            </span>
-                                            <span class="legend-item mr-3">
-                                                <span class="fa-xs text-secondary mr-1 legend-tile"><i class="fa fa-fw fa-square-full"></i></span>
-                                            <span class="legend-text">TDS</span>
-                                            </span>
-                                            <span class="legend-item mr-3">
-                                                <span class="fa-xs text-info mr-1 legend-tile"><i class="fa fa-fw fa-square-full"></i></span>
-                                            <span class="legend-text">EC</span>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- ============================================================== -->
-                            <!-- end product category  -->
-                                   <!-- product sales  -->
-                            <!-- ============================================================== -->
-                            <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <!-- <div class="float-right">
-                                                <select class="custom-select">
-                                                    <option selected>Today</option>
-                                                    <option value="1">Weekly</option>
-                                                    <option value="2">Monthly</option>
-                                                    <option value="3">Yearly</option>
-                                                </select>
-                                            </div> -->
-                                        <h5 class="mb-0"> Total of Bad results gathered per Location</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="ct-chart-product ct-golden-section"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- ============================================================== -->
-                            <!-- end product sales  -->
-                            <!-- ============================================================== -->
-                                <!-- ============================================================== -->
-                                <!-- top perfomimg  -->
-                                <!-- ============================================================== -->
-                         
-                            </div>
-
-                       
-                        <div class="row">
-                            <!-- ============================================================== -->
-                            <!-- total revenue  -->
-                            <!-- ============================================================== -->
-  
-                            
-                            <!-- ============================================================== -->
-                            <!-- ============================================================== -->
-                            <!-- category revenue  -->
-                            <!-- ============================================================== -->
-                            <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12">
-                                <div class="card">
-                                    <h5 class="card-header">Total of Good results gathered per Location</h5>
-                                    <div class="card-body">
-                                        <div id="c3chart_category" style="height: 420px;"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- ============================================================== -->
-                            <!-- end category revenue  -->
-                            <!-- ============================================================== -->
-
-                            <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
-                                <div class="card">
-                                    <h5 class="card-header"> Hydroponics Status per Fish and Plant Cycle </h5>
-                                    <div class="card-body">
-                                        <div id="morris_totalrevenue"></div>
-                                    </div>
-                                    <div class="card-footer">
-                                        <p class="display-7 font-weight-bold"><span class="text-primary d-inline-block">Cycle: 2025 Q1</span><span class="text-success float-right">17% better per cycle</span></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    
                 </div>
+
+                <!-- Date Filter and Chart -->
+                <div class="col-xl-12">
+                    <div class="date-filter mb-3">
+                        <label for="startDate">Start Date</label>
+                        <input type="datetime-local" id="startDate" class="form-control" style="max-width: 300px;">
+                        <label for="endDate" class="mt-2">End Date</label>
+                        <input type="datetime-local" id="endDate" class="form-control" style="max-width: 300px;">
+                        <button onclick="updateChart()" class="btn btn-primary mt-2">Filter</button>
+                    </div>
+                    <div class="card">
+                        <h5 class="card-header">Chart of Water Bed Data</h5>
+                        <div class="card-body">
+                            <canvas id="waterBedChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <!-- Greenhouse Chart Section -->
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-5">
+                    <div class="date-filter">
+                        <label for="greenStart">Start Date</label>
+                        <input type="datetime-local" id="greenStart" class="form-control">
+                        <label for="greenEnd">End Date</label>
+                        <input type="datetime-local" id="greenEnd" class="form-control">
+                        <button onclick="updateGreenChart()" class="btn btn-success">Filter</button>
+                    </div>
+                    <div class="card">
+                        <h5 class="card-header">Greenhouse Monitoring</h5>
+                        <div class="card-body">
+                            <canvas id="greenChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Water Biofilter Chart Section -->
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-5">
+                    <div class="date-filter">
+                        <label for="bioStart">Start Date</label>
+                        <input type="datetime-local" id="bioStart" class="form-control">
+                        <label for="bioEnd">End Date</label>
+                        <input type="datetime-local" id="bioEnd" class="form-control">
+                        <button onclick="updateBioChart()" class="btn btn-info">Filter</button>
+                    </div>
+                    <div class="card">
+                        <h5 class="card-header">Water Biofilter Levels</h5>
+                        <div class="card-body">
+                            <canvas id="bioChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                {% include 'includes/footer.html' %}
             </div>
-            <!-- ============================================================== -->
-            <!-- footer -->
-            <!-- ============================================================== -->
-            {% include 'includes/footer.html' %}
-            <!-- ============================================================== -->
-            <!-- end footer -->
-            <!-- ============================================================== -->
         </div>
-        <!-- ============================================================== -->
-        <!-- end wrapper  -->
-        <!-- ============================================================== -->
     </div>
-    <!-- ============================================================== -->
-    <!-- end main wrapper  -->
-    <!-- ============================================================== -->
-    <!-- Optional JavaScript -->
-    <!-- jquery 3.3.1 -->
+
+    <!-- JS Scripts -->
     <script src="{% static 'assets/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
-    <!-- bootstap bundle js -->
     <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.js' %}"></script>
-    <!-- slimscroll js -->
     <script src="{% static 'assets/vendor/slimscroll/jquery.slimscroll.js' %}"></script>
-    <!-- main js -->
     <script src="{% static 'assets/libs/js/main-js.js' %}"></script>
-    <!-- chart chartist js -->
-    <script src="{% static 'assets/vendor/charts/chartist-bundle/chartist.min.js' %}"></script>
-    <!-- sparkline js -->
-    <script src="{% static 'assets/vendor/charts/sparkline/jquery.sparkline.js' %}"></script>
-    <!-- morris js -->
-    <script src="{% static 'assets/vendor/charts/morris-bundle/raphael.min.js' %}"></script>
-    <script src="{% static 'assets/vendor/charts/morris-bundle/morris.js' %}"></script>
-    <!-- chart c3 js -->
-    <script src="{% static 'assets/vendor/charts/c3charts/c3.min.js' %}"></script>
-    <script src="{% static 'assets/vendor/charts/c3charts/d3-5.4.0.min.js' %}"></script>
-    <script src="{% static 'assets/vendor/charts/c3charts/C3chartjs.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Chart JS Logic -->
     <script>
-         
-    
-    $(function() {
-        "use strict";
-        // ============================================================== 
-        // Product Sales
-        // ============================================================== 
+                let waterChartInstance, greenChartInstance, bioChartInstance;
 
-        new Chartist.Bar('.ct-chart-product', {
-            labels: ['Q1', 'Q2', 'Q3', 'Q4'],
-            series: [
-                [800000, 1200000, 1400000, 1300000],
-                [200000, 400000, 500000, 300000],
-                [100000, 200000, 400000, 600000]
-            ]
-        }, {
-            stackBars: true,
-            axisY: {
-                labelInterpolationFnc: function(value) {
-                    return (value / 1000) + 'k';
+                document.addEventListener('DOMContentLoaded', () => {
+                    updateChart();
+                    updateGreenChart();
+                    updateBioChart();
+                });
+
+                function updateChart() {
+                    const startDate = document.getElementById('startDate').value;
+                    const endDate = document.getElementById('endDate').value;
+                    let url = '/api/waterbedchart/';
+                    if (startDate && endDate) {
+                        url += `?start_date=${startDate}&end_date=${endDate}`;
+                    }
+
+                    fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' }})
+                        .then(res => res.json())
+                        .then(data => {
+                            const ctx = document.getElementById('waterBedChart').getContext('2d');
+                            if (waterChartInstance) waterChartInstance.destroy();
+                            waterChartInstance = new Chart(ctx, {
+                                type: 'line',
+                                data: {
+                                    labels: data.labels,
+                                    datasets: data.datasets
+                                },
+                                options: { responsive: true, scales: { y: { beginAtZero: true } } }
+                            });
+                        })
+                        .catch(err => console.error("Water Bed Chart Error:", err));
                 }
-            }
-        }).on('draw', function(data) {
-            if (data.type === 'bar') {
-                data.element.attr({
-                    style: 'stroke-width: 40px'
-                });
-            }
-        });
-    });
 
+                function updateGreenChart() {
+                    const startDate = document.getElementById('greenStart').value;
+                    const endDate = document.getElementById('greenEnd').value;
+                    let url = '/greencharts/';
+                    if (startDate && endDate) {
+                        url += `?start_date=${startDate}&end_date=${endDate}`;
+                    }
 
-
-
-    // ============================================================== 
-    // Product Category
-    // ============================================================== 
-    var chart = new Chartist.Pie('.ct-chart-category', {
-        series: [60, 30, 30],
-        labels: ['Bananas', 'Apples', 'Grapes']
-    }, {
-        donut: true,
-        showLabel: false,
-        donutWidth: 40
-
-    });
-
-
-    chart.on('draw', function(data) {
-        if (data.type === 'slice') {
-            // Get the total path length in order to use for dash array animation
-            var pathLength = data.element._node.getTotalLength();
-
-            // Set a dasharray that matches the path length as prerequisite to animate dashoffset
-            data.element.attr({
-                'stroke-dasharray': pathLength + 'px ' + pathLength + 'px'
-            });
-
-            // Create animation definition while also assigning an ID to the animation for later sync usage
-            var animationDefinition = {
-                'stroke-dashoffset': {
-                    id: 'anim' + data.index,
-                    dur: 1000,
-                    from: -pathLength + 'px',
-                    to: '0px',
-                    easing: Chartist.Svg.Easing.easeOutQuint,
-                    // We need to use `fill: 'freeze'` otherwise our animation will fall back to initial (not visible)
-                    fill: 'freeze'
+                    fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' }})
+                        .then(res => res.json())
+                        .then(data => {
+                            const ctx = document.getElementById('greenChart').getContext('2d');
+                            if (greenChartInstance) greenChartInstance.destroy();
+                            greenChartInstance = new Chart(ctx, {
+                                type: 'line',
+                                data: {
+                                    labels: data.labels,
+                                    datasets: data.datasets
+                                },
+                                options: { responsive: true, scales: { y: { beginAtZero: true } } }
+                            });
+                        })
+                        .catch(err => console.error("Greenhouse Chart Error:", err));
                 }
-            };
 
-            // If this was not the first slice, we need to time the animation so that it uses the end sync event of the previous animation
-            if (data.index !== 0) {
-                animationDefinition['stroke-dashoffset'].begin = 'anim' + (data.index - 1) + '.end';
-            }
+                function updateBioChart() {
+                    const startDate = document.getElementById('bioStart').value;
+                    const endDate = document.getElementById('bioEnd').value;
+                    let url = '/waterbiofiltercharts/';
+                    if (startDate && endDate) {
+                        url += `?start_date=${startDate}&end_date=${endDate}`;
+                    }
 
-            // We need to set an initial value before the animation starts as we are not in guided mode which would do that for us
-            data.element.attr({
-                'stroke-dashoffset': -pathLength + 'px'
-            });
-
-            // We can't use guided mode as the animations need to rely on setting begin manually
-            // See http://gionkunz.github.io/chartist-js/api-documentation.html#chartistsvg-function-animate
-            data.element.animate(animationDefinition, false);
-        }
-    });
-
-    // For the sake of the example we update the chart every time it's created with a delay of 8 seconds
-    
-
-
-    // ============================================================== 
-    // Customer acquisition
-    // ============================================================== 
-    var chart = new Chartist.Line('.ct-chart', {
-        labels: ['Mon', 'Tue', 'Wed'],
-        series: [
-            [1, 5, 2, 5],
-            [2, 3, 4, 8]
-
-        ]
-    }, {
-        low: 0,
-        showArea: true,
-        showPoint: false,
-        fullWidth: true
-    });
-
-    chart.on('draw', function(data) {
-        if (data.type === 'line' || data.type === 'area') {
-            data.element.animate({
-                d: {
-                    begin: 2000 * data.index,
-                    dur: 2000,
-                    from: data.path.clone().scale(1, 0).translate(0, data.chartRect.height()).stringify(),
-                    to: data.path.clone().stringify(),
-                    easing: Chartist.Svg.Easing.easeOutQuint
+                    fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' }})
+                        .then(res => res.json())
+                        .then(data => {
+                            const ctx = document.getElementById('bioChart').getContext('2d');
+                            if (bioChartInstance) bioChartInstance.destroy();
+                            bioChartInstance = new Chart(ctx, {
+                                type: 'line',
+                                data: {
+                                    labels: data.labels,
+                                    datasets: data.datasets
+                                },
+                                options: { responsive: true, scales: { y: { beginAtZero: true } } }
+                            });
+                        })
+                        .catch(err => console.error("Biofilter Chart Error:", err));
                 }
-            });
-        }
-    });
+</script>
 
-
-
-
-
-
-
-
-
-    // ============================================================== 
-    // Total Revenue
-    // ============================================================== 
-    Morris.Area({
-        element: 'morris_totalrevenue',
-        behaveLikeLine: true,
-        data: [
-            { x: '2016 Q1', y: 0, },
-            { x: '2016 Q2', y: 7500, },
-            { x: '2017 Q3', y: 15000, },
-            { x: '2017 Q4', y: 22500, },
-            { x: '2018 Q5', y: 30000, },
-            { x: '2018 Q6', y: 40000, }
-        ],
-        xkey: 'x',
-        ykeys: ['y'],
-        labels: ['Y'],
-        lineColors: ['#5969ff'],
-        resize: true
-
-    });
-
-
-
-
-    // ============================================================== 
-    // Revenue By Categories
-    // ============================================================== 
-
-    var chart = c3.generate({
-        bindto: "#c3chart_category",
-        data: {
-            columns: [
-                ['Water bed', 100],
-                ['Fish Tank', 80],
-                ['Water Bio-filter', 50],
-                ['Greenhouse', 40],
-                ['Plant', 20],
-
-            ],
-            type: 'donut',
-
-            onclick: function(d, i) { console.log("onclick", d, i); },
-            onmouseover: function(d, i) { console.log("onmouseover", d, i); },
-            onmouseout: function(d, i) { console.log("onmouseout", d, i); },
-
-            colors: {
-                Men: '#5969ff',
-                Women: '#ff407b',
-                Accessories: '#25d5f2',
-                Children: '#ffc750',
-                Apperal: '#2ec551',
-
-
-
-            }
-        },
-        donut: {
-            label: {
-                show: false
-            }
-        },
-
-
-
-    });
-
-    function fetchAndUpdateCharts() {
-        fetch('/greenhouse_live_data/')  // Make sure this endpoint returns the latest values for all 4 charts
-            .then(response => response.json())
-            .then(data => {
-                // Assuming your endpoint returns something like:
-                // {
-                //     chart1: [array of numbers],
-                //     chart2: [array of numbers],
-                //     chart3: [array of numbers],
-                console.log(data.air_temperature);
-
-                //     chart4: [array of numbers]
-                // }
-    
-                $("#sparkline-revenue").sparkline(data.air_temperature, {
-                    type: 'line',
-                    width: '99.5%',
-                    height: '100',
-                    lineColor: '#5969ff',
-                    fillColor: '#dbdeff',
-                    lineWidth: 2,
-                    spotColor: undefined,
-                    minSpotColor: undefined,
-                    maxSpotColor: undefined,
-                    highlightSpotColor: undefined,
-                    highlightLineColor: undefined,
-                    resize: true
-                });
-    
-                $("#sparkline-revenue2").sparkline(data.relative_humidity, {
-                    type: 'line',
-                    width: '99.5%',
-                    height: '100',
-                    lineColor: '#ff407b',
-                    fillColor: '#ffdbe6',
-                    lineWidth: 2,
-                    spotColor: undefined,
-                    minSpotColor: undefined,
-                    maxSpotColor: undefined,
-                    highlightSpotColor: undefined,
-                    highlightLineColor: undefined,
-                    resize: true
-                });
-    
-                $("#sparkline-revenue3").sparkline(data.co2_level, {
-                    type: 'line',
-                    width: '99.5%',
-                    height: '100',
-                    lineColor: '#25d5f2',
-                    fillColor: '#dffaff',
-                    lineWidth: 2,
-                    spotColor: undefined,
-                    minSpotColor: undefined,
-                    maxSpotColor: undefined,
-                    highlightSpotColor: undefined,
-                    highlightLineColor: undefined,
-                    resize: true
-                });
-    
-                $("#sparkline-revenue4").sparkline(data.illumination_intensity, {
-                    type: 'line',
-                    width: '99.5%',
-                    height: '100',
-                    lineColor: '#fec957',
-                    fillColor: '#fff2d5',
-                    lineWidth: 2,
-                    spotColor: undefined,
-                    minSpotColor: undefined,
-                    maxSpotColor: undefined,
-                    highlightSpotColor: undefined,
-                    highlightLineColor: undefined,
-                    resize: true
-                });
-            })
-            .catch(error => {
-                console.error("Failed to fetch chart data:", error);
-            });
-    }
-    
-    // Fetch on page load
-    fetchAndUpdateCharts();
-    
-    // Fetch every 10 seconds (10000 ms)
-    setInterval(fetchAndUpdateCharts, 10000);
-    
-    </script>
 </body>
- 
 </html>

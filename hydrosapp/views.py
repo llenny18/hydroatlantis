@@ -497,7 +497,7 @@ def get_waterbedchart(request):
     
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         return JsonResponse(response_data)
-    return render(request, "waterbed_charts.html", context)
+    return render(request, "index.html", context)
 
 
 def get_waterbio(request):
@@ -781,8 +781,7 @@ def get_greenchart(request):
             )
         except ValueError as e:
             return JsonResponse({"error": f"Invalid date format: {e}"}, status=400)
-    labels = [bio.timestamp for bio in biofilters]
-
+    labels = [bio.timestamp.strftime("%d/%m/%Y %H:%M") for bio in biofilters]
     datasets = {
         "air_temperature": {
             "label": "Air Temperature",
