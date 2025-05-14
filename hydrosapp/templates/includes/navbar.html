@@ -176,17 +176,20 @@
                            </div>
                        </li> -->
                        <li class="nav-item">
-                           <a class="nav-link  {% if request.path == '/greenhouse/' or request.path == '/waterbiofilter/' or request.path == '/waterbed/'  %}active{% endif %}" href="#" data-toggle="collapse" aria-expanded="{% if request.path == '/greenhouse/' or request.path == '/waterbiofilter/' or request.path == '/waterbed/'  %}true{% endif %}" data-target="#submenu-5" aria-controls="submenu-5"><i class="fas fa-fw fa-table"></i>Records</a>
-                           <div id="submenu-5" class="collapse submenu {% if request.path == '/greenhouse/' or request.path == '/waterbiofilter/' or request.path == '/waterbed/'  %}show{% endif %}" style="">
+                           <a class="nav-link  {% if request.path == '/greenhouse/' or request.path == '/waterbiofilter/' or request.path == '/waterbed/' or request.path == '/fish_tank_data/'  %}active{% endif %}" href="#" data-toggle="collapse" aria-expanded="{% if request.path == '/greenhouse/' or request.path == '/waterbiofilter/' or request.path == '/waterbed/'  %}true{% endif %}" data-target="#submenu-5" aria-controls="submenu-5"><i class="fas fa-fw fa-table"></i>Records</a>
+                           <div id="submenu-5" class="collapse submenu {% if request.path == '/greenhouse/' or request.path == '/waterbiofilter/' or request.path == '/waterbed/'   or request.path == '/fish_tank_data/'  %}show{% endif %}" style="">
                                <ul class="nav flex-column">
                                    <li class="nav-item">
-                                       <a class="nav-link  {% if request.path == '/greenhouse/' %}active{% endif %}" href="{% url 'greenhouse'%}">Greenhouse Table</a>
+                                       <a class="nav-link  {% if request.path == '/greenhouse/' %}active{% endif %}" href="{% url 'greenhouse'%}">Greenhouse Data</a>
                                    </li>
                                    <li class="nav-item">
-                                       <a class="nav-link  {% if request.path == '/waterbiofilter/' %}active{% endif %}" href="{% url 'waterbiofilter'%}">Bio Filter Table</a>
+                                       <a class="nav-link  {% if request.path == '/waterbiofilter/' %}active{% endif %}" href="{% url 'waterbiofilter'%}">Bio Filter Data</a>
                                    </li>
                                    <li class="nav-item">
-                                       <a class="nav-link  {% if request.path == '/waterbed/' %}active{% endif %}" href="{% url 'waterbed'%}">Water Bed Table</a>
+                                       <a class="nav-link  {% if request.path == '/waterbed/' %}active{% endif %}" href="{% url 'waterbed'%}">Water Bed Data</a>
+                                   </li>
+                                   <li class="nav-item">
+                                       <a class="nav-link  {% if request.path == '/fish_tank_data/' %}active{% endif %}" href="{% url 'fish_tank_data'%}">Fish Tank Data</a>
                                    </li>
                                </ul>
                            </div>
@@ -216,7 +219,7 @@
                            </div>
                        </li>
                        <li class="nav-item">
-                           <a class="nav-link {% if request.path == '/actuators/' or request.path == '/actuator_updates/' %}active{% endif %}" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-8" aria-controls="submenu-8"><i class="fas fa-fw fa-plug"></i>Actuators</a>
+                           <a class="nav-link {% if request.path == '/actuators/' or request.path == '/actuator_updates/' %}active{% endif %}" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-8" aria-controls="submenu-8"><i class="fas fa-fw fa-plug"></i>Actuators (On Halt)</a>
                            <div id="submenu-8" class="collapse submenu {% if request.path == '/actuators/' or request.path == '/actuator_updates/' %}show{% endif %}" style="">
                                <ul class="nav flex-column">
                                 
@@ -224,7 +227,7 @@
                                     <a class="nav-link {% if request.path == '/actuators/' %}active{% endif %}" href="{% url 'actuators' %}">Menu/List</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link {% if request.path == '/actuator_updates/' %}active{% endif %}" href="{% url 'actuator_updates' %}"">Updates</a>
+                                    <a class="nav-link {% if request.path == '/actuator_updates/' %}active{% endif %}" href="{% url 'actuator_updates' %}">Updates</a>
                                 </li>
 
                               

@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="{% static 'assets//libs/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'assets//vendor/fonts/fontawesome/css/fontawesome-all.css' %}">
     <link rel="stylesheet" href="{% static 'assets/vendor/pagination/pagination.css' %}">   
+    
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -55,20 +57,17 @@
                         <!-- ============================================================== -->
                         <!-- basic table -->
                         <!-- ============================================================== -->
-                        <div class="col-xl-12 col-lg-6 col-md-12 col-sm-12 col-12">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="card">
-                                <h5 class="card-header">Basic Printing of Water Biofilter data</h5>
+                                <h3 class="card-header">Water Biofilter data</h3>
+                                  <canvas id="biofilterChart" width="900" height="400"></canvas>
+
                                 <div class="card-body">
                                     <table class="table" id="waterbedTable">
                                         <thead>
-                                            <tr>
-                                                <th>ID</th>
                                                 <th>Timestamp</th>
-                                                <th>Nitrate ID</th>
                                                 <th>NItrate</th>
-                                                <th>Nitrite ID</th>
                                                 <th>Nitrite</th>
-                                                <th>Nitrite ID</th>
                                                 <th>Ammonia</th>
                                                 
                                             </tr>
@@ -76,13 +75,9 @@
                                         <tbody>
                                             {% for waterbiofilter in water_biofilterdt %}
                                             <tr>
-                                                <td>{{ waterbiofilter.id }}</td>
                                                 <td>{{ waterbiofilter.timestamp}}</td>
-                                                <td>{{ waterbiofilter.nitrate_sensID }}</td>
                                                 <td>{{ waterbiofilter.nitrate }}</td>
-                                                <td>{{ waterbiofilter.nitrite_sensID }}</td>
                                                 <td>{{ waterbiofilter.nitrite }}</td>
-                                                <td>{{ waterbiofilter.ammonia_sensID }}</td>
                                                 <td>{{ waterbiofilter.ammonia }}</td>
                                             </tr>
                                             {% empty %}
@@ -125,6 +120,66 @@
     <!-- end main wrapper -->
     <!-- ============================================================== -->
     <!-- Optional JavaScript -->
+     
+  <script>
+    let chart;
+
+    async function fetchChartData() {
+      const response = await fetch('/biofilter_live_data/');
+      return await response.json();
+    }
+
+    async function createChart() {
+      const data = await fetchChartData();
+
+      const ctx = document.getElementById('biofilterChart').getContext('2d');
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: data.timestamps,
+          datasets: [
+            {
+              label: 'Nitrate (ppm)',
+              data: data.nitrate,
+              borderColor: 'purple',
+              fill: false
+            },
+            {
+              label: 'Nitrite (ppm)',
+              data: data.nitrite,
+              borderColor: 'teal',
+              fill: false
+            },
+            {
+              label: 'Ammonia (ppm)',
+              data: data.ammonia,
+              borderColor: 'brown',
+              fill: false
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: { beginAtZero: false }
+          }
+        }
+      });
+    }
+
+    async function updateChart() {
+      const data = await fetchChartData();
+
+      chart.data.labels = data.timestamps;
+      chart.data.datasets[0].data = data.nitrate;
+      chart.data.datasets[1].data = data.nitrite;
+      chart.data.datasets[2].data = data.ammonia;
+      chart.update();
+    }
+
+    createChart();
+    setInterval(updateChart, 5000);
+  </script>
     <script src="{% static 'assets//vendor/jquery/jquery-3.3.1.min.js' %}"></script>
     <script src="{% static 'assets//vendor/bootstrap/js/bootstrap.bundle.js' %}"></script>
     <script src="{% static 'assets//vendor/slimscroll/jquery.slimscroll.js' %}"></script>

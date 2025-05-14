@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="{% static 'assets/libs/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'assets/vendor/fonts/fontawesome/css/fontawesome-all.css' %}">
     <link rel="stylesheet" href="{% static 'assets/vendor/pagination/pagination.css' %}">
+    
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -55,51 +57,36 @@
                         <!-- ============================================================== -->
                         <!-- basic table -->
                         <!-- ============================================================== -->
-                        <div class="col-xl-12 col-lg-6 col-md-12 col-sm-12 col-12">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="card">
-                                <h5 class="card-header">Basic Printing of Water Bed data</h5>
+                                <h3 class="card-header">Water Bed data</h3>
+                                <canvas id="waterbedChart" width="900" height="400"></canvas>
                                 <div class="card-body">
                                     <table class="table" id="waterbedTable">
                                         <thead>
                                             <tr>
-                                                <th>ID</th>
                                                 <th>Timestamp</th>
-                                                <th>WaterTemp Sensor ID</th>
                                                 <th>Water Temperature</th>
-                                                <th>DO2 Sensor ID</th>
                                                 <th>Dissolved O2 Level</th>
                                                 <th>Electrical Conductivity</th>
-                                                <th>TDS Sensor ID</th>
                                                 <th>Total Dissolved Solids</th>
-                                                <th>Nitrate Sensor ID</th>
                                                 <th>Nitrate</th>
-                                                <th>Nitrite Sensor ID</th>
                                                 <th>Nitrite</th>
-                                                <th>Ammonia Sensor ID</th>
                                                 <th>Ammonia</th>
-                                                <th>PH Sensor ID</th>
                                                 <th>PH Level</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {% for waterbed in waterbed_data %}
                                             <tr>
-                                                <td>{{ waterbed.id }}</td>
                                                 <td>{{ waterbed.timestamp }}</td>
-                                                <td>{{ waterbed.watertemp_sensID }}</td>
                                                 <td>{{ waterbed.water_temperature }}</td>
-                                                <td>{{ waterbed.do2_sensID }}</td>
                                                 <td>{{ waterbed.dissolved_o2_level }}</td>
                                                 <td>{{ waterbed.electrical_conductivity }}</td>
-                                                <td>{{ waterbed.tds_sensID }}</td>
                                                 <td>{{ waterbed.total_dissolved_solids }}</td>
-                                                <td>{{ waterbed.nitrate_sensID }}</td>
                                                 <td>{{ waterbed.nitrate }}</td>
-                                                <td>{{ waterbed.nitrite_sensID }}</td>
                                                 <td>{{ waterbed.nitrite }}</td>
-                                                <td>{{ waterbed.ammonia_sensID }}</td>
                                                 <td>{{ waterbed.ammonia }}</td>
-                                                <td>{{ waterbed.ph_sensID }}</td>
                                                 <td>{{ waterbed.ph_level }}</td>
                                             </tr>
                                             {% empty %}
@@ -142,6 +129,101 @@
     <!-- end main wrapper -->
     <!-- ============================================================== -->
     <!-- Optional JavaScript -->
+     
+  <script>
+    let chart;
+
+    async function fetchChartData() {
+      const response = await fetch('/waterbed_live_data/');
+      return await response.json();
+    }
+
+    async function createChart() {
+      const data = await fetchChartData();
+
+      const ctx = document.getElementById('waterbedChart').getContext('2d');
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: data.timestamps,
+          datasets: [
+            {
+              label: 'Water Temperature (°C)',
+              data: data.water_temperature,
+              borderColor: 'red',
+              fill: false
+            },
+            {
+              label: 'Dissolved O₂ Level (mg/L)',
+              data: data.dissolved_O2_level,
+              borderColor: 'blue',
+              fill: false
+            },
+            {
+              label: 'Electrical Conductivity (µS/cm)',
+              data: data.electrical_conductivity,
+              borderColor: 'green',
+              fill: false
+            },
+            {
+              label: 'Total Dissolved Solids (ppm)',
+              data: data.total_dissolved_solids,
+              borderColor: 'orange',
+              fill: false
+            },
+            {
+              label: 'Nitrate (ppm)',
+              data: data.nitrate,
+              borderColor: 'purple',
+              fill: false
+            },
+            {
+              label: 'Nitrite (ppm)',
+              data: data.nitrite,
+              borderColor: 'teal',
+              fill: false
+            },
+            {
+              label: 'Ammonia (ppm)',
+              data: data.ammonia,
+              borderColor: 'brown',
+              fill: false
+            },
+            {
+              label: 'pH Level',
+              data: data.ph_level,
+              borderColor: 'gray',
+              fill: false
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: { beginAtZero: false }
+          }
+        }
+      });
+    }
+
+    async function updateChart() {
+      const data = await fetchChartData();
+
+      chart.data.labels = data.timestamps;
+      chart.data.datasets[0].data = data.water_temperature;
+      chart.data.datasets[1].data = data.dissolved_O2_level;
+      chart.data.datasets[2].data = data.electrical_conductivity;
+      chart.data.datasets[3].data = data.total_dissolved_solids;
+      chart.data.datasets[4].data = data.nitrate;
+      chart.data.datasets[5].data = data.nitrite;
+      chart.data.datasets[6].data = data.ammonia;
+      chart.data.datasets[7].data = data.ph_level;
+      chart.update();
+    }
+
+    createChart();
+    setInterval(updateChart, 5000);
+  </script>
     <script src="{% static 'assets/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
     <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.js' %}"></script>
     <script src="{% static 'assets/vendor/slimscroll/jquery.slimscroll.js' %}"></script>

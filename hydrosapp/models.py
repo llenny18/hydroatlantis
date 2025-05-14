@@ -1,4 +1,5 @@
 from django.db import models
+import uuid
 
 class Greenhouse(models.Model):
     id = models.CharField(max_length=36, primary_key=True)  # ID as varchar(36)
@@ -76,7 +77,27 @@ class Biofilter(models.Model):
         db_table = 'water_biofilter'
         managed = False
 
+class FishTank(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    created_at = models.CharField(max_length=35)
+    updated_at = models.CharField(max_length=35)
+    deleted_at = models.CharField(max_length=30, null=True, blank=True)
 
+    ec = models.DecimalField(max_digits=11, decimal_places=8)
+    ph = models.DecimalField(max_digits=11, decimal_places=9)
+    nitrate = models.DecimalField(max_digits=11, decimal_places=9)
+
+    timestamp = models.CharField(max_length=16)
+
+    ec_sensID = models.CharField(max_length=36)
+    ph_sensID = models.CharField(max_length=36, null=True, blank=True)
+    nitrate_sensID = models.CharField(max_length=36, null=True, blank=True)
+
+    increment_id = models.IntegerField()
+
+    class Meta:
+        db_table = 'fish_tank'
+        managed = False
 
 # Optional: Create a custom user model by extending the User model
 class UserAccount(models.Model):

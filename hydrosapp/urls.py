@@ -12,6 +12,11 @@ urlpatterns = [
     path('greenhouse/', views.get_greenhouse, name='greenhouse'),
     
     path('greenhouse_live_data/', views.greenhouse_live_chart_data, name='greenhouse_live_chart_data'),
+    path('waterbed_live_data/', views.waterbed_live_chart_data, name='waterbed_live_chart_data'),
+    path('biofilter_live_data/', views.biofilter_live_chart_data, name='biofilter_live_chart_data'),
+    path('fish_tank_live_chart_data/', views.fish_tank_live_chart_data, name='fish_tank_live_chart_data'),
+
+    path('fish_tank_data/', views.fish_tank_data, name='fish_tank_data'),
     path('waterbed/', views.get_waterbed, name='waterbed'),
     path('waterbiofilter/', views.get_waterbio, name='waterbiofilter'),
     path('waterbiofiltercharts/', views.get_waterbiochart, name='waterbiofiltercharts'),

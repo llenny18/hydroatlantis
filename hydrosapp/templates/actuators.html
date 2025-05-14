@@ -165,10 +165,10 @@
                             <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h3 class="card-title">{{ actuator.actuator_name }}</h3>
+                                        <h3 class="card-title">{{ actuator.actuator_name }} (Device Not Working)</h3>
                                         <p class="card-text"> Edge Device: {{ actuator.edge_device_name  }}</p>
                                         <label class="switch">
-                                            <input type="checkbox" {% if actuator.actuator_status == 1 %} checked {% endif %}>
+                                            <input type="checkbox" disabled {% if actuator.actuator_status == 1 %} checked {% endif %}>
                                             <span class="slider round"></span>
                                           </label>
                                     </div>

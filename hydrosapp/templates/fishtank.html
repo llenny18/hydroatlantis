@@ -6,7 +6,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>ATLANTIS - GreenHouse Tables</title>
+    <title>ATLANTIS - Fish Tank Tables</title>
     <link rel="shortcut icon" href="{% static 'assets/images/atlanislogo.png' %}" type="image/x-icon">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Bootstrap CSS -->
@@ -56,12 +56,12 @@
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="page-header">
-                            <h2 class="pageheader-title">Greenhouse Records </h2>
+                            <h2 class="pageheader-title">Fish Tank Records </h2>
                             <div class="page-breadcrumb">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">HydroAtlantis</a></li>
-                                        <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Greenhouse data</a></li>
+                                        <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Fish Tank data</a></li>
                                     </ol>
                                 </nav>
                             </div>
@@ -78,35 +78,35 @@
                         <!-- ============================================================== -->
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="card">
-                                <h3 class="card-header">Greenhouse Data History</h3>
+                                <h3 class="card-header">Fish Tank Data History</h3>
                                 <canvas id="liveChart" width="900" height="400"></canvas>
 
                                 <div class="card-body">
                                     <table class="table  table-responsive" id="waterbedTable">
                                         <thead>
-                                            <tr>
-                                                <th>Timestamp</th>
-                                                <th>Air Temperature</th>
-                                                <th>Relative Humidity</th>
-                                                <th>CO2 Level</th>
-                                                <th>Illumination Intensity</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for greenhouse in greenhouse_data %}
-                                            <tr>
-                                                <td>{{ greenhouse.timestamp }}</td>
-                                                <td>{{ greenhouse.air_temperature }}</td>
-                                                <td>{{ greenhouse.relative_humidity }}</td>
-                                                <td>{{ greenhouse.co2_level }}</td>
-                                                <td>{{ greenhouse.illumination_intensity }}</td>
-                                            </tr>
-                                            {% empty %}
-                                            <tr>
-                                                <td colspan="10">No data available.</td>
-                                            </tr>
-                                            {% endfor %}
-                                        </tbody>
+            <tr>
+                <th>Timestamp</th>
+                <th>EC</th>
+                <th>pH</th>
+                <th>Nitrate</th>
+                <th>EC Sensor</th>
+                <th>pH Sensor</th>
+                <th>Nitrate Sensor</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tank in fishtankdata %}
+            <tr>
+                <td>{{ tank.timestamp }}</td>
+                <td>{{ tank.ec }}</td>
+                <td>{{ tank.ph }}</td>
+                <td>{{ tank.nitrate }}</td>
+                <td>{{ tank.ec_sensID }}</td>
+                <td>{{ tank.ph_sensID }}</td>
+                <td>{{ tank.nitrate_sensID }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
                                     </table>
                                     <nav aria-label="Page navigation">
                                         <ul class="pagination" id="waterbedPagination"></ul>
@@ -136,74 +136,68 @@
             <!-- end footer -->
             <!-- ============================================================== -->
              
-  <script>
-    let chart;
+  
+<script>
+  let chart;
 
-    async function fetchChartData() {
-      const response = await fetch('/greenhouse_live_data/');
-      return await response.json();
-    }
+  async function fetchChartData() {
+    const response = await fetch('/fish_tank_live_chart_data/');
+    return await response.json();
+  }
 
-    async function createChart() {
-      const data = await fetchChartData();
+  async function createChart() {
+    const data = await fetchChartData();
 
-      const ctx = document.getElementById('liveChart').getContext('2d');
-      chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: data.timestamps,
-          datasets: [
-            {
-              label: 'Air Temperature (°C)',
-              data: data.air_temperature,
-              borderColor: 'red',
-              fill: false
-            },
-            {
-              label: 'Humidity (%)',
-              data: data.relative_humidity,
-              borderColor: 'blue',
-              fill: false
-            },
-            {
-              label: 'CO₂ Level',
-              data: data.co2_level,
-              borderColor: 'green',
-              fill: false
-            },
-            {
-              label: 'Illumination (lux)',
-              data: data.illumination_intensity,
-              borderColor: 'orange',
-              fill: false
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          scales: {
-            y: { beginAtZero: true }
+    const ctx = document.getElementById('liveChart').getContext('2d');
+    chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: data.timestamps,
+        datasets: [
+          {
+            label: 'EC (μS/cm)',
+            data: data.ec,
+            borderColor: 'purple',
+            fill: false
+          },
+          {
+            label: 'pH',
+            data: data.ph,
+            borderColor: 'green',
+            fill: false
+          },
+          {
+            label: 'Nitrate (mg/L)',
+            data: data.nitrate,
+            borderColor: 'orange',
+            fill: false
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: false
           }
         }
-      });
-    }
+      }
+    });
+  }
 
-    async function updateChart() {
-      const data = await fetchChartData();
+  async function updateChart() {
+    const data = await fetchChartData();
 
-      chart.data.labels = data.timestamps;
-      chart.data.datasets[0].data = data.air_temperature;
-      chart.data.datasets[1].data = data.relative_humidity;
-      chart.data.datasets[2].data = data.co2_level;
-      chart.data.datasets[3].data = data.illumination_intensity;
-      chart.update();
-    }
+    chart.data.labels = data.timestamps;
+    chart.data.datasets[0].data = data.ec;
+    chart.data.datasets[1].data = data.ph;
+    chart.data.datasets[2].data = data.nitrate;
+    chart.update();
+  }
 
-    createChart();
-
-    // Refresh every 5 seconds
-    setInterval(updateChart, 5000);
-  </script>
+  createChart();
+  setInterval(updateChart, 5000); // Update every 5 seconds
+</script>
         </div>
     </div>
     <!-- ============================================================== -->

@@ -4,7 +4,7 @@ from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import Greenhouse, WaterBed, Biofilter, UserAccount, ActuatorDeviceInfo, EdgeActuatorView, EdgeDeviceInfo, ActuatorUpdate, ServerNotifications, SensorType, SensorDeviceInfo
+from .models import FishTank, Greenhouse, WaterBed, Biofilter, UserAccount, ActuatorDeviceInfo, EdgeActuatorView, EdgeDeviceInfo, ActuatorUpdate, ServerNotifications, SensorType, SensorDeviceInfo
 import json
 from django.db import connection
 import os
@@ -24,9 +24,36 @@ from .models import EdgeDeviceInfo, ClusterGreenData, ClusterBiofilterData, Clus
 # timestamp to proper date conversion
 # date_time_obj = datetime.datetime.strptime("2025-06-21 23:59:31", '%Y-%m-%d %H:%M:%S')
 # formatted_date = date_time_obj.strftime("%B %d, %Y %I:%M:%S %p") 
+import uuid
 
+def fish_tank_live_chart_data(request):
+    data = (
+        FishTank.objects
+        .order_by('-increment_id')[:40]
+        .values('timestamp', 'ec', 'ph', 'nitrate')
+    )
 
+    # Reverse to get ascending time order
+    chart_data = list(data)[::-1]
 
+    # Optional: format timestamp if it's a string and not datetime
+    try:
+        timestamps = [
+            datetime.strptime(d['timestamp'], "%Y-%m-%d %H:%M").strftime("%H:%M")
+            for d in chart_data
+        ]
+    except Exception:
+        # fallback if format is inconsistent
+        timestamps = [d['timestamp'] for d in chart_data]
+
+    response = {
+        "timestamps": timestamps,
+        "ec": [float(d['ec']) for d in chart_data],
+        "ph": [float(d['ph']) for d in chart_data],
+        "nitrate": [float(d['nitrate']) for d in chart_data],
+    }
+
+    return JsonResponse(response)
 
 def greenhouse_live_chart_data(request):
     data = (
@@ -44,6 +71,77 @@ def greenhouse_live_chart_data(request):
         "relative_humidity": [float(d['relative_humidity']) for d in chart_data],
         "co2_level": [int(d['co2_level']) for d in chart_data],
         "illumination_intensity": [float(d['illumination_intensity']) for d in chart_data],
+    }
+
+    return JsonResponse(response)
+
+def fish_tank_data(request):
+    
+    user_id = request.session.get('user_id', None)
+    username = request.session.get('username', None)
+    fullname = request.session.get('fullname', None)
+    user_id = request.session.get('user_id', None)
+    username = request.session.get('username', None)
+    fullname = request.session.get('fullname', None)
+    if not user_id:
+        return redirect(reverse('login')) 
+    
+    fishtankdata = FishTank.objects.all()
+    context = {
+        "fishtankdata" : fishtankdata,
+        "user_id" : user_id, 
+        "username" : username,
+        "fullname" : fullname
+    }
+    return render(request, "fishtank.html", context)
+
+
+def waterbed_live_chart_data(request):
+    data = (
+        WaterBed.objects
+        .order_by('-id')[:40]
+        .values(
+            'timestamp', 'water_temperature', 'dissolved_O2_level',
+            'electrical_conductivity', 'total_dissolved_solids',
+            'nitrate', 'nitrite', 'ammonia', 'ph_level'
+        )
+    )
+    chart_data = list(data)[::-1]
+
+    response = {
+        "timestamps": [
+            datetime.strptime(d['timestamp'], '%d/%m/%Y %H:%M').strftime("%H:%M:%S")
+            for d in chart_data
+        ],
+        "water_temperature": [float(d['water_temperature']) for d in chart_data],
+        "dissolved_O2_level": [float(d['dissolved_O2_level']) for d in chart_data],
+        "electrical_conductivity": [float(d['electrical_conductivity']) for d in chart_data],
+        "total_dissolved_solids": [float(d['total_dissolved_solids']) for d in chart_data],
+        "nitrate": [float(d['nitrate']) for d in chart_data],
+        "nitrite": [float(d['nitrite']) for d in chart_data],
+        "ammonia": [float(d['ammonia']) for d in chart_data],
+        "ph_level": [float(d['ph_level']) for d in chart_data],
+    }
+
+    return JsonResponse(response)
+
+
+def biofilter_live_chart_data(request):
+    data = (
+        Biofilter.objects
+        .order_by('-id')[:40]
+        .values('timestamp', 'nitrate', 'nitrite', 'ammonia')
+    )
+    chart_data = list(data)[::-1]
+
+    response = {
+        "timestamps": [
+            datetime.strptime(d['timestamp'], '%d/%m/%Y %H:%M').strftime("%H:%M:%S")
+            for d in chart_data
+        ],
+        "nitrate": [float(d['nitrate']) for d in chart_data],
+        "nitrite": [float(d['nitrite']) for d in chart_data],
+        "ammonia": [float(d['ammonia']) for d in chart_data],
     }
 
     return JsonResponse(response)
