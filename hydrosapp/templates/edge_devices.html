@@ -97,6 +97,45 @@
         .modal-content {
             background-color: #e6f7ff; /* Set modal background to light blue */
         }
+        .modal .btn-primary {
+            background-color: #007bff !important;
+            border-color: #007bff !important;
+            color: #fff !important;
+        }
+        .modal .btn-primary:hover, .modal .btn-primary:focus {
+            background-color: #0056b3 !important;
+            border-color: #0056b3 !important;
+            color: #fff !important;
+        }
+        /* Pagination buttons in modal */
+        #dataDisplayModalBody .pagination li,
+        #dataDisplayModalBody .pagination .page-item {
+            background: transparent !important;
+            border: none !important;
+        }
+        #dataDisplayModalBody .pagination li a,
+        #dataDisplayModalBody .pagination .page-link {
+            background-color: #007bff !important;
+            color: #fff !important;
+            border-radius: 5px !important;
+            margin: 2px;
+            border: 1px solid #0056b3 !important;
+            min-width: 32px;
+            text-align: center;
+            display: inline-block;
+        }
+        #dataDisplayModalBody .pagination li.active a,
+        #dataDisplayModalBody .pagination .active .page-link {
+            background-color: #0056b3 !important;
+            color: #fff !important;
+            border: 1px solid #003d80 !important;
+        }
+        #dataDisplayModalBody .pagination li.disabled a,
+        #dataDisplayModalBody .pagination .disabled .page-link {
+            background-color: #b8daff !important;
+            color: #e6e6e6 !important;
+            border: 1px solid #b8daff !important;
+        }
     </style>
 </head>
 
