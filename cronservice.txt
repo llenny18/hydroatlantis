@@ -1,0 +1,13 @@
+[Unit]
+Description=My Python Script Service
+After=network.target
+
+[Service]
+User=jetson
+WorkingDirectory=/home/jetson
+ExecStart=/usr/bin/python3 /Downloads/cronbus.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
