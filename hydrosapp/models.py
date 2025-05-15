@@ -123,7 +123,7 @@ class ServerNotifications(models.Model):
     deleted_at = models.CharField(max_length=100)
     message = models.CharField(max_length=255)
     severity = models.DecimalField(max_digits=11, decimal_places=7)
-    related_table = models.DecimalField(max_digits=11, decimal_places=7)
+    related_table = models.CharField(max_length=100) 
     related_record_id = models.CharField(max_length=100)
     timestamp = models.CharField(max_length=100)
     
