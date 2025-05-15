@@ -2,11 +2,13 @@
 from pymodbus.client import ModbusSerialClient
 import uuid
 import math
-
+import csv
+import os
+from datetime import datetime
 
 # Create a Modbus RTU client
 client = ModbusSerialClient(
-    port="COM4",
+    port="COM3",
     baudrate=9600,
     parity='N',
     stopbits=1,
@@ -229,27 +231,66 @@ if client.connect():
 
         # Establish connection
         try:
+            
+
+            CSV_FILE = "sensor_log.csv"
+
+            # Ensure CSV file exists with headers
+            if not os.path.exists(CSV_FILE):
+                with open(CSV_FILE, mode='w', newline='') as file:
+                    writer = csv.writer(file)
+                    writer.writerow([
+                        "timestamp", "air_temperature", "relative_humidity", "illumination_intensity",
+                        "nitrate_waterbed", "ph_level_waterbed", "nitrate_biofilter", "nitrite_biofilter",
+                        "ec_fishtank"
+                    ])
+
+            # Inside the while True loop, just before database insertion
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+            air_temp = convert_air_data_air_temp(response2.registers)
+            humidity = convert_air_data_humidity(response2.registers)
+            lux = raw_to_lux(response.registers)
+            nitrate_waterbed = convert_raw_to_nitrate(response6.registers)
+            ph_level = raw_to_ph(response5.registers)
+            nitrate_biofilter = convert_raw_to_nitrate(response6.registers)
+            nitrite_biofilter = convert_raw_to_nitrite(response1.registers)
+            ec_value = raw_to_ec(response3.registers)
+
+            # Append to CSV
+            with open(CSV_FILE, mode='a', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerow([
+                    timestamp, air_temp, humidity, lux,
+                    nitrate_waterbed, ph_level, nitrate_biofilter, nitrite_biofilter,
+                    ec_value
+                ])
+
             connection = pymysql.connect(**db_config)
             cursor = connection.cursor()
 
             # Insert query
             random_uuid = str(uuid.uuid4())
-            greehouse_query = "INSERT INTO `greenhouse` (`id`, `created_at`, `updated_at`, `deleted_at`, `air_temperature`, `relative_humidity`, `co2_level`, `illumination_intensity`, `timestamp`, `sensor_id`, `airtemp_sensID`, `relhumid_sensID`, `co2_sensID`, `illumination_sensID`, `increment_id`) VALUES ("+random_uuid+", NOW(), '0', '0', '"+str(convert_air_data_air_temp(response2.registers))+"', '"+str(convert_air_data_humidity(response2.registers))+"', '0', '"+str(raw_to_lux(response.registers))+"', current_timestamp(), '1', '1', '1', '1', '1', NULL)"
+            greehouse_query = "INSERT INTO `greenhouse` (`id`, `created_at`, `updated_at`, `deleted_at`, `air_temperature`, `relative_humidity`, `co2_level`, `illumination_intensity`, `timestamp`, `sensor_id`, `airtemp_sensID`, `relhumid_sensID`, `co2_sensID`, `illumination_sensID`, `increment_id`) VALUES ('"+random_uuid+"', NOW(), '0', '0', '"+str(convert_air_data_air_temp(response2.registers))+"', '"+str(convert_air_data_humidity(response2.registers))+"', '0', '"+str(raw_to_lux(response.registers))+"', current_timestamp(), '1', '1', '1', '1', '1', NULL);"
 
             random_uuid = str(uuid.uuid4())
-            waterbed_query = "INSERT INTO `water_bed` (`id`, `created_at`, `updated_at`, `deleted_at`, `water_temperature`, `dissolved_o2_level`, `electrical_conductivity`, `total_dissolved_solids`, `nitrate`, `nitrite`, `ammonia`, `ph_level`, `timestamp`, `sensor_id`, `do2_sensID`, `watertemp_sensID`, `tds_sensID`, `nitrate_sensID`, `nitrite_sensID`, `ammonia_sensID`, `ph_sensID`) VALUES ("+random_uuid+", NOW(), '0', '0', '0', '0', '0', '0', '"+str(convert_raw_to_nitrate(response6.registers))+"', '0', '0', '"+str(raw_to_ph(response5.registers))+"', current_timestamp(), '0', '0', '0', '0', '0', '0', '0', '0'))"
+            waterbed_query = "INSERT INTO `water_bed` (`id`, `created_at`, `updated_at`, `deleted_at`, `water_temperature`, `dissolved_o2_level`, `electrical_conductivity`, `total_dissolved_solids`, `nitrate`, `nitrite`, `ammonia`, `ph_level`, `timestamp`, `sensor_id`, `do2_sensID`, `watertemp_sensID`, `tds_sensID`, `nitrate_sensID`, `nitrite_sensID`, `ammonia_sensID`, `ph_sensID`) VALUES ('"+random_uuid+"', NOW(), '0', '0', '0', '0', '0', '0', '"+str(convert_raw_to_nitrate(response6.registers))+"', '0', '0', '"+str(raw_to_ph(response5.registers))+"', current_timestamp(), '0', '0', '0', '0', '0', '0', '0', '0');"
 
             random_uuid = str(uuid.uuid4())
-            waterbiofilter_query = "INSERT INTO `water_biofilter` (`id`, `created_at`, `updated_at`, `deleted_at`, `nitrate`, `nitrite`, `ammonia`, `timestamp`, `sensor_id`, `nitrate_sensID`, `nitrite_sensID`, `ammonia_sensID`) VALUES ('"+random_uuid+"', NOW(), '0', '0', '"+str(convert_raw_to_nitrate(response6.registers))+"', '"+str(convert_raw_to_nitrite(response1.registers))+"', '0', 'current_timestamp()', '0', '0', '0', '0')"
+            waterbiofilter_query = "INSERT INTO `water_biofilter` (`id`, `created_at`, `updated_at`, `deleted_at`, `nitrate`, `nitrite`, `ammonia`, `timestamp`, `sensor_id`, `nitrate_sensID`, `nitrite_sensID`, `ammonia_sensID`) VALUES ('"+random_uuid+"', NOW(), '0', '0', '"+str(convert_raw_to_nitrate(response6.registers))+"', '"+str(convert_raw_to_nitrite(response1.registers))+"', '0', 'current_timestamp()', '0', '0', '0', '0');"
 
             random_uuid = str(uuid.uuid4())
             fishtank_query = "INSERT INTO `fish_tank` (`id`, `created_at`, `updated_at`, `deleted_at`, `ec`, `ph`, `nitrate`, `timestamp`, `ec_sensID`, `ph_sensID`, `nitrate_sensID`, `increment_id`) VALUES ('"+random_uuid+"', NOW(), NULL, NULL, '"+str(raw_to_ec(response3.registers))+"', '0', '0', '0', '0', '0', '0', NULL);"
 
 
             cursor.execute(greehouse_query)
+            print("Greenhouse data Inserted")
             cursor.execute(waterbed_query)
+            print("Waterbed data Inserted")
             cursor.execute(waterbiofilter_query)
+            print("Biofilter data Inserted")
             cursor.execute(fishtank_query)
+            print("Fish Tank data Inserted")
             connection.commit()  # Commit the transaction
             print("Data inserted successfully!")
 
