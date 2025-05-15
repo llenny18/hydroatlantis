@@ -136,7 +136,7 @@ def biofilter_live_chart_data(request):
 
     response = {
         "timestamps": [
-            datetime.strptime(d['timestamp'], '%d/%m/%Y %H:%M').strftime("%H:%M:%S")
+            datetime.strptime(d['timestamp'], "%Y-%m-%d %H:%M:%S").strftime("%d/%m/%Y %H:%M")
             for d in chart_data
         ],
         "nitrate": [float(d['nitrate']) for d in chart_data],
@@ -456,7 +456,16 @@ def get_waterbedchart(request):
         except ValueError as e:
             return JsonResponse({"error": f"Invalid date format: {e}"}, status=400)
 
-    labels = [bio.timestamp for bio in biofilters]
+    labels = []
+    for bio in biofilters:
+        # Convert timestamp if it's a string
+        if isinstance(bio.timestamp, str):
+            bio_timestamp = datetime.strptime(bio.timestamp, "%Y-%m-%d %H:%M")
+        else:
+            bio_timestamp = bio.timestamp  # If already a datetime object
+        
+        # Format the timestamp as "DD/MM/YYYY HH:MM"
+        labels.append(bio_timestamp.strftime("%d/%m/%Y %H:%M"))
 
     datasets = {
         "total_dissolved_solids": {
@@ -686,8 +695,8 @@ def get_waterbiochart(request):
             end_datetime = datetime.fromisoformat(end_date)
 
             # Convert to database format "DD/MM/YYYY HH:mm"
-            db_start = start_datetime.strftime("%d/%m/%Y %H:%M")
-            db_end = end_datetime.strftime("%d/%m/%Y %H:%M")
+            db_start = start_datetime.strftime("%Y-%m-%d %H:%M")
+            db_end = end_datetime.strftime("%Y-%m-%d %H:%M")
 
             # Filter using the VARCHAR field (e.g., "timestamp")
             biofilters = biofilters.filter(
@@ -697,7 +706,16 @@ def get_waterbiochart(request):
         except ValueError as e:
             return JsonResponse({"error": f"Invalid date format: {e}"}, status=400)
 
-    labels = [bio.timestamp for bio in biofilters]
+    labels = []
+    for bio in biofilters:
+        # Convert timestamp if it's a string
+        if isinstance(bio.timestamp, str):
+            bio_timestamp = datetime.strptime(bio.timestamp, "%Y-%m-%d %H:%M")
+        else:
+            bio_timestamp = bio.timestamp  # If already a datetime object
+        
+        # Format the timestamp as "DD/MM/YYYY HH:MM"
+        labels.append(bio_timestamp.strftime("%d/%m/%Y %H:%M"))
 
     datasets = {
         "nitrate": {
