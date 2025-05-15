@@ -39,7 +39,7 @@ def fish_tank_live_chart_data(request):
     # Optional: format timestamp if it's a string and not datetime
     try:
         timestamps = [
-            datetime.strptime(d['timestamp'], "%Y-%m-%d %H:%M").strftime("%H:%M")
+            datetime.strptime(d['timestamp'], "%Y-%m-%d %H:%M:%S").strftime("%H:%M")
             for d in chart_data
         ]
     except Exception:
@@ -110,7 +110,7 @@ def waterbed_live_chart_data(request):
 
     response = {
         "timestamps": [
-            datetime.strptime(d['timestamp'], '%d/%m/%Y %H:%M').strftime("%H:%M:%S")
+            datetime.strptime(d['timestamp'], '%Y-%m-%d %H:%M').strftime("%H:%M")
             for d in chart_data
         ],
         "water_temperature": [float(d['water_temperature']) for d in chart_data],
@@ -136,7 +136,7 @@ def biofilter_live_chart_data(request):
 
     response = {
         "timestamps": [
-            datetime.strptime(d['timestamp'], "%Y-%m-%d %H:%M:%S").strftime("%d/%m/%Y %H:%M")
+            datetime.strptime(d['timestamp'], "%Y-%m-%d %H:%M").strftime("%H:%M")
             for d in chart_data
         ],
         "nitrate": [float(d['nitrate']) for d in chart_data],
