@@ -40,34 +40,7 @@
                            </li>
                        </ul>
                    </li>
-                   <li class="nav-item dropdown connection">
-                       <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fas fa-fw fa-exclamation-circle"></i> </a>
-                       <ul class="dropdown-menu dropdown-menu-right connection-dropdown">
-                           <li class="connection-list">
-                               <div class="row">
-                                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 ">
-                                       <a href="#" class="connection-item"><img src="{% static 'assets/images/github.png' %}" alt="" > <span>Github</span></a>
-                                   </div>
-                                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 ">
-                                       <a href="#" class="connection-item"><img src="{% static 'assets/images/dribbble.png' %}" alt="" > <span>Dribbble</span></a>
-                                   </div>
-                                 
-                               </div>
-                               <div class="row">
-                                  
-                                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 ">
-                                       <a href="#" class="connection-item"><img src="{% static 'assets/images/mail_chimp.png' %}" alt="" ><span>Mail chimp</span></a>
-                                   </div>
-                                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 ">
-                                       <a href="#" class="connection-item"><img src="{% static 'assets/images/slack.png' %}" alt="" > <span>Slack</span></a>
-                                   </div>
-                               </div>
-                           </li>
-                           <li>
-                               <div class="conntection-footer"><a href="#">More</a></div>
-                           </li>
-                       </ul>
-                   </li>
+            
                    <li class="nav-item dropdown nav-user">
                        <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{% static 'assets/images/atlanislogo.png' %}" alt="" class="user-avatar-md rounded-circle"></a>
                        <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
@@ -247,10 +220,8 @@
                                     {% for sensor_type in sensor_types %}
                                         <li class="nav-item">
                                             <a class="nav-link" href="{% url 'sensor_detail' sensor_type.id %}">
-                                                {% if sensor_type.icon_path %}
-                                                    <img src="{{ sensor_type.icon_path }}" class="sensor-icon" alt="{{ sensor_type.name }} icon" onerror="this.onerror=null; this.src='/static/images/default_icon.png'">
-                                                {% endif %}
-                                                {{ sensor_type.name }}
+                                          
+                                                {{ sensor_type.title }}
                                             </a>
                                         </li>
                                     {% endfor %}

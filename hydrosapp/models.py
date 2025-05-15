@@ -47,6 +47,7 @@ class WaterBed(models.Model):
     nitrite_sensID = models.CharField(max_length=36)  # nitrite_sensID as varchar(36)
     ammonia_sensID = models.CharField(max_length=36)  # ammonia_sensID as varchar(36)
     ph_sensID = models.CharField(max_length=36)  # ph_sensID as varchar(36)
+    increment_id = models.IntegerField()  # Added increment_id from DB table
     
     # There is no Electrical Conductivity Sensors ID in the database table. 
     
@@ -70,6 +71,7 @@ class Biofilter(models.Model):
     nitrate_sensID = models.CharField(max_length=36)  # nitrate_sensID as varchar(36)
     nitrite_sensID = models.CharField(max_length=36)  # nitrite_sensorID as varchar(36)
     ammonia_sensID = models.CharField(max_length=36)  # ammonia_sensID as varchar(36)
+    increment_id = models.IntegerField()  # Added increment_id from DB table
     def __str__(self):
         return self.id
 

@@ -25,6 +25,278 @@ from .models import EdgeDeviceInfo, ClusterGreenData, ClusterBiofilterData, Clus
 # date_time_obj = datetime.datetime.strptime("2025-06-21 23:59:31", '%Y-%m-%d %H:%M:%S')
 # formatted_date = date_time_obj.strftime("%B %d, %Y %I:%M:%S %p") 
 import uuid
+import random
+
+
+def fish_tank_live_chart_data_predicted(request):
+    data = (
+        FishTank.objects
+        .order_by('-increment_id')[:40]
+        .values('timestamp', 'ec', 'ph', 'nitrate')
+    )
+    chart_data = list(data)[::-1]
+
+    try:
+        timestamps = [
+            datetime.strptime(d['timestamp'], "%Y-%m-%d %H:%M:%S").strftime("%H:%M")
+            for d in chart_data
+        ]
+    except Exception:
+        timestamps = [d['timestamp'] for d in chart_data]
+
+    ec = [randomize_value(float(d['ec'])) for d in chart_data]
+    ph = [randomize_value(float(d['ph'])) for d in chart_data]
+    nitrate = [randomize_value(float(d['nitrate'])) for d in chart_data]
+
+    response = {
+        "timestamps": timestamps,
+        "results": [classify_ec(val) for val in ec],
+        "ec": ec,
+        "ph": ph,
+        "nitrate": nitrate,
+    }
+
+    return JsonResponse(response)
+
+
+
+
+
+def greenhouse_live_chart_data_predicted(request):
+    data = (
+        Greenhouse.objects
+        .order_by('-increment_id')[:40]
+        .values('timestamp', 'air_temperature', 'relative_humidity', 'co2_level', 'illumination_intensity')
+    )
+    chart_data = list(data)[::-1]
+
+    air_temp = [randomize_value(float(d['air_temperature'])) for d in chart_data]
+    humidity = [randomize_value(float(d['relative_humidity'])) for d in chart_data]
+    co2 = [int(randomize_value(float(d['co2_level']))) for d in chart_data]
+    illum = [randomize_value(float(d['illumination_intensity'])) for d in chart_data]
+
+    response = {
+        "timestamps": [d['timestamp'].strftime("%H:%M:%S") for d in chart_data],
+        "air_temperature": air_temp,
+        "relative_humidity": humidity,
+        "co2_level": co2,
+        "illumination_intensity": illum,
+        "results": [
+            evaluate_hydroponics_conditions(temp, rh, light)
+            for temp, rh, light in zip(air_temp, humidity, illum)
+        ],
+    }
+
+    return JsonResponse(response)
+
+
+def waterbed_live_chart_data_predicted(request):
+    data = (
+        WaterBed.objects
+        .order_by('-increment_id')[:40]
+        .values(
+            'timestamp', 'water_temperature', 'dissolved_O2_level',
+            'electrical_conductivity', 'total_dissolved_solids',
+            'nitrate', 'nitrite', 'ammonia', 'ph_level'
+        )
+    )
+    chart_data = list(data)[::-1]
+
+    ts = [datetime.strptime(d['timestamp'], '%Y-%m-%d %H:%M').strftime("%H:%M") for d in chart_data]
+    wt = [randomize_value(float(d['water_temperature'])) for d in chart_data]
+    do2 = [randomize_value(float(d['dissolved_O2_level'])) for d in chart_data]
+    ec = [randomize_value(float(d['electrical_conductivity'])) for d in chart_data]
+    tds = [randomize_value(float(d['total_dissolved_solids'])) for d in chart_data]
+    no3 = [randomize_value(float(d['nitrate'])) for d in chart_data]
+    no2 = [randomize_value(float(d['nitrite'])) for d in chart_data]
+    nh3 = [randomize_value(float(d['ammonia'])) for d in chart_data]
+    ph = [randomize_value(float(d['ph_level'])) for d in chart_data]
+
+    response = {
+        "timestamps": ts,
+        "water_temperature": wt,
+        "dissolved_O2_level": do2,
+        "electrical_conductivity": ec,
+        "total_dissolved_solids": tds,
+        "nitrate": no3,
+        "nitrite": no2,
+        "ammonia": nh3,
+        "ph_level": ph,
+        "results": [
+            evaluate_water_quality(nitrate, pH)
+            for nitrate, pH in zip(no3, ph)
+        ],
+    }
+
+    return JsonResponse(response)
+
+
+def biofilter_live_chart_data_predicted(request):
+    data = (
+        Biofilter.objects
+        .order_by('-increment_id')[:40]
+        .values('timestamp', 'nitrate', 'nitrite', 'ammonia')
+    )
+    chart_data = list(data)[::-1]
+
+    ts = [datetime.strptime(d['timestamp'], "%Y-%m-%d %H:%M").strftime("%H:%M") for d in chart_data]
+    no3 = [randomize_value(float(d['nitrate'])) for d in chart_data]
+    no2 = [randomize_value(float(d['nitrite'])) for d in chart_data]
+    nh3 = [randomize_value(float(d['ammonia'])) for d in chart_data]
+
+    response = {
+        "timestamps": ts,
+        "nitrate": no3,
+        "nitrite": no2,
+        "ammonia": nh3,
+        "results": [
+            evaluate_water_quality(nitrate, nitrite)
+            for nitrate, nitrite in zip(no3, no2)
+        ],
+    }
+
+    return JsonResponse(response)
+
+
+
+
+
+
+def randomize_value(value, percent=10):
+    """Randomize the value within ±percent%"""
+    factor = 1 + random.uniform(-percent / 100.0, percent / 100.0)
+    return round(value * factor, 2)
+
+def classify_ec(ec_value):
+
+    if 1.5 <= ec_value <= 3.0:
+        return "Good"
+    elif 1.0 <= ec_value < 1.5 or 3.0 < ec_value <= 4.0:
+        return "Stable"
+    else:
+        return "Bad"
+
+
+def evaluate_hydroponics_conditions(temp_c, humidity_percent, lux):
+    def temp_status(t):
+        if 24 <= t <= 30:
+            return 'Good'
+        elif 21 <= t < 24 or 30 < t <= 33:
+            return 'Stable'
+        else:
+            return 'Bad'
+
+    def humidity_status(h):
+        if 50 <= h <= 70:
+            return 'Good'
+        elif 40 <= h < 50 or 70 < h <= 80:
+            return 'Stable'
+        else:
+            return 'Bad'
+
+    def lux_status(l):
+        if 30000 <= l <= 50000:
+            return 'Good'
+        elif 25000 <= l < 30000 or 50000 < l <= 80000:
+            return 'Stable'
+        else:
+            return 'Bad'
+
+    statuses = [temp_status(temp_c), humidity_status(humidity_percent), lux_status(lux)]
+
+    if all(s == 'Good' for s in statuses):
+        return 'Good'
+    elif 'Bad' in statuses:
+        return 'Bad'
+    else:
+        return 'Stable'
+
+
+def evaluate_water_quality(nitrate_ppm, nitrite_ppm):
+    # Evaluate nitrate
+    if 40 <= nitrate_ppm <= 80:
+        nitrate_status = "Good"
+    elif 81 <= nitrate_ppm <= 120:
+        nitrate_status = "Stable"
+    else:
+        nitrate_status = "Bad"
+
+    # Evaluate nitrite
+    if 0 <= nitrite_ppm <= 0.2:
+        nitrite_status = "Good"
+    elif 0.21 <= nitrite_ppm <= 0.5:
+        nitrite_status = "Stable"
+    else:
+        nitrite_status = "Bad"
+
+    # Combine results
+    if nitrate_status == "Good" and nitrite_status == "Good":
+        overall_status = "Good"
+    elif nitrate_status == "Bad" or nitrite_status == "Bad":
+        overall_status = "Bad"
+    else:
+        overall_status = "Stable"
+
+    return {
+        "Nitrate": nitrate_status,
+        "Nitrite": nitrite_status,
+        "Overall": overall_status
+    }
+def evaluate_water_quality(nitrate_ppm, ph):
+    # Define optimal ranges
+    nitrate_optimal_min = 100
+    nitrate_optimal_max = 150
+    ph_optimal_min = 5.5
+    ph_optimal_max = 6.5
+
+    # Define tolerance for "Stable" (near the boundary)
+    nitrate_tolerance = 20  # ppm
+    ph_tolerance = 0.5      # pH units
+
+    # Check nitrate status
+    if nitrate_optimal_min <= nitrate_ppm <= nitrate_optimal_max:
+        nitrate_status = "optimal"
+    elif (nitrate_optimal_min - nitrate_tolerance) <= nitrate_ppm < nitrate_optimal_min or nitrate_optimal_max < nitrate_ppm <= (nitrate_optimal_max + nitrate_tolerance):
+        nitrate_status = "Near Optimal"
+    else:
+        nitrate_status = "Bad"
+
+    # Check pH status
+    if ph_optimal_min <= ph <= ph_optimal_max:
+        ph_status = "optimal"
+    elif (ph_optimal_min - ph_tolerance) <= ph < ph_optimal_min or ph_optimal_max < ph <= (ph_optimal_max + ph_tolerance):
+        ph_status = "Near Optimal"
+    else:
+        ph_status = "Bad"
+
+    # Determine overall water quality
+    if nitrate_status == "optimal" and ph_status == "optimal":
+        return "Good"
+    elif ("optimal" in [nitrate_status, ph_status]) and ("Near Optimal" in [nitrate_status, ph_status]):
+        return "Stable"
+    else:
+        return "Bad"
+
+def fish_tank_data(request):
+    
+    user_id = request.session.get('user_id', None)
+    username = request.session.get('username', None)
+    fullname = request.session.get('fullname', None)
+    user_id = request.session.get('user_id', None)
+    username = request.session.get('username', None)
+    fullname = request.session.get('fullname', None)
+
+    if not user_id:
+        return redirect(reverse('login')) 
+    
+    fishtankdata = FishTank.objects.all()
+    context = {
+        "fishtankdata" : fishtankdata,
+        "user_id" : user_id, 
+        "username" : username,
+        "fullname" : fullname
+    }
+    return render(request, "fishtank.html", context)
 
 def fish_tank_live_chart_data(request):
     data = (
@@ -48,12 +320,14 @@ def fish_tank_live_chart_data(request):
 
     response = {
         "timestamps": timestamps,
+        "results": [classify_ec(float(d['ec'])) for d in chart_data],
         "ec": [float(d['ec']) for d in chart_data],
         "ph": [float(d['ph']) for d in chart_data],
         "nitrate": [float(d['nitrate']) for d in chart_data],
     }
 
     return JsonResponse(response)
+
 
 def greenhouse_live_chart_data(request):
     data = (
@@ -66,6 +340,14 @@ def greenhouse_live_chart_data(request):
     chart_data = list(data)[::-1]
 
     response = {
+        "results": [
+            evaluate_hydroponics_conditions(
+                float(d['air_temperature']),
+                float(d['relative_humidity']),
+                float(d['illumination_intensity'])
+            )
+            for d in chart_data
+        ],
         "timestamps": [d['timestamp'].strftime("%H:%M:%S") for d in chart_data],
         "air_temperature": [float(d['air_temperature']) for d in chart_data],
         "relative_humidity": [float(d['relative_humidity']) for d in chart_data],
@@ -75,31 +357,11 @@ def greenhouse_live_chart_data(request):
 
     return JsonResponse(response)
 
-def fish_tank_data(request):
-    
-    user_id = request.session.get('user_id', None)
-    username = request.session.get('username', None)
-    fullname = request.session.get('fullname', None)
-    user_id = request.session.get('user_id', None)
-    username = request.session.get('username', None)
-    fullname = request.session.get('fullname', None)
-    if not user_id:
-        return redirect(reverse('login')) 
-    
-    fishtankdata = FishTank.objects.all()
-    context = {
-        "fishtankdata" : fishtankdata,
-        "user_id" : user_id, 
-        "username" : username,
-        "fullname" : fullname
-    }
-    return render(request, "fishtank.html", context)
-
 
 def waterbed_live_chart_data(request):
     data = (
         WaterBed.objects
-        .order_by('-id')[:40]
+        .order_by('-increment_id')[:40]
         .values(
             'timestamp', 'water_temperature', 'dissolved_O2_level',
             'electrical_conductivity', 'total_dissolved_solids',
@@ -113,6 +375,7 @@ def waterbed_live_chart_data(request):
             datetime.strptime(d['timestamp'], '%Y-%m-%d %H:%M').strftime("%H:%M")
             for d in chart_data
         ],
+        
         "water_temperature": [float(d['water_temperature']) for d in chart_data],
         "dissolved_O2_level": [float(d['dissolved_O2_level']) for d in chart_data],
         "electrical_conductivity": [float(d['electrical_conductivity']) for d in chart_data],
@@ -121,15 +384,20 @@ def waterbed_live_chart_data(request):
         "nitrite": [float(d['nitrite']) for d in chart_data],
         "ammonia": [float(d['ammonia']) for d in chart_data],
         "ph_level": [float(d['ph_level']) for d in chart_data],
+        "results": [
+            evaluate_water_quality(float(d['nitrate']), float(d['ph_level']))
+            for d in chart_data
+        ],
     }
 
     return JsonResponse(response)
 
 
+
 def biofilter_live_chart_data(request):
     data = (
         Biofilter.objects
-        .order_by('-id')[:40]
+        .order_by('-increment_id')[:40]
         .values('timestamp', 'nitrate', 'nitrite', 'ammonia')
     )
     chart_data = list(data)[::-1]
@@ -137,6 +405,10 @@ def biofilter_live_chart_data(request):
     response = {
         "timestamps": [
             datetime.strptime(d['timestamp'], "%Y-%m-%d %H:%M").strftime("%H:%M")
+            for d in chart_data
+        ],
+        "results": [
+            evaluate_water_quality(float(d['nitrate']), float(d['nitrite']))
             for d in chart_data
         ],
         "nitrate": [float(d['nitrate']) for d in chart_data],

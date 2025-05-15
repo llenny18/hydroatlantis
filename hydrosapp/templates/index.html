@@ -40,6 +40,31 @@
                     </div>
                 </div>
 
+                <div class="row">
+                <div class="col-md-6 mb-5">
+                    <h4 class="text-center">Fish Tank Predicted Data</h4>
+                                <canvas id="liveChart" width="900" height="400"></canvas>
+
+                    </div>
+                <div class="col-md-6 mb-5">
+                    <h4 class="text-center" >Water Bio Filter Predicted Data </h4>
+                                <canvas id="biofilterChart" width="900" height="400"></canvas>
+
+                    </div>
+                    <hr>
+                <div class="col-md-6 mb-5">
+                    <h4 class="text-center" >Water Test Bed  Predicted Data</h4>
+                                <canvas id="waterbedChart" width="900" height="400"></canvas>
+
+                    </div>
+                <div class="col-md-6 mb-5">
+                    <h4 class="text-center" > Greenhouse Predicted Data</h4>
+                                <canvas id="liveChart1" width="900" height="400"></canvas>
+
+                    </div>
+                    </div>
+
+
                 <!-- Date Filter and Chart -->
                 <div class="col-xl-12">
                     <div class="date-filter mb-3">
@@ -186,6 +211,289 @@
                         })
                         .catch(err => console.error("Biofilter Chart Error:", err));
                 }
+
+  let chart;
+
+  async function fetchChartData() {
+    const response = await fetch('/fish_tank_live_chart_data_predicted/');
+    return await response.json();
+  }
+
+  async function createChart() {
+    const data = await fetchChartData();
+
+    const ctx = document.getElementById('liveChart').getContext('2d');
+    chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: data.timestamps,
+        datasets: [
+          {
+            label: 'EC (μS/cm)',
+            data: data.ec,
+            borderColor: 'purple',
+            fill: false
+          },
+          {
+            label: 'pH',
+            data: data.ph,
+            borderColor: 'green',
+            fill: false
+          },
+          {
+            label: 'Nitrate (mg/L)',
+            data: data.nitrate,
+            borderColor: 'orange',
+            fill: false
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: false
+          }
+        }
+      }
+    });
+  }
+
+  async function updateChart() {
+    const data = await fetchChartData();
+
+    chart.data.labels = data.timestamps;
+    chart.data.datasets[0].data = data.ec;
+    chart.data.datasets[1].data = data.ph;
+    chart.data.datasets[2].data = data.nitrate;
+    chart.update();
+  }
+
+  createChart();
+  setInterval(updateChart, 10000); // Update every 5 seconds
+
+
+   let chart1;
+
+    async function fetchChartData1() {
+      const response = await fetch('/greenhouse_live_chart_data_predicted/');
+      return await response.json();
+    }
+
+    async function createChart1() {
+      const data = await fetchChartData();
+
+      const ctx = document.getElementById('liveChart1').getContext('2d');
+      chart1 = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: data.timestamps,
+          datasets: [
+            {
+              label: 'Air Temperature (°C)',
+              data: data.air_temperature,
+              borderColor: 'red',
+              fill: false
+            },
+            {
+              label: 'Humidity (%)',
+              data: data.relative_humidity,
+              borderColor: 'blue',
+              fill: false
+            },
+            {
+              label: 'CO₂ Level',
+              data: data.co2_level,
+              borderColor: 'green',
+              fill: false
+            },
+            {
+              label: 'Illumination (lux)',
+              data: data.illumination_intensity,
+              borderColor: 'orange',
+              fill: false
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: { beginAtZero: true }
+          }
+        }
+      });
+    }
+
+    async function updateChart1() {
+      const data = await fetchChartData1();
+
+      chart1.data.labels = data.timestamps;
+      chart1.data.datasets[0].data = data.air_temperature;
+      chart1.data.datasets[1].data = data.relative_humidity;
+      chart1.data.datasets[2].data = data.co2_level;
+      chart1.data.datasets[3].data = data.illumination_intensity;
+      chart1.update();
+    }
+
+    createChart1();
+
+    // Refresh every 5 seconds
+    setInterval(updateChart1, 10000);
+
+
+   let chart2;
+
+    async function fetchChartData2() {
+      const response = await fetch('/biofilter_live_chart_data_predicted/');
+      return await response.json();
+    }
+
+    async function createChart2() {
+      const data = await fetchChartData2();
+
+      const ctx = document.getElementById('biofilterChart').getContext('2d');
+      chart2 = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: data.timestamps,
+          datasets: [
+            {
+              label: 'Nitrate (ppm)',
+              data: data.nitrate,
+              borderColor: 'purple',
+              fill: false
+            },
+            {
+              label: 'Nitrite (ppm)',
+              data: data.nitrite,
+              borderColor: 'teal',
+              fill: false
+            },
+            {
+              label: 'Ammonia (ppm)',
+              data: data.ammonia,
+              borderColor: 'brown',
+              fill: false
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: { beginAtZero: false }
+          }
+        }
+      });
+    }
+
+    async function updateChart2() {
+      const data = await fetchChartData2();
+
+      chart2.data.labels = data.timestamps;
+      chart2.data.datasets[0].data = data.nitrate;
+      chart2.data.datasets[1].data = data.nitrite;
+      chart2.data.datasets[2].data = data.ammonia;
+      chart2.update();
+    }
+
+    createChart2();
+    setInterval(updateChart2, 10000);
+
+
+
+
+   let chart3;
+
+    async function fetchChartData3() {
+      const response = await fetch('/waterbed_live_chart_data_predicted/');
+      return await response.json();
+    }
+
+    async function createChart3() {
+      const data = await fetchChartData3();
+
+      const ctx = document.getElementById('waterbedChart').getContext('2d');
+      chart3 = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: data.timestamps,
+          datasets: [
+            {
+              label: 'Water Temperature (°C)',
+              data: data.water_temperature,
+              borderColor: 'red',
+              fill: false
+            },
+            {
+              label: 'Dissolved O₂ Level (mg/L)',
+              data: data.dissolved_O2_level,
+              borderColor: 'blue',
+              fill: false
+            },
+            {
+              label: 'Electrical Conductivity (µS/cm)',
+              data: data.electrical_conductivity,
+              borderColor: 'green',
+              fill: false
+            },
+            {
+              label: 'Total Dissolved Solids (ppm)',
+              data: data.total_dissolved_solids,
+              borderColor: 'orange',
+              fill: false
+            },
+            {
+              label: 'Nitrate (ppm)',
+              data: data.nitrate,
+              borderColor: 'purple',
+              fill: false
+            },
+            {
+              label: 'Nitrite (ppm)',
+              data: data.nitrite,
+              borderColor: 'teal',
+              fill: false
+            },
+            {
+              label: 'Ammonia (ppm)',
+              data: data.ammonia,
+              borderColor: 'brown',
+              fill: false
+            },
+            {
+              label: 'pH Level',
+              data: data.ph_level,
+              borderColor: 'gray',
+              fill: false
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: { beginAtZero: false }
+          }
+        }
+      });
+    }
+
+    async function updateChart3() {
+      const data = await fetchChartData3();
+
+      chart3.data.labels = data.timestamps;
+      chart3.data.datasets[0].data = data.water_temperature;
+      chart3.data.datasets[1].data = data.dissolved_O2_level;
+      chart3.data.datasets[2].data = data.electrical_conductivity;
+      chart3.data.datasets[3].data = data.total_dissolved_solids;
+      chart3.data.datasets[4].data = data.nitrate;
+      chart3.data.datasets[5].data = data.nitrite;
+      chart3.data.datasets[6].data = data.ammonia;
+      chart3.data.datasets[7].data = data.ph_level;
+      chart3.update();
+    }
+
+    createChart3();
+    setInterval(updateChart3, 10000);
 </script>
 
 </body>
