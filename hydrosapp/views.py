@@ -455,6 +455,7 @@ def get_waterbedchart(request):
             )
         except ValueError as e:
             return JsonResponse({"error": f"Invalid date format: {e}"}, status=400)
+
     labels = [bio.timestamp for bio in biofilters]
 
     datasets = {
@@ -475,8 +476,42 @@ def get_waterbedchart(request):
     }
 
     for bio in biofilters:
-        datasets["total_dissolved_solids"]["data"].append(float(bio.total_dissolved_solids))
-        datasets["dissolved_o2_level"]["data"].append(float(bio.dissolved_O2_level))
+        tds = float(bio.total_dissolved_solids)
+        o2 = float(bio.dissolved_O2_level)
+
+        datasets["total_dissolved_solids"]["data"].append(tds)
+        datasets["dissolved_o2_level"]["data"].append(o2)
+
+        # Notification logic
+        if tds > 1500:
+            create_notification_if_not_exists(
+                message=f"High TDS level: {tds} ppm",
+                severity=1.0,
+                table="waterbed",
+                record_id=str(bio.id)
+            )
+        elif tds < 300:
+            create_notification_if_not_exists(
+                message=f"Low TDS level: {tds} ppm",
+                severity=1.0,
+                table="waterbed",
+                record_id=str(bio.id)
+            )
+
+        if o2 < 4:
+            create_notification_if_not_exists(
+                message=f"Low dissolved oxygen level: {o2} mg/L",
+                severity=1.0,
+                table="waterbed",
+                record_id=str(bio.id)
+            )
+        elif o2 > 10:
+            create_notification_if_not_exists(
+                message=f"High dissolved oxygen level: {o2} mg/L",
+                severity=1.0,
+                table="waterbed",
+                record_id=str(bio.id)
+            )
 
     response_data = {
         "labels": labels,
@@ -488,17 +523,16 @@ def get_waterbedchart(request):
     fullname = request.session.get('fullname', None)
     notifs = ServerNotifications.objects.all()
     context = {
-        "notifs" : notifs,
+        "notifs": notifs,
         "waterbeddt": json.dumps(response_data),
-        "user_id" : user_id, 
-        "username" : username,
-        "fullname" : fullname
+        "user_id": user_id,
+        "username": username,
+        "fullname": fullname
     }
-    
+
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         return JsonResponse(response_data)
     return render(request, "index.html", context)
-
 
 def get_waterbio(request):
     biofil= Biofilter.objects.all()
@@ -662,6 +696,7 @@ def get_waterbiochart(request):
             )
         except ValueError as e:
             return JsonResponse({"error": f"Invalid date format: {e}"}, status=400)
+
     labels = [bio.timestamp for bio in biofilters]
 
     datasets = {
@@ -689,9 +724,36 @@ def get_waterbiochart(request):
     }
 
     for bio in biofilters:
-        datasets["nitrate"]["data"].append(float(bio.nitrate))
-        datasets["nitrite"]["data"].append(float(bio.nitrite))
-        datasets["ammonia"]["data"].append(float(bio.ammonia))
+        nitrate = float(bio.nitrate)
+        nitrite = float(bio.nitrite)
+        ammonia = float(bio.ammonia)
+
+        datasets["nitrate"]["data"].append(nitrate)
+        datasets["nitrite"]["data"].append(nitrite)
+        datasets["ammonia"]["data"].append(ammonia)
+
+        # Spike detection and notification
+        if nitrate > 50:
+            create_notification_if_not_exists(
+                message=f"Nitrate spike detected: {nitrate} mg/L",
+                severity=1.0,
+                table="biofilter",
+                record_id=str(bio.id)
+            )
+        if nitrite > 1:
+            create_notification_if_not_exists(
+                message=f"Nitrite spike detected: {nitrite} mg/L",
+                severity=1.0,
+                table="biofilter",
+                record_id=str(bio.id)
+            )
+        if ammonia > 0.5:
+            create_notification_if_not_exists(
+                message=f"Ammonia spike detected: {ammonia} mg/L",
+                severity=1.0,
+                table="biofilter",
+                record_id=str(bio.id)
+            )
 
     response_data = {
         "labels": labels,
@@ -703,13 +765,13 @@ def get_waterbiochart(request):
     fullname = request.session.get('fullname', None)
     notifs = ServerNotifications.objects.all()
     context = {
-        "notifs" : notifs,
+        "notifs": notifs,
         "water_biofilterdt": json.dumps(response_data),
-        "user_id" : user_id, 
-        "username" : username,
-        "fullname" : fullname
+        "user_id": user_id,
+        "username": username,
+        "fullname": fullname
     }
-    
+
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         return JsonResponse(response_data)
     return render(request, "biofil_charts.html", context)
@@ -758,6 +820,7 @@ def sensor_detail(request, sensor_id):
     
 
 @require_GET
+@require_GET
 def get_greenchart(request):
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
@@ -766,21 +829,17 @@ def get_greenchart(request):
 
     if start_date and end_date:
         try:
-            # Parse ISO dates (e.g., "2024-04-16T00:00")
             start_datetime = datetime.fromisoformat(start_date)
             end_datetime = datetime.fromisoformat(end_date)
-
-            # Convert to database format "DD/MM/YYYY HH:mm"
             db_start = start_datetime.strftime("%d/%m/%Y %H:%M")
             db_end = end_datetime.strftime("%d/%m/%Y %H:%M")
-
-            # Filter using the VARCHAR field (e.g., "timestamp")
             biofilters = biofilters.filter(
                 timestamp__gte=db_start,
                 timestamp__lte=db_end
             )
         except ValueError as e:
             return JsonResponse({"error": f"Invalid date format: {e}"}, status=400)
+
     labels = [bio.timestamp.strftime("%d/%m/%Y %H:%M") for bio in biofilters]
     datasets = {
         "air_temperature": {
@@ -800,9 +859,42 @@ def get_greenchart(request):
     }
 
     for bio in biofilters:
-        datasets["air_temperature"]["data"].append(float(bio.air_temperature))
-        datasets["relative_humidity"]["data"].append(float(bio.relative_humidity))
+        air_temp = float(bio.air_temperature)
+        humidity = float(bio.relative_humidity)
 
+        datasets["air_temperature"]["data"].append(air_temp)
+        datasets["relative_humidity"]["data"].append(humidity)
+
+        # Apply thresholds for notifications
+        if air_temp > 35:
+            create_notification_if_not_exists(
+                message=f"High temperature alert: {air_temp} °C",
+                severity=1.0,
+                table="greenhouse",
+                record_id=str(bio.id)
+            )
+        elif air_temp < 15:
+            create_notification_if_not_exists(
+                message=f"Low temperature alert: {air_temp} °C",
+                severity=1.0,
+                table="greenhouse",
+                record_id=str(bio.id)
+            )
+
+        if humidity < 40:
+            create_notification_if_not_exists(
+                message=f"Low humidity alert: {humidity}%",
+                severity=1.0,
+                table="greenhouse",
+                record_id=str(bio.id)
+            )
+        elif humidity > 85:
+            create_notification_if_not_exists(
+                message=f"High humidity alert: {humidity}%",
+                severity=1.0,
+                table="greenhouse",
+                record_id=str(bio.id)
+            )
     response_data = {
         "labels": labels,
         "datasets": list(datasets.values())
@@ -813,13 +905,13 @@ def get_greenchart(request):
     fullname = request.session.get('fullname', None)
     notifs = ServerNotifications.objects.all()
     context = {
-        "notifs" : notifs,
+        "notifs": notifs,
         "greenchartdt": json.dumps(response_data),
-        "user_id" : user_id, 
-        "username" : username,
-        "fullname" : fullname
+        "user_id": user_id,
+        "username": username,
+        "fullname": fullname
     }
-    
+
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         return JsonResponse(response_data)
     return render(request, "greenhousechart.html", context)
@@ -939,3 +1031,26 @@ def view_device_data_modal(request, device_id):
     }
 
     return JsonResponse(response_data)
+
+def create_notification_if_not_exists(message, severity, table, record_id):
+    """
+    Check for duplicate notification before creating.
+    """
+    existing = ServerNotifications.objects.filter(
+        message=message,
+        related_record_id=record_id,
+        related_table=table
+    ).first()
+
+    if not existing:
+        now = datetime.now().strftime("%d/%m/%Y %H:%M")
+        ServerNotifications.objects.create(
+            created_at=now,
+            updated_at=now,
+            deleted_at='',
+            message=message,
+            severity=severity,
+            related_table=table,
+            related_record_id=record_id,
+            timestamp=now
+        )
