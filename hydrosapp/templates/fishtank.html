@@ -86,7 +86,7 @@
   
           async function fetchLatestResult() {
     try {
-      const response = await fetch('https://hydroatlantis-h9hv.onrender.com/fish_tank_live_chart_data/'); // Use your correct IP/port if needed
+      const response = await fetch('http://127.0.0.1:8000/fish_tank_live_chart_data/'); // Use your correct IP/port if needed
       const data = await response.json();
       const results = data.results;
       const latest = results[results.length - 1];
