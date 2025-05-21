@@ -44,5 +44,6 @@ urlpatterns = [
     path('sensor/sensors/<int:sensor_type_id>/', views.sensor_list_by_type, name='sensor_list_by_type'),
     path('edge_devices/<str:device_id>/data/<str:data_type>/', views.view_device_data, name='view_device_data'),
     path('edge_devices/<str:device_id>/data/', views.view_device_data_modal, name='view_device_data_modal'),
+    path('thresholds/submit/', views.submit_threshold, name='submit_threshold'),
     path('', views.start),
 ]
