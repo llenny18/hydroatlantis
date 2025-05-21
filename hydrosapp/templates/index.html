@@ -42,24 +42,171 @@
 
                 <div class="row">
                 <div class="col-md-6 mb-5">
-                    <h4 class="text-center">Fish Tank Predicted Data</h4>
-                                <canvas id="liveChart" width="900" height="400"></canvas>
+                    <h4 class="text-center text-uppercase" >Fish Tank Prediction every Part of the Day</h4>
+                            <div class="card-group">
+  <div class="card m-1">
+    <img src="{% static 'day-icons/morning.jpeg' %}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Morning</h5>
+      <p class="card-text"><span id="fish_tank-morning">Prediction Loading</span></p>
+    </div>
+  </div>
+  <div class="card m-1">
+    <img src="{% static 'day-icons/lunch.jpeg' %}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Lunch</h5>
+      <p class="card-text"><span id="fish_tank-lunch">Prediction Loading</span></p>
+    </div>
+  </div>
+  <div class="card m-1">
+    <img src="{% static 'day-icons/afternoon.jpeg' %}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Afternoon</h5>
+      <p class="card-text"><span id="fish_tank-afternoon">Prediction Loading</span></p>
+    </div>
+  </div>
+  <div class="card m-1">
+    <img src="{% static 'day-icons/night.jpeg' %}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Night</h5>
+      <p class="card-text"><span id="fish_tank-night">Prediction Loading</span></p>
+    </div>
+  </div>
+  <div class="card m-1">
+    <img src="{% static 'day-icons/midnight.jpeg' %}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Midnight</h5>
+      <p class="card-text"><span id="fish_tank-midnight">Prediction Loading</span></p>
+    </div>
+  </div>
+</div>
 
                     </div>
                 <div class="col-md-6 mb-5">
-                    <h4 class="text-center" >Water Bio Filter Predicted Data </h4>
-                                <canvas id="biofilterChart" width="900" height="400"></canvas>
+                    <h4 class="text-center text-uppercase" >Water Bio Filter Prediction every Part of the Day </h4>
+                                         <div class="card-group">
+  <div class="card m-1">
+    <img src="{% static 'day-icons/morning.jpeg' %}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Morning</h5>
+      <p class="card-text"><span id="bio_filter-morning">Prediction Loading</span></p>
+    </div>
+  </div>
+  <div class="card m-1">
+    <img src="{% static 'day-icons/lunch.jpeg' %}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Lunch</h5>
+      <p class="card-text"><span id="bio_filter-lunch">Prediction Loading</span></p>
+    </div>
+  </div>
+  <div class="card m-1">
+    <img src="{% static 'day-icons/afternoon.jpeg' %}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Afternoon</h5>
+      <p class="card-text"><span id="bio_filter-afternoon">Prediction Loading</span></p>
+    </div>
+  </div>
+  <div class="card m-1">
+    <img src="{% static 'day-icons/night.jpeg' %}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Night</h5>
+      <p class="card-text"><span id="bio_filter-night">Prediction Loading</span></p>
+    </div>
+  </div>
+  <div class="card m-1">
+    <img src="{% static 'day-icons/midnight.jpeg' %}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Midnight</h5>
+      <p class="card-text"><span id="bio_filter-midnight">Prediction Loading</span></p>
+    </div>
+  </div>
+</div>
 
                     </div>
+
                     <hr>
                 <div class="col-md-6 mb-5">
-                    <h4 class="text-center" >Water Test Bed  Predicted Data</h4>
-                                <canvas id="waterbedChart" width="900" height="400"></canvas>
+                    <h4 class="text-center text-uppercase" >Water Test Bed  Prediction every Part of the Day</h4>
+                                         <div class="card-group">
+  <div class="card m-1">
+    <img src="{% static 'day-icons/morning.jpeg' %}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Morning</h5>
+      <p class="card-text"><span id="test_bed-morning">Prediction Loading</span></p>
+    </div>
+  </div>
+  <div class="card m-1">
+    <img src="{% static 'day-icons/lunch.jpeg' %}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Lunch</h5>
+      <p class="card-text"><span id="test_bed-lunch">Prediction Loading</span></p>
+    </div>
+  </div>
+  <div class="card m-1">
+    <img src="{% static 'day-icons/afternoon.jpeg' %}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Afternoon</h5>
+      <p class="card-text"><span id="test_bed-afternoon">Prediction Loading</span></p>
+    </div>
+  </div>
+  <div class="card m-1">
+    <img src="{% static 'day-icons/night.jpeg' %}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Night</h5>
+      <p class="card-text"><span id="test_bed-night">Prediction Loading</span></p>
+    </div>
+  </div>
+  <div class="card m-1">
+    <img src="{% static 'day-icons/midnight.jpeg' %}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Midnight</h5>
+      <p class="card-text"><span id="test_bed-midnight">Prediction Loading</span></p>
+    </div>
+  </div>
+</div>
+</div>
+
+                <div class="col-md-6 mb-5">
+                    <h4 class="text-center text-uppercase" > Greenhouse Prediction every Part of the Day</h4>
+                                       <div class="card-group">
+  <div class="card m-1">
+    <img src="{% static 'day-icons/morning.jpeg' %}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Morning</h5>
+      <p class="card-text"><span id="greenhouse-morning">Prediction Loading</span></p>
+    </div>
+  </div>
+  <div class="card m-1">
+    <img src="{% static 'day-icons/lunch.jpeg' %}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Lunch</h5>
+      <p class="card-text"><span id="greenhouse-lunch">Prediction Loading</span></p>
+    </div>
+  </div>
+  <div class="card m-1">
+    <img src="{% static 'day-icons/afternoon.jpeg' %}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Afternoon</h5>
+      <p class="card-text"><span id="greenhouse-afternoon">Prediction Loading</span></p>
+    </div>
+  </div>
+  <div class="card m-1">
+    <img src="{% static 'day-icons/night.jpeg' %}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Night</h5>
+      <p class="card-text"><span id="greenhouse-night">Prediction Loading</span></p>
+    </div>
+  </div>
+  <div class="card m-1">
+    <img src="{% static 'day-icons/midnight.jpeg' %}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Midnight</h5>
+      <p class="card-text"><span id="greenhouse-midnight">Prediction Loading</span></p>
+    </div>
+  </div>
+</div>
 
                     </div>
-                <div class="col-md-6 mb-5">
-                    <h4 class="text-center" > Greenhouse Predicted Data</h4>
-                                <canvas id="liveChart1" width="900" height="400"></canvas>
 
                     </div>
                     </div>
@@ -127,373 +274,69 @@
     <script src="{% static 'assets/libs/js/main-js.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- Chart JS Logic -->
-    <script>
-                let waterChartInstance, greenChartInstance, bioChartInstance;
-
-                document.addEventListener('DOMContentLoaded', () => {
-                    updateChart();
-                    updateGreenChart();
-                    updateBioChart();
-                });
-
-                function updateChart() {
-                    const startDate = document.getElementById('startDate').value;
-                    const endDate = document.getElementById('endDate').value;
-                    let url = '/api/waterbedchart/';
-                    if (startDate && endDate) {
-                        url += `?start_date=${startDate}&end_date=${endDate}`;
-                    }
-
-                    fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' }})
-                        .then(res => res.json())
-                        .then(data => {
-                            const ctx = document.getElementById('waterBedChart').getContext('2d');
-                            if (waterChartInstance) waterChartInstance.destroy();
-                            waterChartInstance = new Chart(ctx, {
-                                type: 'line',
-                                data: {
-                                    labels: data.labels,
-                                    datasets: data.datasets
-                                },
-                                options: { responsive: true, scales: { y: { beginAtZero: true } } }
-                            });
-                        })
-                        .catch(err => console.error("Water Bed Chart Error:", err));
-                }
-
-                function updateGreenChart() {
-                    const startDate = document.getElementById('greenStart').value;
-                    const endDate = document.getElementById('greenEnd').value;
-                    let url = '/greencharts/';
-                    if (startDate && endDate) {
-                        url += `?start_date=${startDate}&end_date=${endDate}`;
-                    }
-
-                    fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' }})
-                        .then(res => res.json())
-                        .then(data => {
-                            const ctx = document.getElementById('greenChart').getContext('2d');
-                            if (greenChartInstance) greenChartInstance.destroy();
-                            greenChartInstance = new Chart(ctx, {
-                                type: 'line',
-                                data: {
-                                    labels: data.labels,
-                                    datasets: data.datasets
-                                },
-                                options: { responsive: true, scales: { y: { beginAtZero: true } } }
-                            });
-                        })
-                        .catch(err => console.error("Greenhouse Chart Error:", err));
-                }
-
-                function updateBioChart() {
-                    const startDate = document.getElementById('bioStart').value;
-                    const endDate = document.getElementById('bioEnd').value;
-                    let url = '/waterbiofiltercharts/';
-                    if (startDate && endDate) {
-                        url += `?start_date=${startDate}&end_date=${endDate}`;
-                    }
-
-                    fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' }})
-                        .then(res => res.json())
-                        .then(data => {
-                            const ctx = document.getElementById('bioChart').getContext('2d');
-                            if (bioChartInstance) bioChartInstance.destroy();
-                            bioChartInstance = new Chart(ctx, {
-                                type: 'line',
-                                data: {
-                                    labels: data.labels,
-                                    datasets: data.datasets
-                                },
-                                options: { responsive: true, scales: { y: { beginAtZero: true } } }
-                            });
-                        })
-                        .catch(err => console.error("Biofilter Chart Error:", err));
-                }
-
-  let chart;
-
-  async function fetchChartData() {
-    const response = await fetch('/fish_tank_live_chart_data_predicted/');
-    return await response.json();
-  }
-
-  async function createChart() {
-    const data = await fetchChartData();
-
-    const ctx = document.getElementById('liveChart').getContext('2d');
-    chart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: data.timestamps,
-        datasets: [
-          {
-            label: 'EC (μS/cm)',
-            data: data.ec,
-            borderColor: 'purple',
-            fill: false
-          },
-          {
-            label: 'pH',
-            data: data.ph,
-            borderColor: 'green',
-            fill: false
-          },
-          {
-            label: 'Nitrate (mg/L)',
-            data: data.nitrate,
-            borderColor: 'orange',
-            fill: false
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          y: {
-            beginAtZero: false
-          }
-        }
+          <script>
+document.addEventListener('DOMContentLoaded', () => {
+  fetch('/prediction-lstm/')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
+      return response.json();
+    })
+    .then(data => {
+      // Define mappings between data keys and HTML IDs
+      const systemMapping = {
+        'fish_tank': 'fish_tank',
+        'greenhouse': 'greenhouse',
+        'water_bed': 'test_bed',    // Corrected to match your HTML ID
+        'biofilter': 'bio_filter'   // Corrected to match your HTML ID
+      };
+      
+      const times = ['morning', 'lunch', 'afternoon', 'night', 'midnight'];
+      
+      // Update each element with the corresponding prediction
+      Object.keys(systemMapping).forEach(dataKey => {
+        const htmlPrefix = systemMapping[dataKey];
+        
+        times.forEach(time => {
+          const elementId = `${htmlPrefix}-${time}`;
+          const element = document.getElementById(elementId);
+          
+          if (element) {
+            // Check if the data exists and has the expected structure
+            if (data && data[dataKey] && data[dataKey][time] !== undefined) {
+              let status = data[dataKey][time].toLowerCase();
+                let message = status === "good"
+                  ? "This time is safe, but caution is still advised."
+                  : "Immediate action should be taken.";
+
+                element.textContent = `Status: ${data[dataKey][time].toUpperCase()}: Description:${message}`;
+              
+              
+              // Optionally add color coding based on status
+              if (data[dataKey][time].toLowerCase() === 'good') {
+                element.classList.add('text-success');
+              } else if (data[dataKey][time].toLowerCase() === 'bad') {
+                element.classList.add('text-danger');
+              }
+            } else {
+              element.textContent = 'No data available';
+            }
+          } else {
+            console.warn(`Element with ID "${elementId}" not found in the DOM`);
+          }
+        });
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching prediction data:', error);
+      // Update UI to show error state
+      document.querySelectorAll('[id$="-morning"], [id$="-lunch"], [id$="-afternoon"], [id$="-night"], [id$="-midnight"]').forEach(el => {
+        el.textContent = 'Error loading data';
+        el.classList.add('text-danger');
+      });
     });
-  }
-
-  async function updateChart() {
-    const data = await fetchChartData();
-
-    chart.data.labels = data.timestamps;
-    chart.data.datasets[0].data = data.ec;
-    chart.data.datasets[1].data = data.ph;
-    chart.data.datasets[2].data = data.nitrate;
-    chart.update();
-  }
-
-  createChart();
-  setInterval(updateChart, 10000); // Update every 5 seconds
-
-
-   let chart1;
-
-    async function fetchChartData1() {
-      const response = await fetch('/greenhouse_live_chart_data_predicted/');
-      return await response.json();
-    }
-
-    async function createChart1() {
-      const data = await fetchChartData();
-
-      const ctx = document.getElementById('liveChart1').getContext('2d');
-      chart1 = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: data.timestamps,
-          datasets: [
-            {
-              label: 'Air Temperature (°C)',
-              data: data.air_temperature,
-              borderColor: 'red',
-              fill: false
-            },
-            {
-              label: 'Humidity (%)',
-              data: data.relative_humidity,
-              borderColor: 'blue',
-              fill: false
-            },
-            {
-              label: 'CO₂ Level',
-              data: data.co2_level,
-              borderColor: 'green',
-              fill: false
-            },
-            {
-              label: 'Illumination (lux)',
-              data: data.illumination_intensity,
-              borderColor: 'orange',
-              fill: false
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          scales: {
-            y: { beginAtZero: true }
-          }
-        }
-      });
-    }
-
-    async function updateChart1() {
-      const data = await fetchChartData1();
-
-      chart1.data.labels = data.timestamps;
-      chart1.data.datasets[0].data = data.air_temperature;
-      chart1.data.datasets[1].data = data.relative_humidity;
-      chart1.data.datasets[2].data = data.co2_level;
-      chart1.data.datasets[3].data = data.illumination_intensity;
-      chart1.update();
-    }
-
-    createChart1();
-
-    // Refresh every 5 seconds
-    setInterval(updateChart1, 10000);
-
-
-   let chart2;
-
-    async function fetchChartData2() {
-      const response = await fetch('/biofilter_live_chart_data_predicted/');
-      return await response.json();
-    }
-
-    async function createChart2() {
-      const data = await fetchChartData2();
-
-      const ctx = document.getElementById('biofilterChart').getContext('2d');
-      chart2 = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: data.timestamps,
-          datasets: [
-            {
-              label: 'Nitrate (ppm)',
-              data: data.nitrate,
-              borderColor: 'purple',
-              fill: false
-            },
-            {
-              label: 'Nitrite (ppm)',
-              data: data.nitrite,
-              borderColor: 'teal',
-              fill: false
-            },
-            {
-              label: 'Ammonia (ppm)',
-              data: data.ammonia,
-              borderColor: 'brown',
-              fill: false
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          scales: {
-            y: { beginAtZero: false }
-          }
-        }
-      });
-    }
-
-    async function updateChart2() {
-      const data = await fetchChartData2();
-
-      chart2.data.labels = data.timestamps;
-      chart2.data.datasets[0].data = data.nitrate;
-      chart2.data.datasets[1].data = data.nitrite;
-      chart2.data.datasets[2].data = data.ammonia;
-      chart2.update();
-    }
-
-    createChart2();
-    setInterval(updateChart2, 10000);
-
-
-
-
-   let chart3;
-
-    async function fetchChartData3() {
-      const response = await fetch('/waterbed_live_chart_data_predicted/');
-      return await response.json();
-    }
-
-    async function createChart3() {
-      const data = await fetchChartData3();
-
-      const ctx = document.getElementById('waterbedChart').getContext('2d');
-      chart3 = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: data.timestamps,
-          datasets: [
-            {
-              label: 'Water Temperature (°C)',
-              data: data.water_temperature,
-              borderColor: 'red',
-              fill: false
-            },
-            {
-              label: 'Dissolved O₂ Level (mg/L)',
-              data: data.dissolved_O2_level,
-              borderColor: 'blue',
-              fill: false
-            },
-            {
-              label: 'Electrical Conductivity (µS/cm)',
-              data: data.electrical_conductivity,
-              borderColor: 'green',
-              fill: false
-            },
-            {
-              label: 'Total Dissolved Solids (ppm)',
-              data: data.total_dissolved_solids,
-              borderColor: 'orange',
-              fill: false
-            },
-            {
-              label: 'Nitrate (ppm)',
-              data: data.nitrate,
-              borderColor: 'purple',
-              fill: false
-            },
-            {
-              label: 'Nitrite (ppm)',
-              data: data.nitrite,
-              borderColor: 'teal',
-              fill: false
-            },
-            {
-              label: 'Ammonia (ppm)',
-              data: data.ammonia,
-              borderColor: 'brown',
-              fill: false
-            },
-            {
-              label: 'pH Level',
-              data: data.ph_level,
-              borderColor: 'gray',
-              fill: false
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          scales: {
-            y: { beginAtZero: false }
-          }
-        }
-      });
-    }
-
-    async function updateChart3() {
-      const data = await fetchChartData3();
-
-      chart3.data.labels = data.timestamps;
-      chart3.data.datasets[0].data = data.water_temperature;
-      chart3.data.datasets[1].data = data.dissolved_O2_level;
-      chart3.data.datasets[2].data = data.electrical_conductivity;
-      chart3.data.datasets[3].data = data.total_dissolved_solids;
-      chart3.data.datasets[4].data = data.nitrate;
-      chart3.data.datasets[5].data = data.nitrite;
-      chart3.data.datasets[6].data = data.ammonia;
-      chart3.data.datasets[7].data = data.ph_level;
-      chart3.update();
-    }
-
-    createChart3();
-    setInterval(updateChart3, 10000);
+});
 </script>
 
 </body>

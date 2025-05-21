@@ -60,7 +60,7 @@
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="card">
                                 <h3 class="card-header">Water Bed data</h3>
-                                  <h3 id="latestResult" class="text-center m-3">Location Status: Loading...</h3>
+                                  <h2 id="latestResult" class="text-center m-3">Water Bed Status: Loading...</h2>
 
   <script>
   
@@ -71,7 +71,7 @@
       const results = data.results;
       const latest = results[results.length - 1];
 
-      document.getElementById('latestResult').innerText = "Location Result: " + latest;
+      document.getElementById('latestResult').innerText = "Water Bed Result: " + latest;
     } catch (error) {
       console.error("Error fetching data:", error);
       document.getElementById('latestResult').innerText = "Error fetching result";
@@ -84,7 +84,76 @@
   // Initial fetch
   fetchLatestResult();
   </script>
-                                <canvas id="waterbedChart" width="900" height="400"></canvas>
+                              <div class="row">
+                                
+  <div class="col-md-6 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <canvas id="chart_ph_level" height="80"></canvas>
+      </div>
+    </div>
+  </div>
+                                <div class="col-md-6 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <canvas id="chart_nitrate" height="80"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <canvas id="chart_water_temperature" height="80"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <canvas id="chart_dissolved_O2_level" height="80"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <canvas id="chart_electrical_conductivity" height="80"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <canvas id="chart_total_dissolved_solids" height="80"></canvas>
+      </div>
+    </div>
+  </div>
+
+  
+
+  <div class="col-md-4 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <canvas id="chart_nitrite" height="80"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <canvas id="chart_ammonia" height="80"></canvas>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
                                 <div class="card-body">
                                     <table class="table" id="waterbedTable">
                                         <thead>
@@ -153,73 +222,72 @@
     <!-- end main wrapper -->
     <!-- ============================================================== -->
     <!-- Optional JavaScript -->
-     
-  <script>
-    let chart;
-
-    async function fetchChartData() {
-      const response = await fetch('/waterbed_live_data/');
-      return await response.json();
+     <script>
+  const chartConfigs = {
+    chart_water_temperature: {
+      label: 'Water Temperature (°C) | Sensor Is Defective',
+      color: 'red',
+      key: 'water_temperature'
+    },
+    chart_dissolved_O2_level: {
+      label: 'Dissolved O₂ Level (mg/L) | Sensor Is Defective',
+      color: 'blue',
+      key: 'dissolved_O2_level'
+    },
+    chart_electrical_conductivity: {
+      label: 'Electrical Conductivity (µS/cm) | Sensor Is Defective',
+      color: 'green',
+      key: 'electrical_conductivity'
+    },
+    chart_total_dissolved_solids: {
+      label: 'Total Dissolved Solids (ppm) | Sensor Is Defective',
+      color: 'orange',
+      key: 'total_dissolved_solids'
+    },
+    chart_nitrate: {
+      label: 'Nitrate (ppm)',
+      color: 'purple',
+      key: 'nitrate'
+    },
+    chart_nitrite: {
+      label: 'Nitrite (ppm) | Sensor Is Defective',
+      color: 'teal',
+      key: 'nitrite'
+    },
+    chart_ammonia: {
+      label: 'Ammonia (ppm) | Sensor Is Defective',
+      color: 'brown',
+      key: 'ammonia'
+    },
+    chart_ph_level: {
+      label: 'pH Level',
+      color: 'gray',
+      key: 'ph_level'
     }
+  };
 
-    async function createChart() {
-      const data = await fetchChartData();
+  const charts = {};
 
-      const ctx = document.getElementById('waterbedChart').getContext('2d');
-      chart = new Chart(ctx, {
+  async function fetchChartData() {
+    const response = await fetch('/waterbed_live_data/');
+    return await response.json();
+  }
+
+  async function createCharts() {
+    const data = await fetchChartData();
+
+    for (const [canvasId, config] of Object.entries(chartConfigs)) {
+      const ctx = document.getElementById(canvasId).getContext('2d');
+      charts[canvasId] = new Chart(ctx, {
         type: 'line',
         data: {
           labels: data.timestamps,
-          datasets: [
-            {
-              label: 'Water Temperature (°C)',
-              data: data.water_temperature,
-              borderColor: 'red',
-              fill: false
-            },
-            {
-              label: 'Dissolved O₂ Level (mg/L)',
-              data: data.dissolved_O2_level,
-              borderColor: 'blue',
-              fill: false
-            },
-            {
-              label: 'Electrical Conductivity (µS/cm)',
-              data: data.electrical_conductivity,
-              borderColor: 'green',
-              fill: false
-            },
-            {
-              label: 'Total Dissolved Solids (ppm)',
-              data: data.total_dissolved_solids,
-              borderColor: 'orange',
-              fill: false
-            },
-            {
-              label: 'Nitrate (ppm)',
-              data: data.nitrate,
-              borderColor: 'purple',
-              fill: false
-            },
-            {
-              label: 'Nitrite (ppm)',
-              data: data.nitrite,
-              borderColor: 'teal',
-              fill: false
-            },
-            {
-              label: 'Ammonia (ppm)',
-              data: data.ammonia,
-              borderColor: 'brown',
-              fill: false
-            },
-            {
-              label: 'pH Level',
-              data: data.ph_level,
-              borderColor: 'gray',
-              fill: false
-            }
-          ]
+          datasets: [{
+            label: config.label,
+            data: data[config.key],
+            borderColor: config.color,
+            fill: false
+          }]
         },
         options: {
           responsive: true,
@@ -229,25 +297,23 @@
         }
       });
     }
+  }
 
-    async function updateChart() {
-      const data = await fetchChartData();
+  async function updateCharts() {
+    const data = await fetchChartData();
 
+    for (const [canvasId, config] of Object.entries(chartConfigs)) {
+      const chart = charts[canvasId];
       chart.data.labels = data.timestamps;
-      chart.data.datasets[0].data = data.water_temperature;
-      chart.data.datasets[1].data = data.dissolved_O2_level;
-      chart.data.datasets[2].data = data.electrical_conductivity;
-      chart.data.datasets[3].data = data.total_dissolved_solids;
-      chart.data.datasets[4].data = data.nitrate;
-      chart.data.datasets[5].data = data.nitrite;
-      chart.data.datasets[6].data = data.ammonia;
-      chart.data.datasets[7].data = data.ph_level;
+      chart.data.datasets[0].data = data[config.key];
       chart.update();
     }
+  }
 
-    createChart();
-    setInterval(updateChart, 5000);
-  </script>
+  createCharts();
+  setInterval(updateCharts, 5000);
+</script>
+
     <script src="{% static 'assets/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
     <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.js' %}"></script>
     <script src="{% static 'assets/vendor/slimscroll/jquery.slimscroll.js' %}"></script>

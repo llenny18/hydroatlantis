@@ -9,6 +9,9 @@ urlpatterns = [
     path('', views.landing, name='landing'),
     path('/', views.landing, name='landing'),
 
+    path('prediction-lstm/', views.prediction_lstm_summary, name='prediction_lstm'),
+
+
     path('greenhouse/', views.get_greenhouse, name='greenhouse'),
     
     path('biofilter_live_chart_data_predicted/', views.biofilter_live_chart_data_predicted, name='biofilter_live_chart_data_predicted'),

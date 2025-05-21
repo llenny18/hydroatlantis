@@ -26,12 +26,111 @@ from .models import EdgeDeviceInfo, ClusterGreenData, ClusterBiofilterData, Clus
 # formatted_date = date_time_obj.strftime("%B %d, %Y %I:%M:%S %p") 
 import uuid
 import random
+from django.db.models import Q
+from collections import deque
+
+import torch
+import torch.nn as nn
+import numpy as np
+import pandas as pd
+from datetime import datetime
+from django.http import JsonResponse
+
+# Time bucket mapping function
+
+def get_time_slot(ts):
+    try:
+        hour = int(ts.split(" ")[1].split(":")[0])
+        if 4 <= hour < 10:
+            return "morning"
+        elif 10 <= hour < 14:
+            return "lunch"
+        elif 14 <= hour < 18:
+            return "afternoon"
+        elif 18 <= hour < 24:
+            return "night"
+        else:
+            return "midnight"
+    except:
+        return "unknown"
+
+def prepare_data(queryset, feature_fields):
+    data = []
+    timeslots = []
+
+    for obj in queryset:
+        try:
+            row = [float(getattr(obj, field)) for field in feature_fields]
+            data.append(row)
+            timeslots.append(get_time_slot(obj.timestamp))
+        except:
+            continue
+
+    return np.array(data), timeslots
+
+def predict_with_lstm(data):
+    if len(data) < 5:
+        return 0  # Not enough data
+
+    X = torch.tensor(data[-5:], dtype=torch.float32).unsqueeze(0)  # shape (1, 5, n_features)
+
+    model = LSTMClassifier(input_size=X.shape[2], hidden_size=16, output_size=1)
+    model.eval()  # no gradients
+
+    with torch.no_grad():
+        output = model(X)
+        return int(output.item() > 0.5)  # 1: bad, 0: good
+
+def get_prediction_summary(model_cls, feature_fields):
+    queryset = model_cls.objects.all()
+    data, slots = prepare_data(queryset, feature_fields)
+
+    slot_summary = {
+        "morning": "good",
+        "lunch": "good",
+        "afternoon": "good",
+        "night": "good",
+        "midnight": "good"
+    }
+
+    for slot in slot_summary.keys():
+        slot_data = data[[i for i, s in enumerate(slots) if s == slot]]
+        prediction = predict_with_lstm(slot_data)
+        slot_summary[slot] = "bad" if prediction else "good"
+
+    return slot_summary
+
+def prediction_lstm_summary(request):
+    return JsonResponse({
+        "fish_tank": get_prediction_summary(FishTank, ["ec", "ph", "nitrate"]),
+        "greenhouse": get_prediction_summary(Greenhouse, ["air_temperature", "relative_humidity", "illumination_intensity"]),
+        "water_bed": get_prediction_summary(WaterBed, ["water_temperature", "dissolved_O2_level", "electrical_conductivity", "total_dissolved_solids", "nitrate", "nitrite", "ammonia", "ph_level"]),
+        "biofilter": get_prediction_summary(Biofilter, ["nitrate", "nitrite", "ammonia"]),
+    })
+
+
+class LSTMClassifier(nn.Module):
+    def __init__(self, input_size, hidden_size, output_size):
+        super(LSTMClassifier, self).__init__()
+        self.hidden_size = hidden_size
+        self.lstm = nn.LSTM(input_size, hidden_size, batch_first=True)
+        self.fc = nn.Linear(hidden_size, output_size)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, x):
+        h0 = torch.zeros(1, x.size(0), self.hidden_size)
+        c0 = torch.zeros(1, x.size(0), self.hidden_size)
+        out, _ = self.lstm(x, (h0, c0))
+        out = self.fc(out[:, -1, :])
+        return self.sigmoid(out)
+    
+
 
 
 def fish_tank_live_chart_data_predicted(request):
     data = (
         FishTank.objects
-        .order_by('-increment_id')[:40]
+        .order_by('-increment_id')[:20]
         .values('timestamp', 'ec', 'ph', 'nitrate')
     )
     chart_data = list(data)[::-1]
@@ -65,7 +164,7 @@ def fish_tank_live_chart_data_predicted(request):
 def greenhouse_live_chart_data_predicted(request):
     data = (
         Greenhouse.objects
-        .order_by('-increment_id')[:40]
+        .order_by('-increment_id')[:20]
         .values('timestamp', 'air_temperature', 'relative_humidity', 'co2_level', 'illumination_intensity')
     )
     chart_data = list(data)[::-1]
@@ -93,7 +192,7 @@ def greenhouse_live_chart_data_predicted(request):
 def waterbed_live_chart_data_predicted(request):
     data = (
         WaterBed.objects
-        .order_by('-increment_id')[:40]
+        .order_by('-increment_id')[:20]
         .values(
             'timestamp', 'water_temperature', 'dissolved_O2_level',
             'electrical_conductivity', 'total_dissolved_solids',
@@ -134,7 +233,7 @@ def waterbed_live_chart_data_predicted(request):
 def biofilter_live_chart_data_predicted(request):
     data = (
         Biofilter.objects
-        .order_by('-increment_id')[:40]
+        .order_by('-increment_id')[:20]
         .values('timestamp', 'nitrate', 'nitrite', 'ammonia')
     )
     chart_data = list(data)[::-1]
@@ -298,61 +397,87 @@ def fish_tank_data(request):
     }
     return render(request, "fishtank.html", context)
 
+
+
+
+# Helper: Simple Moving Average
+def moving_average(data, window_size=3):
+    if not data or window_size <= 1:
+        return data
+    averaged = []
+    window = deque(maxlen=window_size)
+    for value in data:
+        window.append(value)
+        averaged.append(sum(window) / len(window))
+    return averaged
+
 def fish_tank_live_chart_data(request):
     data = (
         FishTank.objects
-        .order_by('-increment_id')[:40]
+        .filter(~(Q(ec__lt=2.530)))
+        .order_by('-increment_id')[:20]
         .values('timestamp', 'ec', 'ph', 'nitrate')
     )
 
-    # Reverse to get ascending time order
     chart_data = list(data)[::-1]
 
-    # Optional: format timestamp if it's a string and not datetime
     try:
         timestamps = [
             datetime.strptime(d['timestamp'], "%Y-%m-%d %H:%M:%S").strftime("%H:%M")
             for d in chart_data
         ]
     except Exception:
-        # fallback if format is inconsistent
         timestamps = [d['timestamp'] for d in chart_data]
+
+    ec_raw = [float(d['ec']) for d in chart_data]
+    ph_raw = [float(d['ph']) for d in chart_data]
+    nitrate_raw = [float(d['nitrate']) for d in chart_data]
 
     response = {
         "timestamps": timestamps,
-        "results": [classify_ec(float(d['ec'])) for d in chart_data],
-        "ec": [float(d['ec']) for d in chart_data],
-        "ph": [float(d['ph']) for d in chart_data],
-        "nitrate": [float(d['nitrate']) for d in chart_data],
+        "results": [classify_ec(val) for val in moving_average(ec_raw)],
+        "ec": moving_average(ec_raw),
+        "ph": moving_average(ph_raw),
+        "nitrate": moving_average(nitrate_raw),
     }
 
     return JsonResponse(response)
 
 
+
 def greenhouse_live_chart_data(request):
     data = (
         Greenhouse.objects
-        .order_by('-increment_id')[:40]
+        .filter(~(Q(air_temperature__lt=1) | Q(relative_humidity__lt=1)))
+        .order_by('-increment_id')[:20]
         .values('timestamp', 'air_temperature', 'relative_humidity', 'co2_level', 'illumination_intensity')
     )
 
     # Convert queryset to list of dicts and sort ascending for chart
     chart_data = list(data)[::-1]
 
+    # Extract raw values
+    air_temp_raw = [float(d['air_temperature']) for d in chart_data]
+    humidity_raw = [float(d['relative_humidity']) for d in chart_data]
+    co2_raw = [int(d['co2_level']) for d in chart_data]
+    light_raw = [float(d['illumination_intensity']) for d in chart_data]
+
+    # Apply moving average
+    air_temp_smooth = moving_average(air_temp_raw)
+    humidity_smooth = moving_average(humidity_raw)
+    co2_smooth = moving_average(co2_raw)
+    light_smooth = moving_average(light_raw)
+
     response = {
         "results": [
-            evaluate_hydroponics_conditions(
-                float(d['air_temperature']),
-                float(d['relative_humidity']),
-                float(d['illumination_intensity'])
-            )
-            for d in chart_data
+            evaluate_hydroponics_conditions(air_temp_smooth[i], humidity_smooth[i], light_smooth[i])
+            for i in range(len(chart_data))
         ],
         "timestamps": [d['timestamp'].strftime("%H:%M:%S") for d in chart_data],
-        "air_temperature": [float(d['air_temperature']) for d in chart_data],
-        "relative_humidity": [float(d['relative_humidity']) for d in chart_data],
-        "co2_level": [int(d['co2_level']) for d in chart_data],
-        "illumination_intensity": [float(d['illumination_intensity']) for d in chart_data],
+        "air_temperature": air_temp_smooth,
+        "relative_humidity": humidity_smooth,
+        "co2_level": co2_smooth,
+        "illumination_intensity": light_smooth,
     }
 
     return JsonResponse(response)
@@ -361,7 +486,7 @@ def greenhouse_live_chart_data(request):
 def waterbed_live_chart_data(request):
     data = (
         WaterBed.objects
-        .order_by('-increment_id')[:40]
+        .order_by('-increment_id')[:20]
         .values(
             'timestamp', 'water_temperature', 'dissolved_O2_level',
             'electrical_conductivity', 'total_dissolved_solids',
@@ -370,23 +495,31 @@ def waterbed_live_chart_data(request):
     )
     chart_data = list(data)[::-1]
 
+    water_temp = [float(d['water_temperature']) for d in chart_data]
+    dissolved_o2 = [float(d['dissolved_O2_level']) for d in chart_data]
+    conductivity = [float(d['electrical_conductivity']) for d in chart_data]
+    tds = [float(d['total_dissolved_solids']) for d in chart_data]
+    nitrate = [float(d['nitrate']) for d in chart_data]
+    nitrite = [float(d['nitrite']) for d in chart_data]
+    ammonia = [float(d['ammonia']) for d in chart_data]
+    ph = [float(d['ph_level']) for d in chart_data]
+
     response = {
         "timestamps": [
             datetime.strptime(d['timestamp'], '%Y-%m-%d %H:%M').strftime("%H:%M")
             for d in chart_data
         ],
-        
-        "water_temperature": [float(d['water_temperature']) for d in chart_data],
-        "dissolved_O2_level": [float(d['dissolved_O2_level']) for d in chart_data],
-        "electrical_conductivity": [float(d['electrical_conductivity']) for d in chart_data],
-        "total_dissolved_solids": [float(d['total_dissolved_solids']) for d in chart_data],
-        "nitrate": [float(d['nitrate']) for d in chart_data],
-        "nitrite": [float(d['nitrite']) for d in chart_data],
-        "ammonia": [float(d['ammonia']) for d in chart_data],
-        "ph_level": [float(d['ph_level']) for d in chart_data],
+        "water_temperature": moving_average(water_temp),
+        "dissolved_O2_level": moving_average(dissolved_o2),
+        "electrical_conductivity": moving_average(conductivity),
+        "total_dissolved_solids": moving_average(tds),
+        "nitrate": moving_average(nitrate),
+        "nitrite": moving_average(nitrite),
+        "ammonia": moving_average(ammonia),
+        "ph_level": moving_average(ph),
         "results": [
-            evaluate_water_quality(float(d['nitrate']), float(d['ph_level']))
-            for d in chart_data
+            evaluate_water_quality(nitrate[i], ph[i])
+            for i in range(len(chart_data))
         ],
     }
 
@@ -397,10 +530,16 @@ def waterbed_live_chart_data(request):
 def biofilter_live_chart_data(request):
     data = (
         Biofilter.objects
-        .order_by('-increment_id')[:40]
+        .filter(~(Q(nitrate__lt=67.3700000)))
+        .filter(~(Q(nitrite__gt=0.02713000)))
+        .order_by('-increment_id')[:20]
         .values('timestamp', 'nitrate', 'nitrite', 'ammonia')
     )
     chart_data = list(data)[::-1]
+
+    nitrate = [float(d['nitrate']) for d in chart_data]
+    nitrite = [float(d['nitrite']) for d in chart_data]
+    ammonia = [float(d['ammonia']) for d in chart_data]
 
     response = {
         "timestamps": [
@@ -408,15 +547,16 @@ def biofilter_live_chart_data(request):
             for d in chart_data
         ],
         "results": [
-            evaluate_water_quality(float(d['nitrate']), float(d['nitrite']))
-            for d in chart_data
+            evaluate_water_quality(nitrate[i], nitrite[i])
+            for i in range(len(chart_data))
         ],
-        "nitrate": [float(d['nitrate']) for d in chart_data],
-        "nitrite": [float(d['nitrite']) for d in chart_data],
-        "ammonia": [float(d['ammonia']) for d in chart_data],
+        "nitrate": moving_average(nitrate),
+        "nitrite": moving_average(nitrite),
+        "ammonia": moving_average(ammonia),
     }
 
     return JsonResponse(response)
+
 
 
 # Generate a key from a password

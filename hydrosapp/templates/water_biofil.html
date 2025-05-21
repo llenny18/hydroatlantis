@@ -60,7 +60,7 @@
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="card">
                                 <h3 class="card-header">Water Biofilter data</h3>
-                                    <h3 id="latestResult" class="text-center m-3">Location Status: Loading...</h3>
+                                    <h2 id="latestResult" class="text-center m-3">Water Biofilter Status: Loading...</h2>
 
   <script>
   
@@ -71,7 +71,7 @@
       const results = data.results;
       const latest = results[results.length - 1];
 
-      document.getElementById('latestResult').innerText = "Location Result: " + latest;
+      document.getElementById('latestResult').innerText = "Water Biofilter Result: " + latest;
     } catch (error) {
       console.error("Error fetching data:", error);
       document.getElementById('latestResult').innerText = "Error fetching result";
@@ -84,7 +84,37 @@
   // Initial fetch
   fetchLatestResult();
   </script>
-                                  <canvas id="biofilterChart" width="900" height="400"></canvas>
+
+   <div class="row">
+                                                  
+  <div class="col-md-12 mb-4">
+    <div class="card">
+      <div class="card-body">
+<canvas id="nitriteChart" height="50"></canvas>
+      </div>
+    </div>
+  </div> 
+  <div class="col-md-6 mb-4">
+    <div class="card">
+      <div class="card-body">
+                                <canvas id="nitrateChart" height="70"></canvas>
+      </div>
+    </div>
+  </div>
+
+     
+                        
+  <div class="col-md-6 mb-4">
+    <div class="card">
+      <div class="card-body">
+<canvas id="ammoniaChart" height="70"></canvas>
+      </div>
+    </div>
+  </div>
+
+  
+  </div>
+
 
                                 <div class="card-body">
                                     <table class="table" id="waterbedTable">
@@ -144,66 +174,92 @@
     <!-- end main wrapper -->
     <!-- ============================================================== -->
     <!-- Optional JavaScript -->
-     
-  <script>
-    let chart;
+     <script>
+  let nitrateChart, nitriteChart, ammoniaChart;
 
-    async function fetchChartData() {
-      const response = await fetch('/biofilter_live_data/');
-      return await response.json();
-    }
+  async function fetchChartData() {
+    const response = await fetch('/biofilter_live_data/');
+    return await response.json();
+  }
 
-    async function createChart() {
-      const data = await fetchChartData();
+  async function createCharts() {
+    const data = await fetchChartData();
 
-      const ctx = document.getElementById('biofilterChart').getContext('2d');
-      chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: data.timestamps,
-          datasets: [
-            {
-              label: 'Nitrate (ppm)',
-              data: data.nitrate,
-              borderColor: 'purple',
-              fill: false
-            },
-            {
-              label: 'Nitrite (ppm)',
-              data: data.nitrite,
-              borderColor: 'teal',
-              fill: false
-            },
-            {
-              label: 'Ammonia (ppm)',
-              data: data.ammonia,
-              borderColor: 'brown',
-              fill: false
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          scales: {
-            y: { beginAtZero: false }
-          }
-        }
-      });
-    }
+    const ctxNitrate = document.getElementById('nitrateChart').getContext('2d');
+    nitrateChart = new Chart(ctxNitrate, {
+      type: 'line',
+      data: {
+        labels: data.timestamps,
+        datasets: [{
+          label: 'Nitrate (ppm)',
+          data: data.nitrate,
+          borderColor: 'purple',
+          fill: false
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: { y: { beginAtZero: false } }
+      }
+    });
 
-    async function updateChart() {
-      const data = await fetchChartData();
+    const ctxNitrite = document.getElementById('nitriteChart').getContext('2d');
+    nitriteChart = new Chart(ctxNitrite, {
+      type: 'line',
+      data: {
+        labels: data.timestamps,
+        datasets: [{
+          label: 'Nitrite (ppm)',
+          data: data.nitrite,
+          borderColor: 'teal',
+          fill: false
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: { y: { beginAtZero: false } }
+      }
+    });
 
-      chart.data.labels = data.timestamps;
-      chart.data.datasets[0].data = data.nitrate;
-      chart.data.datasets[1].data = data.nitrite;
-      chart.data.datasets[2].data = data.ammonia;
-      chart.update();
-    }
+    const ctxAmmonia = document.getElementById('ammoniaChart').getContext('2d');
+    ammoniaChart = new Chart(ctxAmmonia, {
+      type: 'line',
+      data: {
+        labels: data.timestamps,
+        datasets: [{
+          label: 'Ammonia (ppm) | Sensor Is Defective ',
+          data: data.ammonia,
+          borderColor: 'brown',
+          fill: false
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: { y: { beginAtZero: false } }
+      }
+    });
+  }
 
-    createChart();
-    setInterval(updateChart, 5000);
-  </script>
+  async function updateCharts() {
+    const data = await fetchChartData();
+
+    nitrateChart.data.labels = data.timestamps;
+    nitrateChart.data.datasets[0].data = data.nitrate;
+    nitrateChart.update();
+
+    nitriteChart.data.labels = data.timestamps;
+    nitriteChart.data.datasets[0].data = data.nitrite;
+    nitriteChart.update();
+
+    ammoniaChart.data.labels = data.timestamps;
+    ammoniaChart.data.datasets[0].data = data.ammonia;
+    ammoniaChart.update();
+  }
+
+  createCharts();
+  setInterval(updateCharts, 5000);
+</script>
+
     <script src="{% static 'assets//vendor/jquery/jquery-3.3.1.min.js' %}"></script>
     <script src="{% static 'assets//vendor/bootstrap/js/bootstrap.bundle.js' %}"></script>
     <script src="{% static 'assets//vendor/slimscroll/jquery.slimscroll.js' %}"></script>

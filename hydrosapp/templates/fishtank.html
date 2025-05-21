@@ -80,7 +80,7 @@
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="card">
                                 <h3 class="card-header">Fish Tank Data History</h3>
-                                  <h3 id="latestResult" class="text-center m-3">Location Status: Loading...</h3>
+                                  <h2 id="latestResult" class="text-center m-3">Location Status: Loading...</h2>
 
   <script>
   
@@ -104,10 +104,36 @@
   // Initial fetch
   fetchLatestResult();
   </script>
-                                <canvas id="liveChart" width="900" height="400"></canvas>
+  <div class="row">
+                                
+ 
+  <div class="col-md-12 mb-4">
+    <div class="card">
+      <div class="card-body">
+                          <canvas id="ecChart" height="50"></canvas>
+  </div>
+  </div>
+  </div>
+   <div class="col-md-6 mb-4">
+    <div class="card">
+      <div class="card-body">
+<canvas id="phChart" height="100"></canvas>
+  </div>
+  </div>
+  </div>
+  <div class="col-md-6 mb-4">
+    <div class="card">
+      <div class="card-body">
+<canvas id="nitrateChart" height="100"></canvas>
+  </div>
+  </div>
+  </div>
+  </div>
 
+
+ <div class="col-md-12">
                                 <div class="card-body">
-                                    <table class="table  table-responsive" id="waterbedTable">
+                                    <table class="table table-responsive" id="waterbedTable">
                                         <thead>
             <tr>
                 <th>Timestamp</th>
@@ -133,6 +159,7 @@
             {% endfor %}
         </tbody>
                                     </table>
+                                    </div></div>
                                     <nav aria-label="Page navigation">
                                         <ul class="pagination" id="waterbedPagination"></ul>
                                     </nav>
@@ -161,68 +188,98 @@
             <!-- end footer -->
             <!-- ============================================================== -->
              
-  
 <script>
-  let chart;
+  let ecChart, phChart, nitrateChart;
 
   async function fetchChartData() {
     const response = await fetch('/fish_tank_live_chart_data/');
     return await response.json();
   }
 
-  async function createChart() {
+  async function createCharts() {
     const data = await fetchChartData();
 
-    const ctx = document.getElementById('liveChart').getContext('2d');
-    chart = new Chart(ctx, {
+    const ecCtx = document.getElementById('ecChart').getContext('2d');
+    ecChart = new Chart(ecCtx, {
       type: 'line',
       data: {
         labels: data.timestamps,
-        datasets: [
-          {
-            label: 'EC (μS/cm)',
-            data: data.ec,
-            borderColor: 'purple',
-            fill: false
-          },
-          {
-            label: 'pH',
-            data: data.ph,
-            borderColor: 'green',
-            fill: false
-          },
-          {
-            label: 'Nitrate (mg/L)',
-            data: data.nitrate,
-            borderColor: 'orange',
-            fill: false
-          }
-        ]
+        datasets: [{
+          label: 'EC (μS/cm)',
+          data: data.ec,
+          borderColor: 'purple',
+          fill: false
+        }]
       },
       options: {
         responsive: true,
         scales: {
-          y: {
-            beginAtZero: false
-          }
+          y: { beginAtZero: false }
+        }
+      }
+    });
+
+    const phCtx = document.getElementById('phChart').getContext('2d');
+    phChart = new Chart(phCtx, {
+      type: 'line',
+      data: {
+        labels: data.timestamps,
+        datasets: [{
+          label: 'pH | Sensor Is Defective',
+          data: data.ph,
+          borderColor: 'green',
+          fill: false
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: { beginAtZero: false }
+        }
+      }
+    });
+
+    const nitrateCtx = document.getElementById('nitrateChart').getContext('2d');
+    nitrateChart = new Chart(nitrateCtx, {
+      type: 'line',
+      data: {
+        labels: data.timestamps,
+        datasets: [{
+          label: 'Nitrate (mg/L) | Sensor Is Defective',
+          data: data.nitrate,
+          borderColor: 'orange',
+          fill: false
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: { beginAtZero: false }
         }
       }
     });
   }
 
-  async function updateChart() {
+  async function updateCharts() {
     const data = await fetchChartData();
 
-    chart.data.labels = data.timestamps;
-    chart.data.datasets[0].data = data.ec;
-    chart.data.datasets[1].data = data.ph;
-    chart.data.datasets[2].data = data.nitrate;
-    chart.update();
+    ecChart.data.labels = data.timestamps;
+    ecChart.data.datasets[0].data = data.ec;
+    ecChart.update();
+
+    phChart.data.labels = data.timestamps;
+    phChart.data.datasets[0].data = data.ph;
+    phChart.update();
+
+    nitrateChart.data.labels = data.timestamps;
+    nitrateChart.data.datasets[0].data = data.nitrate;
+    nitrateChart.update();
   }
 
-  createChart();
-  setInterval(updateChart, 5000); // Update every 5 seconds
+  createCharts();
+  setInterval(updateCharts, 5000); // Update every 5 seconds
 </script>
+
         </div>
     </div>
     <!-- ============================================================== -->
