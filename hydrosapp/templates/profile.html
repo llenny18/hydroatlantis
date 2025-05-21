@@ -4,212 +4,286 @@
  
 <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>ATLANTIS - Edit Profile</title>
+
     <!-- Bootstrap CSS -->
-    <link rel="shortcut icon" href="{% static 'assets/images/atlanislogo.png' %}" type="image/x-icon">
-    <link rel="stylesheet" href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}"">
-    <link href="{% static 'assets/vendor/fonts/circular-std/style.css' %}"" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'assets/libs/css/style.css' %}"">
-    <link rel="stylesheet" href="{% static 'assets/vendor/fonts/fontawesome/css/fontawesome-all.css' %}"">
-    <link rel="stylesheet" href="{% static 'assets/vendor/datepicker/tempusdominus-bootstrap-4.css' %}"" />
-    <link rel="stylesheet" href="{% static 'assets/vendor/inputmask/css/inputmask.css' %}"" />
+    <link rel="shortcut icon" href="{% static 'assets/images/atlanislogo.png' %}" type="image/x-icon" />
+    <link rel="stylesheet" href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" />
+    <link href="{% static 'assets/vendor/fonts/circular-std/style.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'assets/libs/css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/vendor/fonts/fontawesome/css/fontawesome-all.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/vendor/datepicker/tempusdominus-bootstrap-4.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/vendor/inputmask/css/inputmask.css' %}" />
+
+    <style>
+        /* Modal background and positioning */
+        .custom-modal {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0, 0, 50, 0.75); /* Dark navy overlay */
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1050;
+        }
+        .custom-modal.show {
+            display: flex;
+        }
+        .custom-modal .modal-dialog {
+            max-width: 800px;
+            background: #0b1d59; /* Dark blue background */
+            border-radius: 5px;
+            box-shadow: 0 3px 15px rgba(0, 0, 70, 0.7);
+            overflow: hidden;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            color: #e0e6f7; /* Light blue text */
+        }
+        .custom-modal .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1rem;
+            background-color: #142a7c; /* Medium dark blue */
+            border-bottom: 1px solid #0a1863;
+            color: #cfd9f8;
+        }
+        .custom-modal .modal-body {
+            padding: 1rem 1rem;
+            overflow-y: auto;
+        }
+        .custom-modal .modal-footer {
+            padding: 1rem 1rem;
+            background-color: #142a7c;
+            border-top: 1px solid #0a1863;
+            display: flex;
+            justify-content: flex-end;
+        }
+        .custom-modal .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            line-height: 1;
+            cursor: pointer;
+            color: #cfd9f8;
+        }
+        /* Optional: form inputs with lighter background */
+        .custom-modal input.form-control {
+            background-color: #1c2a70;
+            border: 1px solid #3b4c99;
+            color: #e0e6f7;
+        }
+        .custom-modal input.form-control:focus {
+            background-color: #223380;
+            border-color: #5a6ebd;
+            color: #fff;
+        }
+        /* Buttons */
+        .custom-modal .btn-success {
+            background-color: #2e57ff;
+            border-color: #2244cc;
+        }
+        .custom-modal .btn-success:hover {
+            background-color: #2141b8;
+            border-color: #182d8b;
+        }
+        .custom-modal .btn-secondary {
+            background-color: #4a6ed1;
+            border-color: #3752a4;
+            color: #e0e6f7;
+        }
+        .custom-modal .btn-secondary:hover {
+            background-color: #3752a4;
+            border-color: #2a3a72;
+        }
+    </style>
+
 </head>
 
 <body>
-    <!-- ============================================================== -->
-    <!-- main wrapper -->
-    <!-- ============================================================== -->
     {% include 'includes/navbar.html' %}
-        <!-- ============================================================== -->
-        <!-- end left sidebar -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- wrapper  -->
-        <!-- ============================================================== -->
-        <div class="dashboard-wrapper">
-            <div class="container-fluid dashboard-content">
-                <div class="row">
-                    <div class="col-xl-10">
-                        <!-- ============================================================== -->
-                        <!-- pageheader  -->
-                        <!-- ============================================================== -->
-                        <div class="row">
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                <div class="page-header" id="top">
-                                    <h2 class="pageheader-title">Profile Management </h2>
-                             
-<div class="page-breadcrumb">
-                                        <nav aria-label="breadcrumb">
-                                            <ol class="breadcrumb">
-                                                <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Dashboard</a></li>
-                                                <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Profile</a></li>
-                                      
-                                            </ol>
-                                        </nav>
-                                    </div>
+    <div class="dashboard-wrapper">
+        <div class="container-fluid dashboard-content">
+            <div class="row">
+                <div class="col-xl-10">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="page-header" id="top">
+                                <h2 class="pageheader-title">Profile Management</h2>
+                                <div class="page-breadcrumb">
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Dashboard</a></li>
+                                            <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Profile</a></li>
+                                        </ol>
+                                    </nav>
                                 </div>
                             </div>
                         </div>
-                        <!-- ============================================================== -->
-                        <!-- end pageheader  -->
-                        <!-- ============================================================== -->
-                        <div class="page-section" id="overview">
-                            <!-- ============================================================== -->
-                            <!-- overview  -->
-                            <!-- ============================================================== -->
-                            <div class="row">
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mr-5">
-                                    <h2>Actions</h2> 
-                                  
-                                </div>
-                            </div>
-                            <!-- ============================================================== -->
-                            <!-- end overview  -->
-                            <!-- ============================================================== -->
-                        </div>
-                        <!-- ============================================================== -->
-                        <!-- basic form  -->
-                        <!-- ============================================================== -->
-                              
-                                    <div class="card-body">
-                                        <div class="card p-5">
-                        <div class="row">
-                            <div class="col-md-4">
-                                    <button type="button" class="btn btn-primary ml-2"> Add Actuator</button>
-                            </div>
-                                            <div class="col-md-4">
-                                                <button type="button" class="btn btn-primary ml-2">Strat a Plant Batch</button>
-                            </div>
-                                            <div class="col-md-4">
-                                                <button type="button" class="btn btn-primary ml-2">Strat a Fish Batch</button>
-                            </div>
-                                    
-                                </div>
-                            </div>
-                        </div>
+                    </div>
 
-                        
-                        <div class="row">
-                            <div class="page-section" id="overview">
-                                <!-- ============================================================== -->
-                                <!-- overview  -->
-                                <!-- ============================================================== -->
-                                <div class="row">
-                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mr-5">
-                                        <h2>Profile Editing</h2> 
-                                      
+                    <!-- Actions -->
+                    <div class="card-body">
+                        <div class="card p-5">
+                            <div class="row">
+                                <!-- Set Threshold Button -->
+                                <button type="button" class="btn btn-primary ml-2" id="openSetThreshold">
+                                    Set Threshold
+                                </button>
+
+                                <!-- View Threshold Button -->
+                                <button type="button" class="btn btn-primary ml-2" id="openViewThreshold">
+                                    View Current Threshold
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Set Threshold Modal -->
+                    <div class="custom-modal" id="setThresholdModal" role="dialog" aria-modal="true" aria-labelledby="setThresholdTitle">
+                        <div class="modal-dialog modal-lg">
+                            <form method="post" action="{% url 'submit_threshold' %}">
+                                {% csrf_token %}
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="setThresholdTitle">Set Threshold</h5>
+                                        <button type="button" class="close-modal" aria-label="Close">&times;</button>
+                                    </div>
+                                    <div class="modal-body row g-3">
+                                        {% for field in threshold_fields %}
+                                            <div class="col-md-6">
+                                                <label for="{{ field }}" class="form-label">{{ field|capfirst }}</label>
+                                                <input type="text" name="{{ field }}" id="{{ field }}" class="form-control" required />
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-success">Save Threshold</button>
+                                        <button type="button" class="btn btn-secondary close-modal">Close</button>
                                     </div>
                                 </div>
-                                <!-- ============================================================== -->
-                                <!-- end overview  -->
-                                <!-- ============================================================== -->
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- View Threshold Modal -->
+                    <div class="custom-modal" id="viewThresholdModal" role="dialog" aria-modal="true" aria-labelledby="viewThresholdTitle">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="viewThresholdTitle">Current Thresholds</h5>
+                                    <button type="button" class="close-modal" aria-label="Close">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    {% if threshold %}
+                                    <ul class="list-group">
+                                        {% for field, value in threshold.items %}
+                                        <li class="list-group-item" style="background-color: #1a0a5c; color: #ffffff; border-color: #2a176c;">
+                                            <strong>{{ field|capfirst }}:</strong> {{ value }}
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                    {% else %}
+                                    <p>No threshold data available.</p>
+                                    {% endif %}
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary close-modal">Close</button>
+                                </div>
                             </div>
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                              
-                                <div class="card">
-                                    {% if user_data %}
-                                    <h5 class="card-header">{{ user.fname }} {{ user.lname }}</h5>
+                        </div>
+                    </div>  
+
+                    <!-- Profile Editing Form -->
+                    <div class="row">
+                        <div class="page-section" id="overview">
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <h2>Profile Editing</h2> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-12">
+                            <div class="card">
+                                {% if user_data %}
+                                    <h5 class="card-header">{{ user_data.fname }} {{ user_data.lname }}</h5>
                                     <div class="card-body">
                                         <form method="post">
                                             {% csrf_token %}
                                             <div class="form-group">
                                                 <label for="fname">First Name</label>
-                                                <input id="fname" name="fname" type="text" class="form-control" value="{{ user_data.fname }}">
+                                                <input id="fname" name="fname" type="text" class="form-control" value="{{ user_data.fname }}" />
                                             </div>
                                             <div class="form-group">
                                                 <label for="lname">Last Name</label>
-                                                <input id="lname" name="lname" type="text" class="form-control" value="{{ user_data.lname }}">
+                                                <input id="lname" name="lname" type="text" class="form-control" value="{{ user_data.lname }}" />
                                             </div>
                                             <div class="form-group">
                                                 <label for="email">Email address</label>
-                                                <input id="email" name="email" type="email" class="form-control" value="{{ user_data.email }}">
+                                                <input id="email" name="email" type="email" class="form-control" value="{{ user_data.email }}" />
                                             </div>
                                             <div class="form-group">
                                                 <label for="username">Username</label>
-                                                <input id="username" name="username" type="text" class="form-control" value="{{ user_data.username }}">
+                                                <input id="username" name="username" type="text" class="form-control" value="{{ user_data.username }}" />
                                             </div>
                                             <div class="form-group">
                                                 <label for="password">Password</label>
-                                                <input id="password" name="password" type="text" class="form-control" value="{{ password }}">
+                                                <input id="password" name="password" type="text" class="form-control" value="{{ password }}" />
                                             </div>
                                             <button type="submit" class="btn btn-primary">Update Profile</button>
                                         </form>
-                                        
                                     </div>
-                                    {% endif %}
-                                    
-                                </div>
+                                {% endif %}
                             </div>
                         </div>
-                      
-                    
-                        <!-- ============================================================== -->
-                        <!-- end switch component -->
-                        <!-- ============================================================== -->
                     </div>
-                    <!-- ============================================================== -->
-                    <!-- sidenavbar -->
-                    <!-- ============================================================== -->
-                  
-                    <!-- ============================================================== -->
-                    <!-- end sidenavbar -->
-                    <!-- ============================================================== -->
+
                 </div>
             </div>
-            <!-- ============================================================== -->
-            <!-- footer -->
-            <!-- ============================================================== -->
-          
-            </div>
-            <!-- ============================================================== -->
-            <!-- end footer -->
-            <!-- ============================================================== -->
         </div>
     </div>
-    <!-- ============================================================== -->
-    <!-- end main wrapper -->
-    <!-- ============================================================== -->
-    <!-- Optional JavaScript -->
-    <script src="{% static 'assets/vendor/jquery/jquery-3.3.1.min.js' %}""></script>
-    <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.js' %}""></script>
-    <script src="{% static 'assets/vendor/slimscroll/jquery.slimscroll.js' %}""></script>
-    <script src="{% static 'assets/libs/js/main-js.js' %}""></script>
-    <script src="{% static 'assets/vendor/inputmask/js/jquery.inputmask.bundle.js' %}""></script>
-    <script>
-    $(function(e) {
-        "use strict";
-        $(".date-inputmask").inputmask("dd/mm/yyyy"),
-            $(".phone-inputmask").inputmask("(999) 999-9999"),
-            $(".international-inputmask").inputmask("+9(999)999-9999"),
-            $(".xphone-inputmask").inputmask("(999) 999-9999 / x999999"),
-            $(".purchase-inputmask").inputmask("aaaa 9999-****"),
-            $(".cc-inputmask").inputmask("9999 9999 9999 9999"),
-            $(".ssn-inputmask").inputmask("999-99-9999"),
-            $(".isbn-inputmask").inputmask("999-99-999-9999-9"),
-            $(".currency-inputmask").inputmask("$9999"),
-            $(".percentage-inputmask").inputmask("99%"),
-            $(".decimal-inputmask").inputmask({
-                alias: "decimal",
-                radixPoint: "."
-            }),
 
-            $(".email-inputmask").inputmask({
-                mask: "*{1,20}[.*{1,20}][.*{1,20}][.*{1,20}]@*{1,20}[*{2,6}][*{1,2}].*{1,}[.*{2,6}][.*{1,2}]",
-                greedy: !1,
-                onBeforePaste: function(n, a) {
-                    return (e = e.toLowerCase()).replace("mailto:", "")
-                },
-                definitions: {
-                    "*": {
-                        validator: "[0-9A-Za-z!#$%&'*+/=?^_`{|}~/-]",
-                        cardinality: 1,
-                        casing: "lower"
-                    }
-                }
-            })
-    });
+    <!-- Scripts -->
+    <script src="{% static 'assets/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
+    <!-- Remove popper.min.js and bootstrap.min.js since no bootstrap js required -->
+
+    <script src="{% static 'assets/vendor/slimscroll/jquery.slimscroll.js' %}"></script>
+    <script src="{% static 'assets/libs/js/main-js.js' %}"></script>
+    <script src="{% static 'assets/vendor/inputmask/js/jquery.inputmask.bundle.js' %}"></script>
+
+    <script>
+      // Modal open/close logic in vanilla JS
+      document.addEventListener('DOMContentLoaded', function () {
+        const setThresholdModal = document.getElementById('setThresholdModal');
+        const viewThresholdModal = document.getElementById('viewThresholdModal');
+
+        document.getElementById('openSetThreshold').addEventListener('click', () => {
+          setThresholdModal.classList.add('show');
+        });
+        document.getElementById('openViewThreshold').addEventListener('click', () => {
+          viewThresholdModal.classList.add('show');
+        });
+
+        // Close buttons
+        document.querySelectorAll('.close-modal').forEach(btn => {
+          btn.addEventListener('click', () => {
+            btn.closest('.custom-modal').classList.remove('show');
+          });
+        });
+
+        // Close modal if clicking outside modal-dialog
+        document.querySelectorAll('.custom-modal').forEach(modal => {
+          modal.addEventListener('click', e => {
+            if (e.target === modal) {
+              modal.classList.remove('show');
+            }
+          });
+        });
+      });
+
     </script>
 </body>
  

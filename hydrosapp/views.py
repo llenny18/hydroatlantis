@@ -4,10 +4,11 @@ from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import FishTank, Greenhouse, WaterBed, Biofilter, UserAccount, ActuatorDeviceInfo, EdgeActuatorView, EdgeDeviceInfo, ActuatorUpdate, ServerNotifications, SensorType, SensorDeviceInfo
+from .models import FishTank, Greenhouse, WaterBed, Biofilter, UserAccount, ActuatorDeviceInfo, EdgeActuatorView, EdgeDeviceInfo, ActuatorUpdate, ServerNotifications, SensorType, SensorDeviceInfo, Threshold
 import json
 from django.db import connection
 import os
+from django.views.decorators.http import require_POST
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.backends import default_backend
@@ -669,13 +670,40 @@ def edit_profile(request):
             return redirect(reverse('edit_profile'))  # Redirect to profile page
 
     password = decrypt(user_data.password, passwordUnique)
+    threshold = {}
+    latest_threshold = Threshold.objects.last()
+    if latest_threshold:
+        threshold = {
+            'illuminance': latest_threshold.illuminance,
+            'water_ec': latest_threshold.water_ec,
+            'filter_nitrite': latest_threshold.filter_nitrite,
+            'filter_nitrate': latest_threshold.filter_nitrate,
+            'plant_ph': latest_threshold.plant_ph,
+            'plant_nitrate': latest_threshold.plant_nitrate,
+            'air_temp_h': latest_threshold.air_temp_h,
+            'air_humidity': latest_threshold.air_humidity,
+        }
+
+    # List of threshold fields to display in the modal
+    threshold_fields = [
+        'illuminance',
+        'water_ec',
+        'filter_nitrite',
+        'filter_nitrate',
+        'plant_ph',
+        'plant_nitrate',
+        'air_temp_h',
+        'air_humidity'
+    ]
 
     notifs = ServerNotifications.objects.all()
     context = {
         "notifs" : notifs,
         "user_id": user_id,
         "user_data": user_data,
-        "password": password
+        "password": password,
+        "threshold_fields": threshold_fields,
+        "threshold": threshold,
     }
     
     return render(request, "profile.html", context)
@@ -1484,3 +1512,18 @@ def create_notification_if_not_exists(message, severity, table, record_id):
             related_record_id=record_id,
             timestamp=now
         )
+
+
+@require_POST
+def submit_threshold(request):
+    fields = ['illuminance', 'water_ec', 'filter_nitrite', 'filter_nitrate',
+              'plant_ph', 'plant_nitrate', 'air_temp_h', 'air_humidity']
+    data = {field: request.POST.get(field, "") for field in fields}
+
+    Threshold.objects.create(
+        id=str(uuid.uuid4()),
+        **data,
+        created_at=datetime.now().strftime("%d/%m/%Y %H:%M"),
+    )
+
+    return redirect(reverse('edit_profile'))  # Redirect to the profile page after submission
