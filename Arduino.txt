@@ -1,0 +1,61 @@
+#define PUMP_pHdn 2
+#define PUMP_pHup 3
+#define PUMP_Mg   4
+#define PUMP_Ca   5
+#define PUMP_NPK  6
+
+unsigned long times[5];
+
+void setup() {
+  Serial.begin(9600);
+
+  pinMode(PUMP_pHdn, OUTPUT);
+  pinMode(PUMP_pHup, OUTPUT);
+  pinMode(PUMP_Mg, OUTPUT);
+  pinMode(PUMP_Ca, OUTPUT);
+  pinMode(PUMP_NPK, OUTPUT);
+
+  digitalWrite(PUMP_pHdn, LOW);
+  digitalWrite(PUMP_pHup, LOW);
+  digitalWrite(PUMP_Mg, LOW);
+  digitalWrite(PUMP_Ca, LOW);
+  digitalWrite(PUMP_NPK, LOW);
+}
+
+void loop() {
+  if (Serial.available()) {
+    String input = Serial.readStringUntil('\n');  // Read full line
+    parseAndRun(input);
+  }
+}
+
+void parseAndRun(String input) {
+  int idx = 0;
+  int lastIdx = 0;
+
+  for (int i = 0; i < 5; i++) {
+    idx = input.indexOf(',', lastIdx);
+    String token;
+    if (idx == -1 && i == 4) {
+      token = input.substring(lastIdx);
+    } else {
+      token = input.substring(lastIdx, idx);
+    }
+
+    times[i] = token.toFloat() * 1000;  // convert to ms
+    lastIdx = idx + 1;
+  }
+
+  // Run each pump for the specified time
+  runPump(PUMP_pHdn, times[0]);
+  runPump(PUMP_pHup, times[1]);
+  runPump(PUMP_Mg,   times[2]);
+  runPump(PUMP_Ca,   times[3]);
+  runPump(PUMP_NPK,  times[4]);
+}
+
+void runPump(int pin, unsigned long duration) {
+  digitalWrite(pin, HIGH);
+  delay(duration);
+  digitalWrite(pin, LOW);
+}
