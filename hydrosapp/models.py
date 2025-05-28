@@ -25,6 +25,24 @@ class Greenhouse(models.Model):
         db_table = 'greenhouse'  # The database table name
         managed = False  # Specify if the model should be managed by Django or not
         
+
+
+class SensorCalibrationSchedule(models.Model):
+    parameter = models.CharField(max_length=50)
+    source_table = models.CharField(max_length=50)
+    latest_timestamp = models.DateTimeField()
+    calibration_due_date = models.DateField()
+    maintenance_due_date = models.DateField()
+
+    class Meta:
+        managed = False  # No migrations; this model maps to an existing view
+        db_table = 'sensor_calibration_schedule_no_sensor'
+
+    def __str__(self):
+        return f"{self.parameter} from {self.source_table}"
+
+
+
 class WaterBed(models.Model):
     id = models.CharField(max_length=36, primary_key=True)  # ID as varchar(36)
     created_at = models.CharField(max_length=35)  # created_at as varchar(35)   
@@ -101,6 +119,41 @@ class FishTank(models.Model):
         db_table = 'fish_tank'
         managed = False
 
+
+class DosingPumpStatus(models.Model):
+    STATUS_CHOICES = [
+        ('Activated', 'Activated'),
+        ('Deactivated', 'Deactivated'),
+    ]
+
+    status_id = models.AutoField(primary_key=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES)
+    timestamp = models.CharField(max_length=500, null=True, blank=True)
+
+    class Meta:
+        db_table = 'dosing_pump_status'
+        ordering = ['-status_id']  # Default ordering
+
+    def __str__(self):
+        return f"{self.status} at {self.timestamp}"
+
+
+class Threshold(models.Model):
+    id = models.AutoField(primary_key=True)
+    illuminance = models.CharField(max_length=500, null=True, blank=True)
+    water_ec = models.CharField(max_length=500, null=True, blank=True)
+    filter_nitrite = models.CharField(max_length=500, null=True, blank=True)
+    filter_nitrate = models.CharField(max_length=500, null=True, blank=True)
+    plant_ph = models.CharField(max_length=500, null=True, blank=True)
+    plant_nitrate = models.CharField(max_length=500, null=True, blank=True)
+    air_temp_h = models.CharField(max_length=500, null=True, blank=True)
+    air_humidity = models.CharField(max_length=500, null=True, blank=True)
+    created_at = models.CharField(max_length=50, null=True, blank=True)
+
+    class Meta:
+        db_table = 'thresholds'
+        managed = False  # Set True if you want Django to manage migrations
+ 
 # Optional: Create a custom user model by extending the User model
 class UserAccount(models.Model):
     id = models.AutoField(primary_key=True)

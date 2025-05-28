@@ -35,9 +35,7 @@
                                    </div>
                                </div>
                            </li>
-                           <li>
-                               <div class="list-footer"> <a href="#">View all notifications</a></div>
-                           </li>
+                        
                        </ul>
                    </li>
             
@@ -49,7 +47,6 @@
 {{ fullname }}</h5>
                            </div>
                            <a class="dropdown-item" href="{%  url 'edit_profile'  %}"><i class="fas fa-user mr-2"></i>Account</a>
-                           <a class="dropdown-item" href="#"><i class="fas fa-cog mr-2"></i>Setting</a>
                            <a class="dropdown-item" href="{% url 'logout' %}"><i class="fas fa-power-off mr-2"></i>Logout</a>
                        </div>
                    </li>
@@ -182,8 +179,9 @@
                                </ul>
                            </div>
                        </li>
+<!-- 
                        <li class="nav-item">
-                           <a class="nav-link  {% if request.path == '/cameras/' or request.path == '/cameras/' or request.path == '/cameras/'  %}active{% endif %}" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-7" aria-controls="submenu-7"><i class="fas fa-fw fa-inbox"></i>Obsevations <span class="badge badge-secondary">Sensors</span></a>
+                           <a class="nav-link disabled  {% if request.path == '/cameras/' or request.path == '/cameras/' or request.path == '/cameras/'  %}active{% endif %}" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-7" aria-controls="submenu-7"><i class="fas fa-fw fa-inbox"></i>Obsevations (On Halt)<span class="badge badge-secondary">Sensors</span></a>
                            <div id="submenu-7" class="collapse submenu {% if request.path == '/cameras/' or request.path == '/cameras/' or request.path == '/cameras/'  %}show{% endif %}">
                                <ul class="nav flex-column">
                                    <li class="nav-item">
@@ -193,8 +191,9 @@
                                </ul>
                            </div>
                        </li>
+                     -->
                        <li class="nav-item">
-                           <a class="nav-link {% if request.path == '/actuators/' or request.path == '/actuator_updates/' %}active{% endif %}" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-8" aria-controls="submenu-8"><i class="fas fa-fw fa-plug"></i>Actuators (On Halt)</a>
+                           <a class="nav-link {% if request.path == '/actuators/' or request.path == '/actuator_updates/' %}active{% endif %}" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-8" aria-controls="submenu-8"><i class="fas fa-fw fa-plug"></i>Actuators </a>
                            <div id="submenu-8" class="collapse submenu {% if request.path == '/actuators/' or request.path == '/actuator_updates/' %}show{% endif %}" style="">
                                <ul class="nav flex-column">
                                 

@@ -1,0 +1,242 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+ 
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ATLANTIS - Dosing Pumps Control</title>
+    <!-- Bootstrap CSS -->
+    <link rel="shortcut icon" href="{% static 'assets/images/atlanislogo.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link href="{% static 'assets/vendor/fonts/circular-std/style.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'assets/libs/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/fonts/fontawesome/css/fontawesome-all.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/pagination/pagination.css' %}">
+    
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- main wrapper -->
+    <!-- ============================================================== -->
+    {% include 'includes/navbar.html' %}
+        <!-- ============================================================== -->
+        <!-- end left sidebar -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- wrapper  -->
+        <!-- ============================================================== -->
+        <div class="dashboard-wrapper">
+            <div class="container-fluid  dashboard-content">
+                <!-- ============================================================== -->
+                <!-- pageheader -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="page-header">
+                            <h2 class="pageheader-title">Water Bed (Plants) Records </h2>
+                            <div class="page-breadcrumb">
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">HydroAtlantis</a></li>
+                                        <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Water Bed (Plants)</a></li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- end pageheader -->
+                <!-- ============================================================== -->
+               
+                    <div class="row">
+                        <!-- ============================================================== -->
+                        <!-- basic table -->
+                        <!-- ============================================================== -->
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="card">
+                              
+
+
+                                <div class="card-body">
+                                <div class="row">
+                                <div class="col-md-6">
+
+  <h4 id="status-text">Overall ATLANTIS Status: {{ pump_status }}</h4>
+                                    
+  <canvas id="overallGauge" width="300" height="150"></canvas>
+                                </div>
+                                <div class="col-md-6">
+
+   <h4 class="card-title">Dosing Pump Control System</h4>
+            <p class="mb-4">
+              This page is designed to help you <strong>run and monitor the automatic dosing pumps</strong> for your aquaponics or water treatment system.
+            </p>
+
+            <p>
+              The system uses real-time data from water quality sensors (like pH, ammonia, and nitrate) to make smart decisions about what nutrients or chemicals need to be added to the water.
+            </p>
+
+            <p>
+              Using an advanced method called <strong>Model Predictive Control (MPC)</strong>, the system can:
+            </p>
+
+            <ul class="list-arrow">
+              <li>Predict how water conditions will change over time.</li>
+              <li>Calculate the <strong>exact amount</strong> of each substance to add.</li>
+              <li>Automatically activate the correct <strong>dosing pump</strong> (for pH, magnesium, calcium, or NPK).</li>
+            </ul>
+
+            <div class="mt-4">
+              <h5 class="font-weight-bold">Why this matters:</h5>
+              <p>
+                Keeping water quality stable is key to healthy fish and plant growth. This system helps <strong>prevent problems like fish kill</strong> or nutrient imbalance by continuously adjusting water conditions with the right doses — automatically.
+              </p>
+            </div>
+
+            <div class="mt-4">
+              <h5 class="font-weight-bold">What you need to do:</h5>
+              <ul class="list-arrow">
+                <li>Make sure your dosing pumps are filled and working.</li>
+                <li>Use this dashboard to monitor pump activity and water levels.</li>
+                <li>Adjust targets (like pH or nutrient levels) if needed.</li>
+              </ul>
+            </div>
+
+            <div class="alert alert-info mt-4" role="alert">
+              💡 <strong>Tip:</strong> This system takes the guesswork out of water management — letting you focus on your fish and plants while the system keeps everything balanced.
+            </div>
+
+  <h4 id="status-text">Current Dosing Pump Status: {{ latest_status.status }}</h4>
+  <form method="post">
+                    {% csrf_token %}
+{% if latest_status.status == "Deactivated" %}
+  <button id="activate-btn" type="submit" name="activate" class="btn btn-success">Activate Pump</button>
+{% else %}
+  {% if latest_status.status == "Activated" %}
+    <button id="activate-btn" type="submit"  name="deactivate" class="btn btn-danger">Deactivate Pump</button>
+  {% endif %}
+{% endif %}
+  </form>
+
+<p>Last Changed: {{ latest_status.timestamp }}</p>
+
+ <script>
+  const overallScore = {{ overall_score }};
+  const statusText = document.getElementById('status-text');
+  const activateBtn = document.getElementById('activate-btn');
+  const ctx = document.getElementById('overallGauge').getContext('2d');
+
+  // Map score to color
+  function getColor(value) {
+    if (value < 10) return '#b71c1c';
+    if (value < 25) return '#d32f2f';
+    if (value < 40) return '#f57c00';
+    if (value < 55) return '#fbc02d';
+    if (value < 70) return '#afb42b';
+    if (value < 85) return '#388e3c';
+    if (value < 95) return '#2e7d32';
+    return '#1b5e20';
+  }
+
+  // Return status label and its color
+  function getStatusLabel(value) {
+    if (value < 10) return { text: "Very Bad", color: "#b71c1c" };
+    if (value < 25) return { text: "Bad", color: "#d32f2f" };
+    if (value < 40) return { text: "Poor", color: "#f57c00" };
+    if (value < 55) return { text: "Fair", color: "#fbc02d" };
+    if (value < 70) return { text: "Average", color: "#afb42b" };
+    if (value < 85) return { text: "Good", color: "#388e3c" };
+    if (value < 95) return { text: "Very Good", color: "#2e7d32" };
+    return { text: "Excellent", color: "#1b5e20" };
+  }
+
+  // Custom plugin to draw value and status
+  const centerTextPlugin = {
+    id: 'centerText',
+    afterDraw(chart) {
+      const { width } = chart;
+      const { ctx } = chart;
+      const status = getStatusLabel(overallScore);
+
+      ctx.save();
+
+      // Score value
+      ctx.font = 'bold 22px Arial';
+      ctx.fillStyle = '#fff';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(`${overallScore}%`, width / 2, chart.chartArea.top + 35);
+
+      // Status label
+      ctx.font = 'bold 16px Arial';
+      ctx.fillStyle = status.color;
+      ctx.fillText(status.text, width / 2, chart.chartArea.top + 65);
+
+      ctx.restore();
+    }
+  };
+
+  // Create gauge
+  const gauge = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      datasets: [{
+        data: [overallScore, 100 - overallScore],
+        backgroundColor: [getColor(overallScore), '#eaeaea'],
+        borderWidth: 0,
+        cutout: '55%',
+      }]
+    },
+    options: {
+      rotation: -90,
+      circumference: 180,
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: false },
+      }
+    },
+    plugins: [centerTextPlugin]
+  });
+
+  // Dosing pump toggle
+  activateBtn.addEventListener('click', () => {
+    const isActivated = statusText.textContent.includes("Activated");
+    statusText.textContent = `Status: ${isActivated ? 'Deactivated' : 'Activated'}`;
+    activateBtn.textContent = isActivated ? 'Activate Dosing Pump' : 'Deactivate Dosing Pump';
+
+    // TODO: Add fetch/AJAX call to server here
+  });
+</script>
+
+                                </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+               
+            </div>
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            {% include 'includes/footer.html' %}
+            <!-- ============================================================== -->
+            <!-- end footer -->
+            <!-- ============================================================== -->
+        </div>
+    </div>
+
+
+    <script src="{% static 'assets/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.js' %}"></script>
+    <script src="{% static 'assets/vendor/slimscroll/jquery.slimscroll.js' %}"></script>
+    <script src="{% static 'assets/libs/js/main-js.js' %}"></script>
+</body>
+ 
+</html>
