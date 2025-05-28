@@ -131,16 +131,7 @@
                         <div class="row">
                             <div  class=" col-l-4">
 
-                        <select id="deviceFilter" onchange="filterDevices()" class="form-control">
-                            
-                            <option value="">All Devices</option>
-                            
-                            {% for edgedevice in edgedevices %}
-                            <option value="{{ edgedevice.name }}">{{ edgedevice.name }}</option>
-
-                            {% endfor %}
-
-                        </select>
+                   
                         <script>
                             function filterDevices() {
                                 const filterValue = document.getElementById('deviceFilter').value;
