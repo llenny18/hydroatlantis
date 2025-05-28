@@ -323,3 +323,21 @@ class ClusterWaterBedData(models.Model):
     class Meta:
         managed = False  # Since this is a database view
         db_table = 'cluster_waterbed_data'
+
+class Threshold(models.Model):
+    id = models.CharField(max_length=36, primary_key=True)
+    illuminance = models.CharField(max_length=500)
+    water_ec = models.CharField(max_length=500)
+    filter_nitrite = models.CharField(max_length=500)
+    filter_nitrate = models.CharField(max_length=500)
+    plant_ph = models.CharField(max_length=500)
+    plant_nitrate = models.CharField(max_length=500)
+    air_temp_h = models.CharField(max_length=500)
+    air_humidity = models.CharField(max_length=500)
+    created_at = models.CharField(max_length=50, null=True, blank=True)
+    def __str__(self):
+        return self.id
+
+    class Meta:
+        db_table = 'thresholds'
+        managed = False
