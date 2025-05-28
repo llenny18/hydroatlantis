@@ -61,7 +61,7 @@
                 </div>
             {% endfor %}
         {% else %}
-            <div class="alert alert-success">No calibration or maintenance alerts currently.</div>
+            <div class="alert alert-success">No calibration or maintenance alerts currently. But always check the notifications for parameter spikes</div>
         {% endif %}
     </div>
     <hr>
@@ -649,7 +649,6 @@ document.addEventListener('DOMContentLoaded', () => {
 				console.error('Error loading initial temperature:', error);
 			});
 	});
-
 
 
                 let waterChartInstance, greenChartInstance, bioChartInstance;

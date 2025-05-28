@@ -34,7 +34,25 @@
             justify-content: center; /* Center pagination items */
         }
     </style>
-    
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Minimal Reset/Override to remove default margins -->
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+    }
+    .modal.fullscreen .modal-dialog {
+      margin: 0;
+      height: 100vh;
+      max-width: 100%;
+    }
+    .modal.fullscreen .modal-content {
+      height: 100%;
+      border: none;
+      border-radius: 0;
+    }
+  </style>
 </head>
 
 <body>
@@ -78,7 +96,9 @@
                         <!-- ============================================================== -->
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="card">
-                                <h3 class="card-header">Greenhouse Data History</h3>
+                                <h3 class="card-header">Greenhouse Data History <button class="btn btn-primary" onclick="new bootstrap.Modal(document.getElementById('fullPageModal')).show()">
+  View as Table
+</button></h3>
                                   <h2 id="latestResult" class="text-center m-3">Green House Status: Loading...</h2>
 
   <script>
@@ -137,7 +157,19 @@
   </div>
 </div>
 
-                                <div class="card-body">
+<!-- Trigger Button -->
+
+
+<!-- Fullscreen Modal -->
+<div class="modal fade fullscreen" id="fullPageModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content" style="background-color: #10101c;">
+      <div class="modal-header">
+        <h5 class="modal-title">Greenhouse History as Table</h5>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">x</button>
+      </div>
+      <div class="modal-body">
+      <div class="card-body">
                                     <table class="table  table-responsive" id="waterbedTable">
                                         <thead>
                                             <tr>
@@ -178,6 +210,14 @@
                                         });
                                     </script>
                                 </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+                               
                             </div>
                         </div>
                         
