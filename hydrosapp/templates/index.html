@@ -545,6 +545,91 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 });
+
+      let waterChartInstance, greenChartInstance, bioChartInstance;
+
+                document.addEventListener('DOMContentLoaded', () => {
+                    updateChart();
+                    updateGreenChart();
+                    updateBioChart();
+                });
+
+                function updateChart() {
+                    const startDate = document.getElementById('startDate').value;
+                    const endDate = document.getElementById('endDate').value;
+                    let url = '/api/waterbedchart/';
+                    if (startDate && endDate) {
+                        url += `?start_date=${startDate}&end_date=${endDate}`;
+                    }
+
+                    fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' }})
+                        .then(res => res.json())
+                        .then(data => {
+                            const ctx = document.getElementById('waterBedChart').getContext('2d');
+                            if (waterChartInstance) waterChartInstance.destroy();
+                            waterChartInstance = new Chart(ctx, {
+                                type: 'line',
+                                data: {
+                                    labels: data.labels,
+                                    datasets: data.datasets
+                                },
+                                options: { responsive: true, scales: { y: { beginAtZero: true } } }
+                            });
+                        })
+                        .catch(err => console.error("Water Bed Chart Error:", err));
+                }
+
+                function updateGreenChart() {
+                    const startDate = document.getElementById('greenStart').value;
+                    const endDate = document.getElementById('greenEnd').value;
+                    let url = '/greencharts/';
+                    if (startDate && endDate) {
+                        url += `?start_date=${startDate}&end_date=${endDate}`;
+                    }
+
+                    fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' }})
+                        .then(res => res.json())
+                        .then(data => {
+                            const ctx = document.getElementById('greenChart').getContext('2d');
+                            if (greenChartInstance) greenChartInstance.destroy();
+                            greenChartInstance = new Chart(ctx, {
+                                type: 'line',
+                                data: {
+                                    labels: data.labels,
+                                    datasets: data.datasets
+                                },
+                                options: { responsive: true, scales: { y: { beginAtZero: true } } }
+                            });
+                        })
+                        .catch(err => console.error("Greenhouse Chart Error:", err));
+                }
+
+                function updateBioChart() {
+                    const startDate = document.getElementById('bioStart').value;
+                    const endDate = document.getElementById('bioEnd').value;
+                    let url = '/waterbiofiltercharts/';
+                    if (startDate && endDate) {
+                        url += `?start_date=${startDate}&end_date=${endDate}`;
+                    }
+
+                    fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' }})
+                        .then(res => res.json())
+                        .then(data => {
+                            const ctx = document.getElementById('bioChart').getContext('2d');
+                            if (bioChartInstance) bioChartInstance.destroy();
+                            bioChartInstance = new Chart(ctx, {
+                                type: 'line',
+                                data: {
+                                    labels: data.labels,
+                                    datasets: data.datasets
+                                },
+                                options: { responsive: true, scales: { y: { beginAtZero: true } } }
+                            });
+                        })
+                        .catch(err => console.error("Biofilter Chart Error:", err));
+                }      
+            
+            
 </script>
 <script type="text/javascript">
 	FusionCharts.ready(function () {
@@ -651,88 +736,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	});
 
 
-                let waterChartInstance, greenChartInstance, bioChartInstance;
 
-                document.addEventListener('DOMContentLoaded', () => {
-                    updateChart();
-                    updateGreenChart();
-                    updateBioChart();
-                });
-
-                function updateChart() {
-                    const startDate = document.getElementById('startDate').value;
-                    const endDate = document.getElementById('endDate').value;
-                    let url = '/api/waterbedchart/';
-                    if (startDate && endDate) {
-                        url += `?start_date=${startDate}&end_date=${endDate}`;
-                    }
-
-                    fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' }})
-                        .then(res => res.json())
-                        .then(data => {
-                            const ctx = document.getElementById('waterBedChart').getContext('2d');
-                            if (waterChartInstance) waterChartInstance.destroy();
-                            waterChartInstance = new Chart(ctx, {
-                                type: 'line',
-                                data: {
-                                    labels: data.labels,
-                                    datasets: data.datasets
-                                },
-                                options: { responsive: true, scales: { y: { beginAtZero: true } } }
-                            });
-                        })
-                        .catch(err => console.error("Water Bed Chart Error:", err));
-                }
-
-                function updateGreenChart() {
-                    const startDate = document.getElementById('greenStart').value;
-                    const endDate = document.getElementById('greenEnd').value;
-                    let url = '/greencharts/';
-                    if (startDate && endDate) {
-                        url += `?start_date=${startDate}&end_date=${endDate}`;
-                    }
-
-                    fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' }})
-                        .then(res => res.json())
-                        .then(data => {
-                            const ctx = document.getElementById('greenChart').getContext('2d');
-                            if (greenChartInstance) greenChartInstance.destroy();
-                            greenChartInstance = new Chart(ctx, {
-                                type: 'line',
-                                data: {
-                                    labels: data.labels,
-                                    datasets: data.datasets
-                                },
-                                options: { responsive: true, scales: { y: { beginAtZero: true } } }
-                            });
-                        })
-                        .catch(err => console.error("Greenhouse Chart Error:", err));
-                }
-
-                function updateBioChart() {
-                    const startDate = document.getElementById('bioStart').value;
-                    const endDate = document.getElementById('bioEnd').value;
-                    let url = '/waterbiofiltercharts/';
-                    if (startDate && endDate) {
-                        url += `?start_date=${startDate}&end_date=${endDate}`;
-                    }
-
-                    fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' }})
-                        .then(res => res.json())
-                        .then(data => {
-                            const ctx = document.getElementById('bioChart').getContext('2d');
-                            if (bioChartInstance) bioChartInstance.destroy();
-                            bioChartInstance = new Chart(ctx, {
-                                type: 'line',
-                                data: {
-                                    labels: data.labels,
-                                    datasets: data.datasets
-                                },
-                                options: { responsive: true, scales: { y: { beginAtZero: true } } }
-                            });
-                        })
-                        .catch(err => console.error("Biofilter Chart Error:", err));
-                }
 </script>
 </body>
 </html>
