@@ -1,0 +1,323 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+ 
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ATLANTIS - Dosing Pumps Control</title>
+    <!-- Bootstrap CSS -->
+    <link rel="shortcut icon" href="{% static 'assets/images/atlanislogo.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link href="{% static 'assets/vendor/fonts/circular-std/style.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'assets/libs/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/fonts/fontawesome/css/fontawesome-all.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/pagination/pagination.css' %}">
+    
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- main wrapper -->
+    <!-- ============================================================== -->
+    {% include 'includes/navbar.html' %}
+        <!-- ============================================================== -->
+        <!-- end left sidebar -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- wrapper  -->
+        <!-- ============================================================== -->
+        <div class="dashboard-wrapper">
+            <div class="container-fluid  dashboard-content">
+                <!-- ============================================================== -->
+                <!-- pageheader -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="page-header">
+                            <h2 class="pageheader-title">Water Bed (Plants) Records </h2>
+                            <div class="page-breadcrumb">
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">HydroAtlantis</a></li>
+                                        <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Water Bed (Plants)</a></li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- end pageheader -->
+                <!-- ============================================================== -->
+               
+                    <div class="row">
+                        <!-- ============================================================== -->
+                        <!-- basic table -->
+                        <!-- ============================================================== -->
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="card">
+                                <h3 class="card-header">Water Bed data</h3>
+                                  <h2 id="latestResult" class="text-center m-3">Water Bed Status: Loading...</h2>
+
+  <script>
+  
+          async function fetchLatestResult() {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/waterbed_live_data/'); // Use your correct IP/port if needed
+      const data = await response.json();
+      const results = data.results;
+      const latest = results[results.length - 1];
+
+      document.getElementById('latestResult').innerText = "Water Bed Result: " + latest;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      document.getElementById('latestResult').innerText = "Error fetching result";
+    }
+  }
+
+  // Fetch every 1 second
+  setInterval(fetchLatestResult, 1000);
+
+  // Initial fetch
+  fetchLatestResult();
+  </script>
+                              <div class="row">
+                                
+  <div class="col-md-6 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <canvas id="chart_ph_level" height="80"></canvas>
+      </div>
+    </div>
+  </div>
+                                <div class="col-md-6 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <canvas id="chart_nitrate" height="80"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <canvas id="chart_water_temperature" height="80"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <canvas id="chart_dissolved_O2_level" height="80"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <canvas id="chart_electrical_conductivity" height="80"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <canvas id="chart_total_dissolved_solids" height="80"></canvas>
+      </div>
+    </div>
+  </div>
+
+  
+
+  <div class="col-md-4 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <canvas id="chart_nitrite" height="80"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <canvas id="chart_ammonia" height="80"></canvas>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+                                <div class="card-body">
+                                    <table class="table" id="waterbedTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Timestamp</th>
+                                                <th>Water Temperature</th>
+                                                <th>Dissolved O2 Level</th>
+                                                <th>Electrical Conductivity</th>
+                                                <th>Total Dissolved Solids</th>
+                                                <th>Nitrate</th>
+                                                <th>Nitrite</th>
+                                                <th>Ammonia</th>
+                                                <th>PH Level</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for waterbed in waterbed_data %}
+                                            <tr>
+                                                <td>{{ waterbed.timestamp }}</td>
+                                                <td>{{ waterbed.water_temperature }}</td>
+                                                <td>{{ waterbed.dissolved_o2_level }}</td>
+                                                <td>{{ waterbed.electrical_conductivity }}</td>
+                                                <td>{{ waterbed.total_dissolved_solids }}</td>
+                                                <td>{{ waterbed.nitrate }}</td>
+                                                <td>{{ waterbed.nitrite }}</td>
+                                                <td>{{ waterbed.ammonia }}</td>
+                                                <td>{{ waterbed.ph_level }}</td>
+                                            </tr>
+                                            {% empty %}
+                                            <tr>
+                                                <td colspan="10">No data available.</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination" id="waterbedPagination"></ul>
+                                    </nav>
+                                    <script src="{% static 'assets/vendor/pagination/pagination.js' %}"></script>
+                                    <script>
+                                        document.addEventListener('DOMContentLoaded', function() {
+                                            new Paginator(
+                                                'waterbedTable',      // Table ID
+                                                'waterbedPagination', // Pagination container ID
+                                                { itemsPerPage: 10 }   // Options
+                                            );
+                                        });
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+               
+            </div>
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            {% include 'includes/footer.html' %}
+            <!-- ============================================================== -->
+            <!-- end footer -->
+            <!-- ============================================================== -->
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- end main wrapper -->
+    <!-- ============================================================== -->
+    <!-- Optional JavaScript -->
+     <script>
+  const chartConfigs = {
+    chart_water_temperature: {
+      label: 'Water Temperature (°C) | Sensor Is Defective',
+      color: 'red',
+      key: 'water_temperature'
+    },
+    chart_dissolved_O2_level: {
+      label: 'Dissolved O₂ Level (mg/L) | Sensor Is Defective',
+      color: 'blue',
+      key: 'dissolved_O2_level'
+    },
+    chart_electrical_conductivity: {
+      label: 'Electrical Conductivity (µS/cm) | Sensor Is Defective',
+      color: 'green',
+      key: 'electrical_conductivity'
+    },
+    chart_total_dissolved_solids: {
+      label: 'Total Dissolved Solids (ppm) | Sensor Is Defective',
+      color: 'orange',
+      key: 'total_dissolved_solids'
+    },
+    chart_nitrate: {
+      label: 'Nitrate (ppm)',
+      color: 'purple',
+      key: 'nitrate'
+    },
+    chart_nitrite: {
+      label: 'Nitrite (ppm) | Sensor Is Defective',
+      color: 'teal',
+      key: 'nitrite'
+    },
+    chart_ammonia: {
+      label: 'Ammonia (ppm) | Sensor Is Defective',
+      color: 'brown',
+      key: 'ammonia'
+    },
+    chart_ph_level: {
+      label: 'pH Level',
+      color: 'gray',
+      key: 'ph_level'
+    }
+  };
+
+  const charts = {};
+
+  async function fetchChartData() {
+    const response = await fetch('/waterbed_live_data/');
+    return await response.json();
+  }
+
+  async function createCharts() {
+    const data = await fetchChartData();
+
+    for (const [canvasId, config] of Object.entries(chartConfigs)) {
+      const ctx = document.getElementById(canvasId).getContext('2d');
+      charts[canvasId] = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: data.timestamps,
+          datasets: [{
+            label: config.label,
+            data: data[config.key],
+            borderColor: config.color,
+            fill: false
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: { beginAtZero: false }
+          }
+        }
+      });
+    }
+  }
+
+  async function updateCharts() {
+    const data = await fetchChartData();
+
+    for (const [canvasId, config] of Object.entries(chartConfigs)) {
+      const chart = charts[canvasId];
+      chart.data.labels = data.timestamps;
+      chart.data.datasets[0].data = data[config.key];
+      chart.update();
+    }
+  }
+
+  createCharts();
+  setInterval(updateCharts, 5000);
+</script>
+
+    <script src="{% static 'assets/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.js' %}"></script>
+    <script src="{% static 'assets/vendor/slimscroll/jquery.slimscroll.js' %}"></script>
+    <script src="{% static 'assets/libs/js/main-js.js' %}"></script>
+</body>
+ 
+</html>

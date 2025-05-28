@@ -15,6 +15,11 @@
     <link rel="stylesheet" href="{% static 'assets/vendor/charts/c3charts/c3.css' %}">
     <link rel="stylesheet" href="{% static 'assets/vendor/fonts/flag-icon-css/flag-icon.min.css' %}">
     <link rel="shortcut icon" href="{% static 'assets/images/atlanislogo.png' %}" type="image/x-icon">
+                    <!-- Include Bootstrap and Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+	<script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
+	
 </head>
 
 <body>
@@ -40,8 +45,165 @@
                     </div>
                 </div>
 
-                <div class="row">
-                <div class="col-md-6 mb-5">
+
+<div class="container mt-4">
+
+  <div class="row">
+    <!-- Col1 spans 2 rows on the left -->
+    <div class="col-lg-4" >
+        <div class="card text-center">
+        <div class="card-body">
+         	<div id="chart-container">Loading</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right side: two rows stacked -->
+    <div class="col-lg-8">
+      <div class="row">
+        <div class="col-lg-6" >
+         <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Greenhouse Status</h5>
+          <canvas id="gauge1" height="100"></canvas>
+          <div id="status1" class="mt-2 font-weight-bold"></div>
+        </div>
+      </div>
+        </div>
+        <div class="col-lg-6" >
+        <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Fish Tank Status</h5>
+          <canvas id="gauge2" height="100"></canvas>
+          <div id="status2" class="mt-2 font-weight-bold"></div>
+        </div>
+      </div>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-lg-6">
+         <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Water Bed Status</h5>
+          <canvas id="gauge3" height="100"></canvas>
+          <div id="status3" class="mt-2 font-weight-bold"></div>
+        </div>
+      </div>
+        </div>
+        <div class="col-lg-6" >
+         <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Water Bio-Filter Status</h5>
+          <canvas id="gauge4" height="100"></canvas>
+          <div id="status4" class="mt-2 font-weight-bold"></div>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+// Map value to status and color
+function getStatusLabel(value) {
+  if (value < 10) return { text: "Very Bad", color: "#b71c1c" };
+  if (value < 25) return { text: "Bad", color: "#d32f2f" };
+  if (value < 40) return { text: "Poor", color: "#f57c00" };
+  if (value < 55) return { text: "Fair", color: "#fbc02d" };
+  if (value < 70) return { text: "Average", color: "#afb42b" };
+  if (value < 85) return { text: "Good", color: "#388e3c" };
+  if (value < 95) return { text: "Very Good", color: "#2e7d32" };
+  return { text: "Excellent", color: "#1b5e20" };
+}
+
+// Store chart instances so we can update them later
+let charts = {};
+
+// Create or update a gauge chart
+function createOrUpdateGaugeChart(canvasId, value, statusId) {
+  const status = getStatusLabel(value);
+  const ctx = document.getElementById(canvasId).getContext('2d');
+
+  if (charts[canvasId]) {
+    // Update existing chart data
+    charts[canvasId].data.datasets[0].data = [value, 100 - value];
+    charts[canvasId].data.datasets[0].backgroundColor = [status.color, '#eaeaea'];
+    charts[canvasId].update();
+  } else {
+    // Create new chart
+    charts[canvasId] = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        datasets: [{
+          data: [value, 100 - value],
+          backgroundColor: [status.color, '#eaeaea'],
+          borderWidth: 0,
+          cutout: '55%',
+        }]
+      },
+      options: {
+        rotation: -90,
+        circumference: 180,
+        plugins: {
+          legend: { display: false },
+          tooltip: { enabled: false }
+        }
+      }
+    });
+  }
+
+  // Update status label text and color
+  const statusEl = document.getElementById(statusId);
+  statusEl.textContent = `${status.text} (${value}%)`;
+  statusEl.style.color = status.color;
+}
+
+// Fetch scores from your API and update gauges
+async function fetchAndUpdateScores() {
+  try {
+    const response = await fetch('/api/environmental-scores/');
+    if (!response.ok) throw new Error('Network response was not ok');
+    const data = await response.json();
+
+    createOrUpdateGaugeChart('gauge1', data.greenhouse_score, 'status1');
+    createOrUpdateGaugeChart('gauge2', data.fishtank_score, 'status2');
+    createOrUpdateGaugeChart('gauge3', data.waterbed_score, 'status3');
+    createOrUpdateGaugeChart('gauge4', data.biofilter_score, 'status4');
+  } catch (error) {
+    console.error('Failed to fetch scores:', error);
+  }
+}
+
+// Initial fetch and update
+fetchAndUpdateScores();
+
+// Refresh every 60 seconds (60000 milliseconds)
+setInterval(fetchAndUpdateScores, 60000);
+</script>
+
+
+<hr>
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade bd-example-modal-lg"  id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content" style="background-color: #100c1c; color: white; border: 2px solid white;">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">ATLANTIS Status Predictions</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+                <div class="col-md-12 mb-5">
                     <h4 class="text-center text-uppercase" >Fish Tank Prediction every Part of the Day</h4>
                             <div class="card-group">
   <div class="card m-1">
@@ -50,7 +212,7 @@
       <h5 class="card-title">Morning</h5>
       <p class="card-text"><span id="fish_tank-morning">Prediction Loading</span></p>
     </div>
-  </div>
+  </div> 
   <div class="card m-1">
     <img src="{% static 'day-icons/lunch.jpeg' %}" class="card-img-top" alt="...">
     <div class="card-body">
@@ -82,7 +244,7 @@
 </div>
 
                     </div>
-                <div class="col-md-6 mb-5">
+                <div class="col-md-12 mb-5">
                     <h4 class="text-center text-uppercase" >Water Bio Filter Prediction every Part of the Day </h4>
                                          <div class="card-group">
   <div class="card m-1">
@@ -125,7 +287,7 @@
                     </div>
 
                     <hr>
-                <div class="col-md-6 mb-5">
+                <div class="col-md-12 mb-5">
                     <h4 class="text-center text-uppercase" >Water Test Bed  Prediction every Part of the Day</h4>
                                          <div class="card-group">
   <div class="card m-1">
@@ -166,7 +328,7 @@
 </div>
 </div>
 
-                <div class="col-md-6 mb-5">
+                <div class="col-md-12 mb-5">
                     <h4 class="text-center text-uppercase" > Greenhouse Prediction every Part of the Day</h4>
                                        <div class="card-group">
   <div class="card m-1">
@@ -207,10 +369,21 @@
 </div>
 
                     </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+               
 
                     </div>
                     </div>
-
+<button type="button" class="btn btn-primary m-5" data-toggle="modal" data-target="#exampleModal">
+  View Predictions
+</button>
+<hr>
 
                 <!-- Date Filter and Chart -->
                 <div class="col-xl-12">
@@ -337,6 +510,110 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 });
+</script>
+<script type="text/javascript">
+	FusionCharts.ready(function () {
+		// Fetch initial temperature before rendering chart
+		fetch('/api/current_temp/')
+			.then(response => response.json())
+			.then(data => {
+				const initialTemp = data.temperature || -6; // fallback to -6 if no value
+
+				var chartObj = new FusionCharts({
+					type: 'thermometer',
+					renderAt: 'chart-container',
+					width: '250',
+					height: '620',
+					dataFormat: 'json',
+					dataSource: {
+						"chart": {
+							"caption": "Real-Time Temperature ",
+							"subcaption": "HYDRO-ATLANTIS",
+							"lowerLimit": "-10",
+							"upperLimit": "0",
+							"decimals": "1",
+							"numberSuffix": "°C",
+							"showhovereffect": "1",
+							"thmFillColor": "#008ee4",
+							"showGaugeBorder": "1",
+							"gaugeBorderColor": "#ffffff",
+							"gaugeBorderThickness": "2",
+							"gaugeBorderAlpha": "30",
+							"thmOriginX": "100",
+							"chartBottomMargin": "20",
+							"valueFontColor": "#ffffff",        // Red value font
+              "captionFontColor": "#ffffff",      // Blue caption font
+              "subCaptionFontColor": "#ffffff",   // Green subcaption font
+              "baseFontColor": "#2ca6d1",         // Dark gray default font color
+							"theme": "fusion",
+              "bgColor": "#100c1c"  
+						},
+						"value": initialTemp.toString(),
+						"annotations": {
+							"showbelow": "0",
+							"groups": [{
+								"id": "indicator",
+								"items": [{
+									"id": "background",
+									"type": "rectangle",
+									"alpha": "50",
+									"fillColor": "#AABBCC",
+									"x": "$gaugeEndX-40",
+									"tox": "$gaugeEndX",
+									"y": "$gaugeEndY+54",
+									"toy": "$gaugeEndY+72"
+								}]
+							}]
+						}
+					},
+					"events": {
+						"rendered": function (evt, arg) {
+							const chart = evt.sender;
+
+							chart.dataUpdate = setInterval(function () {
+								fetch('/api/current_temp/')
+									.then(response => response.json())
+									.then(data => {
+										if (data.temperature !== undefined) {
+											chart.feedData("&value=" + data.temperature);
+										}
+									})
+									.catch(error => console.error('Error fetching temperature:', error));
+							}, 60000); // Update every 1 minute
+
+							chart.updateAnnotation = function () {
+								const val = chart.getData();
+								const annotations = chart.annotations;
+								let color;
+
+							if (val >= 20 && val <= 28) {
+                  color = "#00FF00"; // Green – ideal for both fish and plants
+              } else if ((val >= 15 && val < 20) || (val > 28 && val <= 32)) {
+                  color = "#ff9900"; // Orange – moderate stress
+              } else {
+                  color = "#ff0000"; // Red – dangerous temperature
+              }
+
+								annotations.update("background", { "fillColor": color });
+							};
+						},
+						'renderComplete': function (evt, arg) {
+							evt.sender.updateAnnotation();
+						},
+						'realtimeUpdateComplete': function (evt, arg) {
+							evt.sender.updateAnnotation();
+						},
+						'disposed': function (evt, arg) {
+							clearInterval(evt.sender.dataUpdate);
+						}
+					}
+				});
+				chartObj.render();
+			})
+			.catch(error => {
+				console.error('Error loading initial temperature:', error);
+			});
+	});
 </script>
 
 </body>

@@ -101,6 +101,23 @@ class FishTank(models.Model):
         db_table = 'fish_tank'
         managed = False
 
+
+class Threshold(models.Model):
+    id = models.AutoField(primary_key=True)
+    illuminance = models.CharField(max_length=500, null=True, blank=True)
+    water_ec = models.CharField(max_length=500, null=True, blank=True)
+    filter_nitrite = models.CharField(max_length=500, null=True, blank=True)
+    filter_nitrate = models.CharField(max_length=500, null=True, blank=True)
+    plant_ph = models.CharField(max_length=500, null=True, blank=True)
+    plant_nitrate = models.CharField(max_length=500, null=True, blank=True)
+    air_temp_h = models.CharField(max_length=500, null=True, blank=True)
+    air_humidity = models.CharField(max_length=500, null=True, blank=True)
+    created_at = models.CharField(max_length=50, null=True, blank=True)
+
+    class Meta:
+        db_table = 'thresholds'
+        managed = False  # Set True if you want Django to manage migrations
+ 
 # Optional: Create a custom user model by extending the User model
 class UserAccount(models.Model):
     id = models.AutoField(primary_key=True)
