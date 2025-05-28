@@ -401,13 +401,20 @@ setInterval(fetchAndUpdateScores, 60000);
 </button>
 <hr>
 
+<h2> Data Filtering</h2>
                 <!-- Date Filter and Chart -->
                 <div class="col-xl-12">
                     <div class="date-filter mb-3">
+                      <div class="row">
+                      <div class="col-md-6">
                         <label for="startDate">Start Date</label>
-                        <input type="datetime-local" id="startDate" class="form-control" style="max-width: 300px;">
+                        <input type="datetime-local" id="startDate" class="form-control" >
+                    </div>
+                      <div class="col-md-6">
                         <label for="endDate" class="mt-2">End Date</label>
-                        <input type="datetime-local" id="endDate" class="form-control" style="max-width: 300px;">
+                        <input type="datetime-local" id="endDate" class="form-control" >
+                    </div>
+                    </div>
                         <button onclick="updateChart()" class="btn btn-primary mt-2">Filter</button>
                     </div>
                     <div class="card">
@@ -420,10 +427,16 @@ setInterval(fetchAndUpdateScores, 60000);
                 <!-- Greenhouse Chart Section -->
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-5">
                     <div class="date-filter">
+                       <div class="row">
+                      <div class="col-md-6">
                         <label for="greenStart">Start Date</label>
                         <input type="datetime-local" id="greenStart" class="form-control">
+                    </div>
+                      <div class="col-md-6">
                         <label for="greenEnd">End Date</label>
                         <input type="datetime-local" id="greenEnd" class="form-control">
+                    </div>
+                    </div>
                         <button onclick="updateGreenChart()" class="btn btn-primary mt-2">Filter</button>
                     </div>
                     <div class="card">
@@ -437,12 +450,18 @@ setInterval(fetchAndUpdateScores, 60000);
                 <!-- Water Biofilter Chart Section -->
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-5">
                     <div class="date-filter">
+                         <div class="row">
+                      <div class="col-md-6">
                         <label for="bioStart">Start Date</label>
                         <input type="datetime-local" id="bioStart" class="form-control">
+                      </div>
+                      <div class="col-md-6">
                         <label for="bioEnd">End Date</label>
                         <input type="datetime-local" id="bioEnd" class="form-control">
+                      </div>
+                      </div>
                         <button onclick="updateBioChart()" class="btn btn-primary mt-2">Filter</button>
-                    </div
+                      </div>
                     <div class="card">
                         <h5 class="card-header">Water Biofilter Levels</h5>
                         <div class="card-body">
@@ -526,7 +545,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 });
-<<<<<<< HEAD
 </script>
 <script type="text/javascript">
 	FusionCharts.ready(function () {
@@ -631,9 +649,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				console.error('Error loading initial temperature:', error);
 			});
 	});
-</script>
-=======
->>>>>>> 84eb8a328dc2b7fb2d375fb1278228c160244e10
+
 
 
                 let waterChartInstance, greenChartInstance, bioChartInstance;

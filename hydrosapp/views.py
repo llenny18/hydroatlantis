@@ -1271,7 +1271,7 @@ def get_actuator_recent(request):
 
 
 def get_actuator_list(request):
-    actuators = EdgeActuatorView.objects.all()
+    actuators = EdgeActuatorView.objects.all().order_by('-actuator_status')
     edgedevices = EdgeDeviceInfo.objects.all()
     
     user_id = request.session.get('user_id', None)
