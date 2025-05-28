@@ -4,7 +4,7 @@ import uuid
 import json
 import base64
 import random
-from datetime import datetime
+from datetime import datetime, date, time
 from collections import deque
 
 # Third-party imports
@@ -50,7 +50,7 @@ from .models import (
     FishTank, Greenhouse, WaterBed, Biofilter, UserAccount,
     ActuatorDeviceInfo, EdgeActuatorView, EdgeDeviceInfo, ActuatorUpdate,
     ServerNotifications, SensorType, SensorDeviceInfo,
-    ClusterGreenData, ClusterBiofilterData, ClusterWaterBedData,Threshold
+    ClusterGreenData, ClusterBiofilterData, ClusterWaterBedData, Threshold, DosingPumpStatus, SensorCalibrationSchedule
 )
 
 
@@ -543,6 +543,78 @@ def waterbed_live_chart_data(request):
 
     return JsonResponse(response)
 
+def pump_control_view(request):
+    
+    user_id = request.session.get('user_id', None)
+    username = request.session.get('username', None)
+    fullname = request.session.get('fullname', None)
+    if not user_id:
+        return redirect(reverse('login')) 
+    
+    threshold = Threshold.objects.last()
+
+    if request.method == "POST":
+        # Determine new status based on button pressed
+        if 'activate' in request.POST:
+            new_status = 'Activated'
+        elif 'deactivate' in request.POST:
+            new_status = 'Deactivated'
+        else:
+            # If no recognized button, redirect back
+            return redirect('pumpcontrol')
+
+        # Insert new row instead of update
+        DosingPumpStatus.objects.create(
+            status=new_status
+        )
+
+    # Fetch latest records with valid values
+    greenhouse = Greenhouse.objects.filter(air_temperature__gt=0.00).order_by('-increment_id').first()
+    waterbed = WaterBed.objects.filter(nitrate__gt=0.00).order_by('-increment_id').first()
+    biofilter = Biofilter.objects.filter(nitrate__gt=0.00).order_by('-increment_id').first()
+    fishtank = FishTank.objects.filter(ec__gt=0.00).order_by('-increment_id').first()
+
+    # Calculate individual scores
+    gh_scores = []
+    if greenhouse:
+        gh_scores.append(calculate_score(greenhouse.air_temperature, threshold.air_temp_h))
+        gh_scores.append(calculate_score(greenhouse.relative_humidity, threshold.air_humidity))
+        gh_scores.append(calculate_score(greenhouse.illumination_intensity, threshold.illuminance))
+    greenhouse_score = sum(gh_scores) // len(gh_scores) if gh_scores else 0
+
+    wb_scores = []
+    if waterbed:
+        wb_scores.append(calculate_score(waterbed.electrical_conductivity, threshold.water_ec))
+        wb_scores.append(calculate_score(waterbed.nitrite, threshold.filter_nitrite))
+        wb_scores.append(calculate_score(waterbed.nitrate, threshold.filter_nitrate))
+        wb_scores.append(calculate_score(waterbed.ph_level, threshold.plant_ph))
+    waterbed_score = sum(wb_scores) // len(wb_scores) if wb_scores else 0
+
+    bf_scores = []
+    if biofilter:
+        bf_scores.append(calculate_score(biofilter.nitrite, threshold.filter_nitrite))
+        bf_scores.append(calculate_score(biofilter.nitrate, threshold.filter_nitrate))
+    biofilter_score = sum(bf_scores) // len(bf_scores) if bf_scores else 0
+
+    ft_scores = []
+    if fishtank:
+        ft_scores.append(calculate_score(fishtank.ec, threshold.water_ec))
+        ft_scores.append(calculate_score(fishtank.ph, threshold.plant_ph))
+        ft_scores.append(calculate_score(fishtank.nitrate, threshold.plant_nitrate))
+    fishtank_score = sum(ft_scores) // len(ft_scores) if ft_scores else 0
+
+    # Compute overall score average (rounded)
+    scores = [greenhouse_score, waterbed_score, biofilter_score, fishtank_score]
+    overall_score = sum(scores) // len(scores) if scores else 0
+
+    # Determine pump status based on overall score (example logic)
+    latest_status = DosingPumpStatus.objects.order_by('-status_id').first()
+
+    context = {
+        'overall_score': overall_score,
+        'latest_status': latest_status
+    }
+    return render(request, 'pumpcontrol.html', context)
 
 def calculate_score(value, threshold):
     try:
@@ -746,12 +818,33 @@ def start(request):
     if not user_id:
         return redirect(reverse('login')) 
     
+    today = datetime.combine(date.today(), time.min) 
+
+    # Get all calibration schedules
+    schedules = SensorCalibrationSchedule.objects.all()
+
+    # You can filter for those due for calibration or maintenance soon if you want
+    # For example, only show alerts for calibration or maintenance due within 7 days:
+    alerts = []
+    for s in schedules:
+        if s.calibration_due_date <= today:
+            alerts.append({
+                "type": "warning",
+                "message": f"Calibration due for {s.parameter} in {s.source_table} since {s.calibration_due_date}"
+            })
+        elif s.maintenance_due_date <= today:
+            alerts.append({
+                "type": "danger",
+                "message": f"Maintenance due for {s.parameter} in {s.source_table} since {s.maintenance_due_date}"
+            })
+    
     notifs = ServerNotifications.objects.all()
     context = {
         "notifs" : notifs,
         "user_id" : user_id, 
         "username" : username,
-        "fullname" : fullname
+        "fullname" : fullname,
+        "alerts": alerts
     }
     return render(request, "index.html", context)
 

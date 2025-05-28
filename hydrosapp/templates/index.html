@@ -48,7 +48,23 @@
 
 <div class="container mt-4">
 
+  
+
   <div class="row">
+
+    <div class="col-md-12" >
+         {% if alerts %}
+            {% for alert in alerts %}
+                <div class="alert alert-{{ alert.type }} alert-dismissible fade show" role="alert">
+                    {{ alert.message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-success">No calibration or maintenance alerts currently.</div>
+        {% endif %}
+    </div>
+    <hr>
     <!-- Col1 spans 2 rows on the left -->
     <div class="col-lg-4" >
         <div class="card text-center">

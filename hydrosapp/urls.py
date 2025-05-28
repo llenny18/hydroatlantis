@@ -15,6 +15,7 @@ urlpatterns = [
     path('greenhouse/', views.get_greenhouse, name='greenhouse'),
     path('api/current_temp/', views.current_temp, name='current_temp'),
     path('api/environmental-scores/', views.environmental_scores, name='environmental_scores'),
+    path('pumpcontrol/', views.pump_control_view, name='pumpcontrol'),
     
     
     path('biofilter_live_chart_data_predicted/', views.biofilter_live_chart_data_predicted, name='biofilter_live_chart_data_predicted'),
