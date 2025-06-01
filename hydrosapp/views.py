@@ -646,7 +646,7 @@ def calculate_score(value, threshold):
 
 def current_temp(request):
     try:
-        latest_data = Greenhouse.objects.filter(air_temperature__gt=18.00).order_by('-increment_id').first()
+        latest_data = Greenhouse.objects.filter(air_temperature__gt=18.00, air_temperature__lt=38.00).order_by('-increment_id').first()
 
         if latest_data:
             return JsonResponse({'temperature': float(latest_data.air_temperature)})
